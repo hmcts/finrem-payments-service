@@ -1,0 +1,54 @@
+#!groovy
+
+@Library("Infrastructure")
+
+def type = "java"
+def product = "finrem"
+def app = "cos"
+
+List<LinkedHashMap<String, Object>> secrets = [
+        secret("auth-provider-service-client-key", "AUTH_PROVIDER_SERVICE_CLIENT_KEY")
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+    [$class     : 'AzureKeyVaultSecret',
+     secretType : 'Secret',
+     name       : secretName,
+     version    : '',
+     envVariable: envVar
+    ]
+}
+
+withPipeline(type, product, app) {
+    enableDockerBuild()
+    enableDeployToAKS()
+    setVaultName(product)
+
+    after('functionalTest:aat') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+        publishHTML target: [
+                reportDir            : "target/site/serenity/",
+                reportFiles          : "index.html",
+                reportName           : "AAT Functional Tests",
+                alwaysLinkToLastBuild: true
+        ]
+
+    }
+
+    after('functionalTest:preview') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+        publishHTML target: [
+                reportDir            : "target/site/serenity/",
+                reportFiles          : "index.html",
+                reportName           : "Preview Functional Tests",
+                alwaysLinkToLastBuild: true
+        ]
+    }
+
+//    loadVaultSecrets(secrets)
+    enableSlackNotifications('#finrem-dev')
+
+    before('buildinfra:prod') {
+        error('Halting pipeline before PROD.')
+    }
+}
