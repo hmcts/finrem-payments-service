@@ -14,7 +14,7 @@ public class IdamServiceConfigurationTest extends BaseServiceTest {
 
     @Test
     public void shouldCreateIdamServiceConfigFromAppProperties() {
-        assertThat(config.getUrl(), is("http://test"));
+        assertThat(config.getUrl(), is("http://localhost:4501"));
         assertThat(config.getApi(), is("/details"));
     }
 

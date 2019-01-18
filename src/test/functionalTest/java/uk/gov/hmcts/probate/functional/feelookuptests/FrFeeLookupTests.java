@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.containsString;
 @RunWith(SerenityRunner.class)
 public class FrFeeLookupTests extends IntegrationTestBase {
 
-    private static final String FEE_LOOKUP_URL = "/payments/fee-lookup";
+    private static final String MAKE_PAYMENT_URL = "/payments/pba-payment";
 
     @Test
     public void verifyEmptyRequest() {
@@ -19,7 +19,7 @@ public class FrFeeLookupTests extends IntegrationTestBase {
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeaders())
                 .body("")
-                .when().post(FEE_LOOKUP_URL).then().statusCode(400)
+                .when().post(MAKE_PAYMENT_URL).then().statusCode(400)
                 .and().body("message", containsString("Required request body is missing:"));
 
     }

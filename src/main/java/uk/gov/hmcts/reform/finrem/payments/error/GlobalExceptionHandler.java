@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 @Slf4j
-class GlobalExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(FeignException.class)
-    ResponseEntity<Object> handleFeignException(FeignException exception) {
+    public ResponseEntity<Object> handleFeignException(FeignException exception) {
         log.warn(exception.getMessage(), exception);
 
         return ResponseEntity.status(exception.status()).body(exception.getMessage());

@@ -23,8 +23,4 @@ public class PaymentResponse {
 
     @JsonProperty(value = "status_histories")
     private List<PaymentStatusHistory> statusHistories;
-
-    public boolean isPaymentSuccess() {
-        return status != null && status.equalsIgnoreCase("Success");
-    }
 }
