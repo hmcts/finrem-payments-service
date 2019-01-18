@@ -1,8 +1,8 @@
 package uk.gov.hmcts.reform.finrem.payments.error;
 
-public class PaymentException extends RuntimeException{
+public class PaymentException extends RuntimeException {
 
-    public PaymentException(Exception e) {
-        super(e);
+    public PaymentException(Exception exception) {
+        super(exception);
     }
 }

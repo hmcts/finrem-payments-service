@@ -14,8 +14,8 @@ public class FeeServiceConfigurationTest extends BaseServiceTest {
 
     @Test
     public void shouldCreateFeeServiceConfigFromAppProperties() {
-        assertThat(config.getUrl(), is("http://test"));
-        assertThat(config.getApi(), is("/api"));
+        assertThat(config.getUrl(), is("http://localhost:8182"));
+        assertThat(config.getApi(), is("/fees-register/fees/lookup"));
         assertThat(config.getChannel(), is("default"));
         assertThat(config.getEvent(), is("general-application"));
         assertThat(config.getJurisdiction1(), is("family"));

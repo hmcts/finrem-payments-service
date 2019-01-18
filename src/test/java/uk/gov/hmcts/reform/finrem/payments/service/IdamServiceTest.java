@@ -28,6 +28,6 @@ public class IdamServiceTest extends BaseServiceTest {
     }
 
     private String toUri() {
-        return "http://test/details";
+        return "http://localhost:4501/details";
     }
 }

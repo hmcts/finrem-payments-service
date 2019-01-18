@@ -33,7 +33,7 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_REF;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_STATUS;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PBA_NUMBER;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.feeResponseString;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.pBAAccount;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.pbaAccount;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestStringContent;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseErrorToString;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToString;
@@ -158,7 +158,7 @@ public class FeePaymentE2ETest {
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody(pBAAccount())));
+                        .withBody(pbaAccount())));
     }
 
     private void stubFeeLookUp() {
@@ -172,7 +172,8 @@ public class FeePaymentE2ETest {
     private void stubMakePayment(HttpStatus status, String response) {
         paymentsService.stubFor(WireMock.post(paymentApi)
                 .withHeader("Authorization", new EqualToPattern(AUTH_TOKEN))
-                .withHeader("ServiceAuthorization", new EqualToPattern("Bearer "+ TEST_SERVICE_AUTH_TOKEN))
+                .withHeader("ServiceAuthorization",
+                        new EqualToPattern("Bearer " + TEST_SERVICE_AUTH_TOKEN))
                 .withRequestBody(equalToJson(paymentRequestStringContent()))
                 .willReturn(aResponse()
                         .withStatus(status.value())
@@ -188,11 +189,11 @@ public class FeePaymentE2ETest {
     }
 
     private String pbaValidateUrl() {
-        return pbaApi+"test@email.com";
+        return pbaApi + "test@email.com";
     }
 
     private String feeLookupUrl() {
-        return feeApi+"?service=other&jurisdiction1=family&jurisdiction2=family-court" +
-                "&channel=default&event=general-application&keyword=without-notice";
+        return feeApi + "?service=other&jurisdiction1=family&jurisdiction2=family-court"
+                + "&channel=default&event=general-application&keyword=without-notice";
     }
 }

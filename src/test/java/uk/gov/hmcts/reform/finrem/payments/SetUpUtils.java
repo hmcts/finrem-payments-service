@@ -39,7 +39,7 @@ public class SetUpUtils {
         return FeignException.errorStatus("test", response);
     }
 
-    public static String pBAAccount() {
+    public static String pbaAccount() {
         PBAAccount pbaAccount = new PBAAccount();
         pbaAccount.setAccountList(ImmutableList.of(PBA_NUMBER));
 
@@ -75,11 +75,11 @@ public class SetUpUtils {
     }
 
     public static String paymentResponseErrorToString() {
-        return paymentResponseToString(paymentResponseClientError());
+        return objectToJson(paymentResponseClientError());
     }
 
     public static String paymentResponseToString() {
-        return paymentResponseToString(paymentResponse());
+        return objectToJson(paymentResponse());
     }
 
     public static String paymentRequestStringContent() {
@@ -101,10 +101,6 @@ public class SetUpUtils {
                 .amount(amountToPay)
                 .feesList(Collections.singletonList(fee))
                 .build();
-    }
-
-    private static String paymentResponseToString(PaymentResponse paymentResponse) {
-        return objectToJson(paymentResponse);
     }
 
     private static PaymentStatusHistory paymentStatusHistory() {

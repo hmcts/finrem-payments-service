@@ -32,7 +32,7 @@ public class FeeServiceTest extends BaseServiceTest {
     }
 
     private static String toUri() {
-        return new StringBuilder("http://test/api")
+        return new StringBuilder("http://localhost:8182/fees-register/fees/lookup")
                 .append("?service=other")
                 .append("&jurisdiction1=family")
                 .append("&jurisdiction2=family-court")

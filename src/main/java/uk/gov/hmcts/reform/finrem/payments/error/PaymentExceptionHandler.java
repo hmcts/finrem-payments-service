@@ -26,7 +26,9 @@ public class PaymentExceptionHandler {
         if (exception.getCause() != null && exception.getCause() instanceof HttpClientErrorException) {
             HttpClientErrorException cause = (HttpClientErrorException) exception.getCause();
             try {
-                return ResponseEntity.ok(objectMapper.readValue(cause.getResponseBodyAsString(), PaymentResponse.class));
+                return ResponseEntity.ok(
+                        objectMapper.readValue(cause.getResponseBodyAsString(), PaymentResponse.class)
+                );
             } catch (IOException e) {
                 log.error("payment-error-conversion exception : {} ", e);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

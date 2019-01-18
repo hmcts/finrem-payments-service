@@ -14,7 +14,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseClientError;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseErrorToString;
 

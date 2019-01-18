@@ -22,12 +22,13 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToSt
 public class PBAPaymentServiceTest extends BaseServiceTest {
 
     public static final String AUTH_TOKEN = "HBJHBKJiuui7097HJH";
+    public static final String URI = "http://localhost:8181/credit-account-payments";
     @Autowired
     private PBAPaymentService pbaPaymentService;
 
     @Test
     public void makePayment() {
-        mockServer.expect(requestTo("http://payment-test.internal/credit-account-payments"))
+        mockServer.expect(requestTo(URI))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withSuccess(paymentResponseToString(), APPLICATION_JSON));
 
@@ -37,7 +38,7 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
 
     @Test(expected = PaymentException.class)
     public void makePaymentReceivesClientError() {
-        mockServer.expect(requestTo("http://payment-test.internal/credit-account-payments"))
+        mockServer.expect(requestTo(URI))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withUnauthorizedRequest()
                         .body(paymentResponseErrorToString()).contentType(APPLICATION_JSON));
