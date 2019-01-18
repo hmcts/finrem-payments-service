@@ -18,7 +18,6 @@ public abstract class IntegrationTestBase {
     protected TestUtils utils;
 
     private String finServiceUrl;
-    public static String evidenceManagementUrl;
 
     @Autowired
     public void finServiceUrl(@Value("${fin.service.base.url}") String finServiceUrl) {
