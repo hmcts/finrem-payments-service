@@ -10,7 +10,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
-public abstract class AbstractServiceHealthCheck implements HealthIndicator{
+public abstract class AbstractServiceHealthCheck implements HealthIndicator {
 
     private final String uri;
     private final RestTemplate restTemplate;
