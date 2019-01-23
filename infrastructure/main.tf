@@ -7,7 +7,8 @@ locals {
   ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
 
-  idam_s2s_url                      =  "http://${var.idam_s2s_url_prefix}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+  idam_s2s_url           =  "http://${var.idam_s2s_url_prefix}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+  payment_api_base_url   =  "https://payment-api-${local.local_env}.service.core-compute-${local.local_env}.internal"
 
   previewVaultName = "${var.reform_team}-aat"
   nonPreviewVaultName = "${var.reform_team}-${var.env}"
@@ -38,6 +39,7 @@ module "finrem-ps" {
     REFORM_ENVIRONMENT                                    = "${var.env}"
     IDAM_API_URL                                          = "${var.idam_api_url}"
     FEES_API_URL                                          = "${var.fees_api_url}"
+    PAYMENT_API_URL                                       = "${local.payment_api_base_url}"
     PRD_API_URL                                           = "${var.prd_api_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE             = "${var.auth_provider_service_client_microservice}"
