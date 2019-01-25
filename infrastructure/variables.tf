@@ -86,3 +86,7 @@ variable "ilbIp" {}
 variable "common_tags" {
   type = "map"
 }
+
+variable "ssl_verification_enabled" {
+  default = false
+}
