@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.finrem.payments.e2etest;
+package uk.gov.hmcts.reform.finrem.payments.integrationtest;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
@@ -129,7 +129,7 @@ public class FeePaymentE2ETest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(FEE_CODE)))
                 .andExpect(jsonPath("$.version", is(FEE_VERSION)))
-                .andExpect(jsonPath("$.fee_amount", is(new Integer(10))));
+                .andExpect(jsonPath("$.fee_amount", is(10)));
     }
 
     @Test

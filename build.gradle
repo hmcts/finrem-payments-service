@@ -71,13 +71,13 @@ sourceSets {
 }
 
 def versions = [
-        lombokVersion           : '1.18.0',
-        springfoxSwagger        : '2.9.2',
-        commonsIo               : '2.5',
-        wiremockVersion         : '2.8.0',
-        reformsJavaLogging      : '3.0.1',
-        serviceTokenGenerator   : '1.0.4',
-        springRetry             : '1.2.1.RELEASE'
+        lombokVersion        : '1.18.0',
+        springfoxSwagger     : '2.9.2',
+        commonsIo            : '2.5',
+        wiremockVersion      : '2.8.0',
+        reformsJavaLogging   : '3.0.1',
+        serviceTokenGenerator: '1.0.4',
+        springRetry          : '1.2.1.RELEASE'
 
 ]
 
@@ -91,13 +91,13 @@ dependencies {
     apt group: 'org.projectlombok', name: 'lombok', version: versions.lombokVersion
     compile group: 'commons-io', name: 'commons-io', version: versions.commonsIo
     compile(group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger)
-    compile (group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger)
+    compile(group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger)
     compile group: 'org.springframework.retry', name: 'spring-retry', version: versions.springRetry
 
     compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile group: 'com.github.tomakehurst', name:'wiremock', version: versions.wiremockVersion
+    testCompile group: 'com.github.tomakehurst', name: 'wiremock', version: versions.wiremockVersion
 
     testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: '1.5.2'
     testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: '1.5.2'
@@ -201,15 +201,13 @@ bootJar {
 }
 
 task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
+    useJUnit {2
+        includeCategories 'uk.gov.hmcts.reform.finrem.payments.category.SmokeTest'
+    }
 }
 
 task functional(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
-    // description = "Runs functional Tests"
     testClassesDirs = sourceSets.testFunctional.output.classesDirs
     classpath = sourceSets.testFunctional.runtimeClasspath
     finalizedBy aggregate
-}
-
-
-task integrationTest(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
 }
