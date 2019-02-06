@@ -63,7 +63,7 @@ variable "finrem_ns_url_prefix" {
 }
 
 variable "auth_provider_service_client_microservice" {
-    default = "finrem-payments-service"
+    default = "finrem-payment-service"
 }
 
 variable "auth_provider_service_client_tokentimetoliveinseconds" {

@@ -2,8 +2,8 @@ version: '2.1'
 
 services:
 
-  finrem-payments-service:
-      image: hmcts/finrem-payments-service:latest
-      container_name: finrem-payments-service
+  finrem-payment-service:
+      image: hmcts/finrem-payment-service:latest
+      container_name: finrem-payment-service
       ports:
       - 9001:9001
