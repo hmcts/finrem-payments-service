@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.given;
 @ContextConfiguration(classes = {SmokeTestConfiguration.class})
 public class PaymentSmokeTests {
 
-    //@Value("${fees.url}")
+    @Value("${fees.url}")
     private String feeUrl;
 
     @Value("${fees.api}")
