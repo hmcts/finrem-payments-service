@@ -77,7 +77,7 @@ public class FeePaymentE2ETest {
     @ClassRule
     public static WireMockClassRule feeService = new WireMockClassRule(8182);
     @ClassRule
-    public static WireMockClassRule pbaService = new WireMockClassRule(9000);
+    public static WireMockClassRule pbaService = new WireMockClassRule(9001);
     @ClassRule
     public static WireMockClassRule idamService = new WireMockClassRule(4501);
 

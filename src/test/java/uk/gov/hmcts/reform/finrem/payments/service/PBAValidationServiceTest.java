@@ -76,7 +76,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     }
 
     private static String toUri() {
-        return new StringBuilder("http://localhost:9000/payments/organisations/pba/")
+        return new StringBuilder("http://localhost:9001/payments/organisations/pba/")
                 .append(EMAIL)
                 .toString();
     }

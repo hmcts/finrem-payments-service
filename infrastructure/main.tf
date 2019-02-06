@@ -43,7 +43,7 @@ module "finrem-ps" {
     PRD_API_URL                                           = "${var.prd_api_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE             = "${var.auth_provider_service_client_microservice}"
-    AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-payments-service-s2s-key.value}"
+    AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-payment-service-s2s-key.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS = "${var.auth_provider_service_client_tokentimetoliveinseconds}"
     SSL_VERIFICATION_ENABLED                              = "${var.ssl_verification_enabled}"
   }
@@ -54,7 +54,7 @@ data "azurerm_key_vault" "finrem_key_vault" {
   resource_group_name = "${local.vaultName}"
 }
 
-data "azurerm_key_vault_secret" "finrem-payments-service-s2s-key" {
-  name      = "finrem-payments-service-s2s-key"
+data "azurerm_key_vault_secret" "finrem-payment-service-s2s-key" {
+  name      = "finrem-payment-service-s2s-key"
   vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }

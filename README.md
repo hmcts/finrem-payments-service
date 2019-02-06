@@ -1,1 +1,1 @@
-# finrem-payments-service
+# finrem-payment-service
