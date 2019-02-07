@@ -4,9 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 public abstract class AbstractServiceHealthCheck implements HealthIndicator {
@@ -27,6 +34,11 @@ public abstract class AbstractServiceHealthCheck implements HealthIndicator {
     @Override
     public Health health() {
         try {
+            List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
+            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+            converter.setSupportedMediaTypes(Arrays.asList(MediaType.ALL));
+            messageConverters.add(converter);
+            restTemplate.setMessageConverters(messageConverters);
             ResponseEntity<Object> response = restTemplate.getForEntity(uri, Object.class);
             return response.getStatusCode() == (HttpStatus.OK) ? statusHealthy() : statusUnknown();
         } catch (HttpStatusCodeException ex) {
