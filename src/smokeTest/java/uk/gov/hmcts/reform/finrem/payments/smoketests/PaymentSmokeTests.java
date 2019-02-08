@@ -54,7 +54,7 @@ public class PaymentSmokeTests {
     }
 
     @Test
-    public void shouldGetOkStatusFromHealthEndpoint() {
+    public void shouldGetFeeLookup() {
         given().config(config)
                 .when()
                 .queryParam("service", service)
