@@ -8,7 +8,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.payments.config.PBAPaymentServiceConfiguration;
@@ -17,6 +16,8 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 
 import java.net.URI;
+
+import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
 @Service
 @RequiredArgsConstructor
@@ -30,12 +31,11 @@ public class PBAPaymentService {
     public PaymentResponse makePayment(String authToken, PaymentRequest paymentRequest) {
         HttpEntity<PaymentRequest> request = buildPaymentRequest(authToken, paymentRequest);
         URI uri = buildUri();
-        log.info("Inside makePayment, PRD API uri : {}, request : {} ", uri, request);
+        log.info("Inside makePayment, payment API uri : {}, request : {} ", uri, request);
         try {
-            ResponseEntity<PaymentResponse> responseEntity = restTemplate.postForEntity(uri, request,
-                    PaymentResponse.class);
-            log.info("Payment response: {} ", responseEntity);
-            return responseEntity.getBody();
+            ResponseEntity<PaymentResponse> response = restTemplate.postForEntity(uri, request, PaymentResponse.class);
+            log.info("Payment response: {} ", response);
+            return response.getBody();
         } catch (Exception ex) {
             throw new PaymentException(ex);
         }
@@ -50,6 +50,6 @@ public class PBAPaymentService {
     }
 
     private URI buildUri() {
-        return UriComponentsBuilder.fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi()).build().toUri();
+        return fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi()).build().toUri();
     }
 }

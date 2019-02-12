@@ -8,11 +8,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.reform.finrem.payments.config.IdamServiceConfiguration;
 
 import java.net.URI;
 import java.util.Map;
+
+import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
 
 @Service
@@ -39,7 +40,6 @@ public class IdamService {
     }
 
     private URI buildUri() {
-        return UriComponentsBuilder.fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi())
-                .build().toUri();
+        return fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi()).build().toUri();
     }
 }

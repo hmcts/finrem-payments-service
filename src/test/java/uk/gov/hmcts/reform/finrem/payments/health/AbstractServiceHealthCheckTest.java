@@ -17,11 +17,10 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractServiceHealthCheckTest {
-
-    protected abstract String uri();
-
     @Mock
     protected RestTemplate restTemplate;
+
+    protected abstract String uri();
 
     protected abstract AbstractServiceHealthCheck healthCheckInstance();
 

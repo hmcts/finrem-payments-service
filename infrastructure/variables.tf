@@ -1,5 +1,5 @@
 variable "reform_service_name" {
-  default = "frps"
+  default = "ps"
 }
 
 variable "reform_team" {
@@ -63,7 +63,7 @@ variable "finrem_ns_url_prefix" {
 }
 
 variable "auth_provider_service_client_microservice" {
-    default = "finrem-payment-service"
+    default = "finrem_payment_service"
 }
 
 variable "auth_provider_service_client_tokentimetoliveinseconds" {

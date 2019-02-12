@@ -6,9 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.io.File;
 
@@ -16,8 +15,12 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 public class PBAValidationServiceTest extends BaseServiceTest {
@@ -49,34 +52,49 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     }
 
     @Test
+    public void pbaNotFoud() {
+        mockServer.expect(requestTo(toUri()))
+                .andExpect(method(GET))
+                .andRespond(withStatus(NOT_FOUND));
+
+        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM3");
+        assertThat(response.isPbaNumberValid(), is(false));
+    }
+
+
+    @Test
     public void validPbaPositive() {
         mockServer.expect(requestTo(toUri()))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(requestContent.toString(), MediaType.APPLICATION_JSON));
+                .andExpect(method(GET))
+                .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
 
-        assertThat(pbaValidationService.isValidPBA(AUTH_TOKEN, "NUM1"), is(true));
+        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM1");
+        assertThat(response.isPbaNumberValid(), is(true));
     }
 
     @Test
     public void validPbaNegative() {
         mockServer.expect(requestTo(toUri()))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(requestContent.toString(), MediaType.APPLICATION_JSON));
+                .andExpect(method(GET))
+                .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
 
-        assertThat(pbaValidationService.isValidPBA(AUTH_TOKEN, "NUM3"), is(false));
+
+        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM3");
+        assertThat(response.isPbaNumberValid(), is(false));
     }
 
     @Test
     public void validPbaNoPbaResult() {
         mockServer.expect(requestTo(toUri()))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess("{\"payment_accounts\": []}", MediaType.APPLICATION_JSON));
+                .andExpect(method(GET))
+                .andRespond(withSuccess("{\"payment_accounts\": []}", APPLICATION_JSON));
 
-        assertThat(pbaValidationService.isValidPBA(AUTH_TOKEN, "NUM1"), is(false));
+        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM1");
+        assertThat(response.isPbaNumberValid(), is(false));
     }
 
     private static String toUri() {
-        return new StringBuilder("http://localhost:9001/payments/organisations/pba/")
+        return new StringBuilder("http://localhost:9001/search/pba/")
                 .append(EMAIL)
                 .toString();
     }

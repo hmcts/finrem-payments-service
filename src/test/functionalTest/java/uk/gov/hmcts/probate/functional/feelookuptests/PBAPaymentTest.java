@@ -9,7 +9,7 @@ import uk.gov.hmcts.probate.functional.IntegrationTestBase;
 import static org.hamcrest.Matchers.containsString;
 
 @RunWith(SerenityRunner.class)
-public class FrFeeLookupTests extends IntegrationTestBase {
+public class PBAPaymentTest extends IntegrationTestBase {
 
     private static final String MAKE_PAYMENT_URL = "/payments/pba-payment";
 
@@ -20,7 +20,7 @@ public class FrFeeLookupTests extends IntegrationTestBase {
                 .headers(utils.getHeaders())
                 .body("")
                 .when().post(MAKE_PAYMENT_URL).then().statusCode(400)
-                .and().body("message", containsString("Required request body is missing:"));
+                .and().body("message", containsString("Missing request header 'Authorization'"));
 
     }
 

@@ -6,7 +6,7 @@
             <HTTP enabled="true"/>
         </BuiltIn>
         <Class name="uk.gov.hmcts.reform.finrem.payments.service.PBAValidationService">
-            <Method name="isValidPBA" reportCaughtExceptions="true" reportExecutionTime="true"/>
+            <Method name="isPBAValid" reportCaughtExceptions="true" reportExecutionTime="true"/>
         </Class>
         <Class name="uk.gov.hmcts.reform.finrem.payments.service.IdamService">
             <Method name="getUserEmailId" reportCaughtExceptions="true" reportExecutionTime="true"/>

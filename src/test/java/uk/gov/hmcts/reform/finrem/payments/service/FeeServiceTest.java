@@ -1,16 +1,16 @@
 package uk.gov.hmcts.reform.finrem.payments.service;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
-import uk.gov.hmcts.reform.finrem.payments.model.fee.Fee;
+import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 
 import java.math.BigDecimal;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -21,24 +21,23 @@ public class FeeServiceTest extends BaseServiceTest {
     private FeeService feeService;
 
     @Test
-    public void retrieveApplicationFee() {
+    public void retrieveFee() {
         mockServer.expect(requestTo(toUri()))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess("{\"code\": \"TEST\", \"fee_amount\": \"10\"}", MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess("{ \"code\" : \"FEE0640\", \"fee_amount\" : 50, "
+                        + "\"description\" : \"finrem\", \"version\" : \"v1\" }", APPLICATION_JSON));
 
-        Fee fee = feeService.getApplicationFee();
-        assertThat(fee.getCode(), is("TEST"));
-        assertThat(fee.getFeeAmount(), is(BigDecimal.TEN));
+        FeeResponse feeResponse = feeService.getApplicationFee();
+
+        MatcherAssert.assertThat(feeResponse.getCode(), Matchers.is("FEE0640"));
+        MatcherAssert.assertThat(feeResponse.getDescription(), Matchers.is("finrem"));
+        MatcherAssert.assertThat(feeResponse.getVersion(), Matchers.is("v1"));
+        MatcherAssert.assertThat(feeResponse.getFeeAmount(), Matchers.is(BigDecimal.valueOf(50)));
     }
 
-    private static String toUri() {
-        return new StringBuilder("http://localhost:8182/fees-register/fees/lookup")
-                .append("?service=other")
-                .append("&jurisdiction1=family")
-                .append("&jurisdiction2=family-court")
-                .append("&channel=default")
-                .append("&event=general-application")
-                .append("&keyword=without-notice")
-                .toString();
+    private String toUri() {
+        return "http://localhost:8182/fees-register/fees/lookup?service=other&jurisdiction1=family&jurisdiction2=family-court&channel=default"
+                + "&event=general-application&keyword=without-notice";
     }
+
 }
