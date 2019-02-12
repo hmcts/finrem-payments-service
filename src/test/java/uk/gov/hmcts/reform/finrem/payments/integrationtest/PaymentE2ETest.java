@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.FEE_CODE;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.FEE_VERSION;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_REF;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_STATUS;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_SUCCESS_STATUS;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PBA_NUMBER;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.feeResponseString;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.pbaAccount;
@@ -44,7 +44,7 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToSt
 @PropertySource(value = "classpath:application.properties")
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class FeePaymentE2ETest {
+public class PaymentE2ETest {
 
     private static String MAKE_PAYMENT_API = "/payments/pba-payment";
     private static String FEE_LOOK_UP_API = "/payments/fee-lookup";
@@ -82,6 +82,31 @@ public class FeePaymentE2ETest {
     public static WireMockClassRule idamService = new WireMockClassRule(4501);
 
     @Test
+    public void feeLookup() throws Exception {
+        stubFeeLookUp();
+
+        webClient.perform(get(FEE_LOOK_UP_API)
+                .header("Authorization", AUTH_TOKEN)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(FEE_CODE)))
+                .andExpect(jsonPath("$.version", is(FEE_VERSION)))
+                .andExpect(jsonPath("$.fee_amount", is(10)));
+    }
+
+    @Test
+    public void pbaValidate() throws Exception {
+        stubIdamService();
+        stubPbaService();
+
+        webClient.perform(get(PBA_VALIDATE_API + "/" + PBA_NUMBER)
+                .header("Authorization", AUTH_TOKEN))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.pbaNumberValid", is(true)));
+    }
+
+
+    @Test
     public void makePaymentSuccess() throws Exception {
         stubServiceAuthProvider(HttpStatus.OK, TEST_SERVICE_AUTH_TOKEN);
         stubMakePayment(HttpStatus.OK, paymentResponseToString());
@@ -92,7 +117,7 @@ public class FeePaymentE2ETest {
                 .content(paymentRequestStringContent()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.reference", is(PAYMENT_REF)))
-                .andExpect(jsonPath("$.status", is(PAYMENT_STATUS)))
+                .andExpect(jsonPath("$.status", is(PAYMENT_SUCCESS_STATUS)))
                 .andExpect(jsonPath("$.status_histories", hasSize(0)));
     }
 
@@ -119,29 +144,6 @@ public class FeePaymentE2ETest {
                 .andExpect(status().isUnauthorized());
     }
 
-    @Test
-    public void feeLookup() throws Exception {
-        stubFeeLookUp();
-
-        webClient.perform(get(FEE_LOOK_UP_API)
-                .header("Authorization", AUTH_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code", is(FEE_CODE)))
-                .andExpect(jsonPath("$.version", is(FEE_VERSION)))
-                .andExpect(jsonPath("$.fee_amount", is(10)));
-    }
-
-    @Test
-    public void pbaValidate() throws Exception {
-        stubIdamService();
-        stubPbaService();
-
-        webClient.perform(get(PBA_VALIDATE_API + "?pbaNumber=" + PBA_NUMBER)
-                .header("Authorization", AUTH_TOKEN))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(true)));
-    }
 
     private void stubIdamService() {
         idamService.stubFor(WireMock.get(idamApi)

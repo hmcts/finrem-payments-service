@@ -7,14 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PBAAccount {
-    @JsonProperty(value = "payment_accounts")
-    private List<String> accountList;
+public class PBAValidationResponse {
+    @JsonProperty(value = "pbaNumberValid")
+    private boolean pbaNumberValid;
 }

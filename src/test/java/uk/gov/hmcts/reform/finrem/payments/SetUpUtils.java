@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import feign.FeignException;
 import feign.Response;
 import org.springframework.http.HttpStatus;
-import uk.gov.hmcts.reform.finrem.payments.model.fee.Fee;
+import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
@@ -16,18 +16,19 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAAccount;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.List;
 
 public class SetUpUtils {
 
     public static  final int STATUS_CODE = HttpStatus.INTERNAL_SERVER_ERROR.value();
     public static final String ACCOUNT_NUMBER = "Account12345";
-    public static final String PAYMENT_STATUS = "Success";
+    public static final String SITE_ID = "AA03";
+    public static final String PAYMENT_SUCCESS_STATUS = "Success";
+    public static final String PAYMENT_FAILED_STATUS = "Failed";
     public static final String PAYMENT_REF = "RC-12345-2323-0712321320-23221";
 
     public static final String FEE_CODE = "CODE";
     public static final String FEE_DESC = "Description";
-    public static final BigDecimal FEE_AMOUNT = new BigDecimal("10");
+    public static final BigDecimal FEE_AMOUNT = BigDecimal.TEN;
     public static final String FEE_VERSION = "v1";
 
     public static final String PBA_NUMBER = "PBA";
@@ -40,20 +41,17 @@ public class SetUpUtils {
     }
 
     public static String pbaAccount() {
-        PBAAccount pbaAccount = new PBAAccount();
-        pbaAccount.setAccountList(ImmutableList.of(PBA_NUMBER));
-
+        PBAAccount pbaAccount = PBAAccount.builder().accountList(ImmutableList.of(PBA_NUMBER)).build();
         return objectToJson(pbaAccount);
     }
 
-    public static Fee feeResponse() {
-        Fee fee = new Fee();
-        fee.setCode(FEE_CODE);
-        fee.setDescription(FEE_DESC);
-        fee.setFeeAmount(FEE_AMOUNT);
-        fee.setVersion(FEE_VERSION);
-
-        return fee;
+    public static FeeResponse feeResponse() {
+        FeeResponse feeResponse = new FeeResponse();
+        feeResponse.setCode(FEE_CODE);
+        feeResponse.setDescription(FEE_DESC);
+        feeResponse.setFeeAmount(FEE_AMOUNT);
+        feeResponse.setVersion(FEE_VERSION);
+        return feeResponse;
     }
 
     public static String feeResponseString() {
@@ -62,20 +60,27 @@ public class SetUpUtils {
 
     public static PaymentResponse paymentResponse() {
         return PaymentResponse.builder()
-                .status(PAYMENT_STATUS)
+                .status(PAYMENT_SUCCESS_STATUS)
                 .reference(PAYMENT_REF)
                 .statusHistories(ImmutableList.of()).build();
     }
 
-    public static PaymentResponse paymentResponseClientError() {
+    public static PaymentResponse paymentResponseClient404Error() {
         return PaymentResponse.builder()
-                .status(PAYMENT_STATUS)
+                .error(HttpStatus.NOT_FOUND.toString())
+                .message("Account information could not be found")
+                .build();
+    }
+
+    public static PaymentResponse paymentResponseClient401Error() {
+        return PaymentResponse.builder()
+                .status(PAYMENT_FAILED_STATUS)
                 .reference(PAYMENT_REF)
                 .statusHistories(ImmutableList.of(paymentStatusHistory())).build();
     }
 
     public static String paymentResponseErrorToString() {
-        return objectToJson(paymentResponseClientError());
+        return objectToJson(paymentResponseClient401Error());
     }
 
     public static String paymentResponseToString() {
@@ -95,9 +100,10 @@ public class SetUpUtils {
                 .build();
         return PaymentRequest.builder()
                 .accountNumber(ACCOUNT_NUMBER)
+                .siteId(ACCOUNT_NUMBER)
                 .caseReference("ED12345")
                 .customerReference("SOL1")
-                .organisationNname("ORG SOL1")
+                .organisationName("ORG SOL1")
                 .amount(amountToPay)
                 .feesList(Collections.singletonList(fee))
                 .build();
@@ -109,7 +115,9 @@ public class SetUpUtils {
 
     private static String objectToJson(Object object) {
         try {
-            return objectMapper.writeValueAsString(object);
+            String value = objectMapper.writeValueAsString(object);
+            System.out.println(" value = [" + value + "]");
+            return value;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

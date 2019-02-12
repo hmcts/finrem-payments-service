@@ -27,8 +27,12 @@ public class PaymentRequest {
     @JsonProperty(value = "customer_reference")
     private String customerReference;
 
+    @JsonProperty(value = "description")
+    @Builder.Default
+    private String description = "Financial Remedy Consented Application";
+
     @JsonProperty(value = "organisation_name")
-    private String organisationNname;
+    private String organisationName;
 
     @JsonProperty(value = "amount")
     private long amount;
@@ -43,7 +47,7 @@ public class PaymentRequest {
 
     @JsonProperty(value = "site_id")
     @Builder.Default
-    private String siteId = "CTSC";
+    private String siteId = "AA03";
 
     @JsonProperty(value = "fees")
     private List<FeeRequest> feesList;
