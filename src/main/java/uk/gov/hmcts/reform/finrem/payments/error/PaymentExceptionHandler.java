@@ -25,7 +25,7 @@ public class PaymentExceptionHandler {
     public ResponseEntity<Object> handlePaymentException(PaymentException exception) {
         log.error("exception occurred while making payment : {}  ", exception.getMessage());
 
-        if (exception.getCause() != null && exception.getCause() instanceof HttpClientErrorException) {
+        if (exception.getCause() instanceof HttpClientErrorException) {
             HttpClientErrorException cause = (HttpClientErrorException) exception.getCause();
             try {
                 log.info("Payment error, exception : {} ", cause);
