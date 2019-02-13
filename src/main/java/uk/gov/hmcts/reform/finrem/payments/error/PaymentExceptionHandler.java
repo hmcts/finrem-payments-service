@@ -38,9 +38,9 @@ public class PaymentExceptionHandler {
                 return ResponseEntity.ok(mapper.readValue(cause.getResponseBodyAsString(), PaymentResponse.class));
             } catch (IOException e) {
                 log.error("payment-error-conversion exception : {} ", e);
-                return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(e.getMessage());
+                return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(GlobalExceptionHandler.SERVER_ERROR_MSG);
             }
         }
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(exception.getMessage());
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(GlobalExceptionHandler.SERVER_ERROR_MSG);
     }
 }
