@@ -19,7 +19,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private static String PBA_PAYMENT = "/payments/pba-payment";
 
 
-    @Value("${payment.service.uri}")
+    @Value("${pba.validation.url}")
     private String paymenturl;
 
     @Value("${idam.s2s-auth.microservice}")
