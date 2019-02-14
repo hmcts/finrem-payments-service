@@ -32,7 +32,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Financial Remedy Payments Service")
+                .title("Financial Remedy payments Service")
                 .description("Given a case data, This service will provide the financial remedy payment features "
                         + "like fee lookUp,pba-validate and pba-payment")
                 .build();

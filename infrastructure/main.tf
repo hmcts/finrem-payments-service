@@ -46,6 +46,8 @@ module "finrem-ps" {
     AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS = "${var.auth_provider_service_client_tokentimetoliveinseconds}"
     SSL_VERIFICATION_ENABLED                              = "${var.ssl_verification_enabled}"
     SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
+    AAT_USERNAME                                          = "${data.azurerm_key_vault_secret.aat-username.value}"
+    AAT_PASSWORD                                          = "${data.azurerm_key_vault_secret.aat-password.value}"
   }
 }
 
