@@ -19,8 +19,11 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private static String PBA_PAYMENT = "/payments/pba-payment";
 
 
-    @Value("${pba.validation.url}")
-    private String paymenturl;
+    @Value("${payment_api_url}")
+    private String paymentUrl;
+
+    @Value("${prd_api_url}")
+    private String prdApiUrl;
 
     @Value("${idam.s2s-auth.microservice}")
     private String microservice;
@@ -49,11 +52,11 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
 
     private void validatePostSuccess(String url) {
-        System.out.println("Fee LookUp : " + paymenturl + url);
+        System.out.println("Fee LookUp : " + prdApiUrl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
-                .when().get(paymenturl + url)
+                .when().get(prdApiUrl + url)
                 .then()
                 .assertThat().statusCode(200);
     }
@@ -62,13 +65,13 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     public void validatePostSuccessForPBAValidation(String url) {
 
-        System.out.println("PBA Validation : " + paymenturl + url);
+        System.out.println("PBA Validation : " + paymentUrl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .param("pbaNumber", "PBA123")
-                .when().get(paymenturl + url)
+                .when().get(paymentUrl + url)
                 .then()
                 .assertThat().statusCode(200);
     }
@@ -76,13 +79,13 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     public void validatePostSuccessForPBAPayment(String url) {
 
-        System.out.println("PBA Payment : " + paymenturl + url);
+        System.out.println("PBA Payment : " + paymentUrl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .body(utils.getJsonFromFile("paymentRequestPayload.json"))
-                .when().post(paymenturl + url)
+                .when().post(paymentUrl + url)
                 .then()
                 .assertThat().statusCode(200);
     }
