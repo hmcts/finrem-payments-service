@@ -32,7 +32,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private String authClientSecret;
 
 
-    @Test
+    //@Test
     public void verifyGetFeeLoopUpTest() {
 
         validatePostSuccess(FEE_LOOKUP);
