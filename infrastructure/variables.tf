@@ -94,3 +94,7 @@ variable "common_tags" {
 variable "ssl_verification_enabled" {
   default = false
 }
+
+variable "swagger_enabled" {
+  default = true
+}
