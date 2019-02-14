@@ -49,7 +49,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
 
     private void validatePostSuccess(String url) {
-        System.out.println("Fee LookUp : " + paymenturl+url);
+        System.out.println("Fee LookUp : " + paymenturl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
@@ -62,7 +62,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     public void validatePostSuccessForPBAValidation(String url) {
 
-        System.out.println("PBA Validation : " + paymenturl+url);
+        System.out.println("PBA Validation : " + paymenturl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
@@ -76,7 +76,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     public void validatePostSuccessForPBAPayment(String url) {
 
-        System.out.println("PBA Payment : " + paymenturl+url);
+        System.out.println("PBA Payment : " + paymenturl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
