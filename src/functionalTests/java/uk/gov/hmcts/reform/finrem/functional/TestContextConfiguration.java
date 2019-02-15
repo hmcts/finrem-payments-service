@@ -19,8 +19,8 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @Configuration
 @ComponentScan("uk.gov.hmcts.reform.finrem")
 @EnableFeignClients(basePackageClasses = ServiceAuthorisationApi.class)
-//@PropertySource(value = {"classpath:application.properties"})
-@PropertySource(value = {"classpath:application-aat.properties"})
+@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application-aat.properties")
 public class TestContextConfiguration {
 
     @Bean
