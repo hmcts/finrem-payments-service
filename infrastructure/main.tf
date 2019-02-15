@@ -44,6 +44,7 @@ module "finrem-ps" {
     AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE             = "${var.auth_provider_service_client_microservice}"
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-payment-service-s2s-key.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS = "${var.auth_provider_service_client_tokentimetoliveinseconds}"
+    OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
     SSL_VERIFICATION_ENABLED                              = "${var.ssl_verification_enabled}"
     SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
     AAT_USERNAME                                          = "${data.azurerm_key_vault_secret.aat-username.value}"
