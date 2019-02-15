@@ -17,7 +17,7 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
 @Slf4j
 @Configuration
-@ComponentScan("uk.gov.hmcts.reform.finrem")
+@ComponentScan("uk.gov.hmcts.reform.finrem.functional")
 @EnableFeignClients(basePackageClasses = ServiceAuthorisationApi.class)
 @PropertySource("classpath:application.properties")
 @PropertySource("classpath:application-aat.properties")
