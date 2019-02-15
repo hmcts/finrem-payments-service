@@ -19,6 +19,10 @@ public class IdamUtils implements IdamUserClient {
     @Value("${idam.whitelist.url}")
     private String idamRedirectUri;
 
+    @Value("${idam.username}")
+    private String idamUserName;
+    @Value("${idam.userpassword}")
+    private String idamUserPassword;
 
     @Value("${idam.api.secret}")
     private String idamSecret;
@@ -68,6 +72,9 @@ public class IdamUtils implements IdamUserClient {
             + "&grant_type=authorization_code";
 
         System.out.println(myUrl);
+        System.out.println("==========================================================");
+        System.out.println("username is :" + idamUserName );
+        System.out.println("username is :" + idamUserPassword );
         return myUrl;
     }
 }
