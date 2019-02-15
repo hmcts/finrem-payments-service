@@ -72,7 +72,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
-                .param("pbaNumber", "PBA123")
+                .param("pbaNumber", "PBA222")
                 .when().get(prdApiUrl + url)
                 .then()
                 .assertThat().statusCode(200);
