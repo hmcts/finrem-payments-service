@@ -1,10 +1,22 @@
 #!groovy
 
+properties([
+        [
+                $class: 'GithubProjectProperty',
+                displayName: 'Financial Remedy Document Generator Client',
+                projectUrlStr: 'https://github.com/hmcts/finrem-payment-service.git'
+        ],
+        pipelineTriggers([
+                [$class: 'GitHubPushTrigger']
+        ])
+])
+
 @Library("Infrastructure")
 
 def type = "java"
 def product = "finrem"
-def app = "ps"
+def component = "ps"
+def channel = '#finrem-dev'
 
 List<LinkedHashMap<String, Object>> secrets = [
         secret("auth-provider-service-client-key", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
@@ -22,10 +34,17 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-withPipeline(type, product, app) {
+withPipeline(type, product, component) {
     enableDockerBuild()
     enableDeployToAKS()
+    loadVaultSecrets(secrets)
     setVaultName(product)
+
+    after('checkout') {
+        echo '${product}-${component} checked out'
+    }
+
+    enableSlackNotifications(channel)
 
     after('functionalTest:aat') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
@@ -35,7 +54,6 @@ withPipeline(type, product, app) {
                 reportName           : "AAT Functional Tests",
                 alwaysLinkToLastBuild: true
         ]
-
     }
 
     after('functionalTest:preview') {
@@ -46,12 +64,5 @@ withPipeline(type, product, app) {
                 reportName           : "Preview Functional Tests",
                 alwaysLinkToLastBuild: true
         ]
-    }
-
-//    loadVaultSecrets(secrets)
-    enableSlackNotifications('#finrem-dev')
-
-    before('buildinfra:prod') {
-        error('Halting pipeline before PROD.')
     }
 }
