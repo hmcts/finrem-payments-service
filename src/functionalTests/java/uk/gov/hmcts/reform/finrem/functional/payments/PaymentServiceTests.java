@@ -32,6 +32,10 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private String authClientSecret;
 
 
+    @Value("${pdf_access_key}")
+    private String pdfAccessKey;
+
+
     //@Test
     public void verifyGetFeeLoopUpTest() {
 
@@ -66,7 +70,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     public void validatePostSuccessForPBAValidation(String url) {
 
         System.out.println("PBA Validation : " + paymentUrl + url);
-
+        System.out.println("Testing vaul access " + pdfAccessKey);
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
