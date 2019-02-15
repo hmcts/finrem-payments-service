@@ -44,6 +44,7 @@ module "finrem-ps" {
     SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE             = "${var.auth_provider_service_client_microservice}"
+    PDF_ACCESS_KEY                                        = "${data.azurerm_key_vault_secret.pdf-service-access-key.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-payment-service-s2s-key.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS = "${var.auth_provider_service_client_tokentimetoliveinseconds}"
     OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
@@ -76,3 +77,10 @@ data "azurerm_key_vault_secret" "aat-password" {
   name      = "aat-password"
   vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
+
+data "azurerm_key_vault_secret" "pdf-service-access-key" {
+  name      = "pdf-service-access-key"
+  vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+
