@@ -19,8 +19,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private static String PBA_PAYMENT = "/payments/pba-payment";
 
 
-    @Value("${payment_api_url}")
-    private String paymentUrl;
 
     @Value("${prd_api_url}")
     private String prdApiUrl;
@@ -69,13 +67,13 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     public void validatePostSuccessForPBAValidation(String url) {
 
-        System.out.println("PBA Validation : " + paymentUrl + url);
+        System.out.println("PBA Validation : " + prdApiUrl + url);
         System.out.println("Testing vaul access " + pdfAccessKey);
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .param("pbaNumber", "PBA123")
-                .when().get(paymentUrl + url)
+                .when().get(prdApiUrl + url)
                 .then()
                 .assertThat().statusCode(200);
     }
@@ -83,13 +81,13 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     public void validatePostSuccessForPBAPayment(String url) {
 
-        System.out.println("PBA Payment : " + paymentUrl + url);
+        System.out.println("PBA Payment : " + prdApiUrl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .body(utils.getJsonFromFile("paymentRequestPayload.json"))
-                .when().post(paymentUrl + url)
+                .when().post(prdApiUrl + url)
                 .then()
                 .assertThat().statusCode(200);
     }
