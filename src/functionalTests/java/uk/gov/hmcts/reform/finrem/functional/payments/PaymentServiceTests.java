@@ -1,7 +1,5 @@
 package uk.gov.hmcts.reform.finrem.functional.payments;
 
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
 import org.junit.Test;
@@ -9,16 +7,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
 
-import static org.junit.Assert.assertTrue;
-
 @RunWith(SerenityRunner.class)
 public class PaymentServiceTests extends IntegrationTestBase {
 
     private static String FEE_LOOKUP = "/payments/fee-lookup";
     private static String PBA_VALIDATE = "/payments/pba-validate/";
     private static String PBA_PAYMENT = "/payments/pba-payment";
-
-
 
     @Value("${prd_api_url}")
     private String prdApiUrl;
