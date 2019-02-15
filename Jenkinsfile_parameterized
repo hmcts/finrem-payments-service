@@ -17,7 +17,7 @@ List<LinkedHashMap<String, Object>> secrets = [
         secret("auth-provider-service-client-key", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
         secret("idam-secret", "OAUTH2_CLIENT_FINREM"),
         secret("aat-username","AAT_USERNAME"),
-        secret("AAT_PASSWORD","aat-password")
+        secret("aat-password","AAT_PASSWORD")
 ]
 
 
