@@ -19,7 +19,7 @@ def component = "ps"
 def channel = '#finrem-dev'
 
 List<LinkedHashMap<String, Object>> secrets = [
-        secret("auth-provider-service-client-key", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
+        secret("finrem-payment-service-s2s-key", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
         secret("idam-secret", "OAUTH2_CLIENT_FINREM"),
         secret("aat-username","AAT_USERNAME"),
         secret("aat-password","AAT_PASSWORD"),
