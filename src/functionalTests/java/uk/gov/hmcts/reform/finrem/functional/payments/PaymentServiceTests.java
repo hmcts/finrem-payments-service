@@ -20,8 +20,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
 
 
-    @Value("${prd_api_url}")
-    private String prdApiUrl;
+    @Value("${pba.validation.url}")
+    private String pbaValidationUrl;
 
     @Value("${idam.s2s-auth.microservice}")
     private String microservice;
@@ -37,7 +37,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     //@Test
     public void verifyGetFeeLoopUpTest() {
 
-        validatePostSuccess(FEE_LOOKUP);
+        //validatePostSuccess(FEE_LOOKUP);
 
     }
 
@@ -53,27 +53,27 @@ public class PaymentServiceTests extends IntegrationTestBase {
     }
 
 
-    private void validatePostSuccess(String url) {
-        System.out.println("Fee LookUp : " + prdApiUrl + url);
+    //private void validatePostSuccess(String url) {
+        //System.out.println("Fee LookUp : " + prdApiUrl + url);
 
-        SerenityRest.given()
-                .relaxedHTTPSValidation()
-                .when().get(prdApiUrl + url)
-                .then()
-                .assertThat().statusCode(200);
-    }
+        //SerenityRest.given()
+                //.relaxedHTTPSValidation()
+                //.when().get(prdApiUrl + url)
+                //.then()
+                //.assertThat().statusCode(200);
+    //}
 
 
 
     public void validatePostSuccessForPBAValidation(String url) {
 
-        System.out.println("PBA Validation : " + prdApiUrl + url);
+        System.out.println("PBA Validation : " + pbaValidationUrl + url);
         System.out.println("Testing vaul access " + pdfAccessKey);
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .param("pbaNumber", "PBA222")
-                .when().get(prdApiUrl + url)
+                .when().get(pbaValidationUrl + url)
                 .then()
                 .assertThat().statusCode(200);
     }
@@ -81,13 +81,13 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     public void validatePostSuccessForPBAPayment(String url) {
 
-        System.out.println("PBA Payment : " + prdApiUrl + url);
+        System.out.println("PBA Payment : " + pbaValidationUrl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .body(utils.getJsonFromFile("paymentRequestPayload.json"))
-                .when().post(prdApiUrl + url)
+                .when().post(pbaValidationUrl + url)
                 .then()
                 .assertThat().statusCode(200);
     }
