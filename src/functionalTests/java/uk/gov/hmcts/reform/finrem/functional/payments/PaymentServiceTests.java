@@ -73,8 +73,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
-                .headers(headerInfo)
-                //.headers(utils.getHeader())
+                //.headers(headerInfo)
+                .headers(utils.getHeader())
                 .param("pbaNumber", "PBA222")
                 .when().get(pbaValidationUrl + url)
                 .then()
@@ -88,8 +88,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
-                .headers(headerInfo)
-                //.headers(utils.getHeader())
+                //.headers(headerInfo)
+                .headers(utils.getHeader())
                 .body(utils.getJsonFromFile("paymentRequestPayload.json"))
                 .when().post(pbaValidationUrl + url)
                 .then()
