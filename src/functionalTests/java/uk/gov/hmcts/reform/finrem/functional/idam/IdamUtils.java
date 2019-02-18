@@ -23,7 +23,7 @@ public class IdamUtils implements IdamUserClient {
     @Value("${idam.api.url}")
     private String idamUserBaseUrl;
 
-    @Value("${idam.whitelist.ccd.url}")
+    @Value("${idam.whitelist.url}")
     private String idamRedirectUri;
 
     @Value("${idam.username}")
