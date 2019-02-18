@@ -65,7 +65,8 @@ public class FunctionalTestUtils {
         given().headers("Content-type", "application/json")
                 .relaxedHTTPSValidation()
                 .body(getJsonFromFile("userCreation.json"))
-                .post(baseServiceOauth2Url + "/testing-support/accounts");
+                .post(baseServiceOauth2Url + "/testing-support/accounts")
+        .then().statusCode(200);
     }
 }
 

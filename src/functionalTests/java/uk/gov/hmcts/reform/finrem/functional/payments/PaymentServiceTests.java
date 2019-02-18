@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.finrem.functional.payments;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
+import io.restassured.http.Headers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private static String FEE_LOOKUP = "/payments/fee-lookup";
     private static String PBA_VALIDATE = "/payments/pba-validate/";
     private static String PBA_PAYMENT = "/payments/pba-payment";
+
+    private Headers headerInfo = utils.getHeader();
 
 
 
@@ -31,23 +34,27 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
 
     @Test
+    public void createUser() {
+        utils.createNewUser();
+    }
+
+    //@Test
     public void verifyGetFeeLoopUpTest() {
 
         validatePostSuccess(FEE_LOOKUP);
 
     }
 
-    @Test
+    //@Test
     public void verifyPBAValidationTest() {
         validatePostSuccessForPBAValidation(PBA_VALIDATE);
     }
 
-    @Test
+    //@Test
     public void verifyPBAPaymentTest() {
         validatePostSuccessForPBAPayment(PBA_PAYMENT);
 
     }
-
 
     private void validatePostSuccess(String url) {
         System.out.println("Fee LookUp : " + pbaValidationUrl + url);
@@ -59,14 +66,14 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .assertThat().statusCode(200);
     }
 
-
     public void validatePostSuccessForPBAValidation(String url) {
 
         System.out.println("PBA Validation : " + pbaValidationUrl + url);
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeader())
+                .headers(headerInfo)
+                //.headers(utils.getHeader())
                 .param("pbaNumber", "PBA222")
                 .when().get(pbaValidationUrl + url)
                 .then()
@@ -80,7 +87,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
-                .headers(utils.getHeader())
+                .headers(headerInfo)
+                //.headers(utils.getHeader())
                 .body(utils.getJsonFromFile("paymentRequestPayload.json"))
                 .when().post(pbaValidationUrl + url)
                 .then()

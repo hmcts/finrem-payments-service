@@ -36,7 +36,7 @@ public class IdamUtils implements IdamUserClient {
 
 
     public String generateUserTokenWithNoRoles(String username, String password) {
-        utils.createNewUser();
+
         String userLoginDetails = String.join(":", username, password);
         final String authHeader = "Basic " + new String(Base64.getEncoder().encode((userLoginDetails).getBytes()));
 
