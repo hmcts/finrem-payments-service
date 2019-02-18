@@ -23,7 +23,7 @@ public class IdamUtils implements IdamUserClient {
     @Value("${idam.api.url}")
     private String idamUserBaseUrl;
 
-    @Value("${idam.whitelist.url}")
+    @Value("${idam.whitelist.ccd.url}")
     private String idamRedirectUri;
 
     @Value("${idam.username}")
@@ -74,7 +74,7 @@ public class IdamUtils implements IdamUserClient {
     private String idamTokenUrl(String code) {
         String myUrl = idamUserBaseUrl + "/oauth2/token"
             + "?code=" + code
-            + "&client_id=finrem"
+            + "&client_id=ccd_gateway"
             + "&client_secret=" + idamSecret
             + "&redirect_uri=" + idamRedirectUri
             + "&grant_type=authorization_code";

@@ -33,25 +33,25 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private String pdfAccessKey;
 
 
-    @Test
+    //@Test
     public void createUser() {
         utils.createNewUser();
         System.out.println(utils.getHeader());
     }
 
-    //@Test
+    @Test
     public void verifyGetFeeLoopUpTest() {
 
         validatePostSuccess(FEE_LOOKUP);
 
     }
 
-    //@Test
+    @Test
     public void verifyPBAValidationTest() {
         validatePostSuccessForPBAValidation(PBA_VALIDATE);
     }
 
-    //@Test
+    @Test
     public void verifyPBAPaymentTest() {
         validatePostSuccessForPBAPayment(PBA_PAYMENT);
 
@@ -75,7 +75,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .relaxedHTTPSValidation()
                 //.headers(headerInfo)
                 .headers(utils.getHeader())
-                .param("pbaNumber", "PBA222")
+                .param("pbaNumber", "PBA0066906")
                 .when().get(pbaValidationUrl + url)
                 .then()
                 .assertThat().statusCode(200);
@@ -85,7 +85,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
     public void validatePostSuccessForPBAPayment(String url) {
 
         System.out.println("PBA Payment : " + pbaValidationUrl + url);
-
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 //.headers(headerInfo)
