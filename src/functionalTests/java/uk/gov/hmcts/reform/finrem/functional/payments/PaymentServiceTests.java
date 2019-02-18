@@ -64,7 +64,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     public void validatePostSuccessForPBAValidation(String url) {
 
         System.out.println("PBA Validation : " + pbaValidationUrl + url);
-        System.out.println("Testing vaul access " + pdfAccessKey);
+
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
