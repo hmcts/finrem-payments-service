@@ -36,7 +36,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     @Test
     public void createUser() {
         utils.createNewUser();
-      System.out.println(utils.getHeader());
+        System.out.println(utils.getHeader());
     }
 
     //@Test
