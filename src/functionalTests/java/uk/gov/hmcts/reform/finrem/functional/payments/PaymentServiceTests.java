@@ -76,7 +76,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .assertThat().statusCode(200);
     }
 
-
     public void validatePostSuccessForPBAPayment(String url) {
 
         System.out.println("PBA Payment : " + pbaValidationUrl + url);

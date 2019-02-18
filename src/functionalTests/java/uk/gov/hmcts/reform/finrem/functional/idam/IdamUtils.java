@@ -11,8 +11,6 @@ import uk.gov.hmcts.reform.finrem.functional.util.FunctionalTestUtils;
 
 import java.util.Base64;
 
-import static io.restassured.RestAssured.given;
-
 @Slf4j
 @Component
 public class IdamUtils implements IdamUserClient {
@@ -74,7 +72,7 @@ public class IdamUtils implements IdamUserClient {
     private String idamTokenUrl(String code) {
         String myUrl = idamUserBaseUrl + "/oauth2/token"
             + "?code=" + code
-            + "&client_id=ccd_gateway"
+            + "&client_id=finrem"
             + "&client_secret=" + idamSecret
             + "&redirect_uri=" + idamRedirectUri
             + "&grant_type=authorization_code";
