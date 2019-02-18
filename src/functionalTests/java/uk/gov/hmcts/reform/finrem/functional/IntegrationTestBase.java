@@ -14,7 +14,6 @@ import uk.gov.hmcts.reform.finrem.functional.util.FunctionalTestUtils;
 @ContextConfiguration(classes = uk.gov.hmcts.reform.finrem.functional.TestContextConfiguration.class)
 public abstract class IntegrationTestBase {
 
-
     @Rule
     public SpringIntegrationMethodRule springIntegration;
     @Autowired

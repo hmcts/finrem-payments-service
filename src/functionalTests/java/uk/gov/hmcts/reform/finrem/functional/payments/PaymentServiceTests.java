@@ -1,15 +1,11 @@
 package uk.gov.hmcts.reform.finrem.functional.payments;
 
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
-
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SerenityRunner.class)
 public class PaymentServiceTests extends IntegrationTestBase {
