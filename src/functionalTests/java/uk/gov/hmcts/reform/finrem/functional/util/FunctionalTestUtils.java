@@ -44,7 +44,7 @@ public class FunctionalTestUtils {
     }
 
     public Headers getHeader() {
-        String authToken = idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword);
+        String authToken = idamUtils.generateUserTokenWithNoRoles("payment_check_sol@yahoo.com", "London01");
         System.out.println(authToken);
         return Headers.headers(
 

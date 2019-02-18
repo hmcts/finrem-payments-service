@@ -18,8 +18,8 @@ import static io.restassured.RestAssured.given;
 public class IdamUtils implements IdamUserClient {
 
     @Autowired
-
     private FunctionalTestUtils utils;
+
     @Value("${idam.api.url}")
     private String idamUserBaseUrl;
 
@@ -36,6 +36,7 @@ public class IdamUtils implements IdamUserClient {
 
 
     public String generateUserTokenWithNoRoles(String username, String password) {
+        utils.createNewUser();
         String userLoginDetails = String.join(":", username, password);
         final String authHeader = "Basic " + new String(Base64.getEncoder().encode((userLoginDetails).getBytes()));
 
@@ -63,7 +64,7 @@ public class IdamUtils implements IdamUserClient {
     private String idamCodeUrl() {
         String myUrl = idamUserBaseUrl + "/oauth2/authorize"
             + "?response_type=code"
-            + "&client_id=ccd_gateway"
+            + "&client_id=finrem"
             + "&redirect_uri=" + idamRedirectUri;
         System.out.println(myUrl);
 
