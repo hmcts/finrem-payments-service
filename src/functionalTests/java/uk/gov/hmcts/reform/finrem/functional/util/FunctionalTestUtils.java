@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import static io.restassured.RestAssured.given;
+
 
 @Component
 public class FunctionalTestUtils {
@@ -56,4 +58,14 @@ public class FunctionalTestUtils {
                 + idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword)),
             new Header("Content-Type", ContentType.JSON.toString()));
     }
+
+
+
+    public void createNewUser() {
+        given().headers("Content-type", "application/json")
+                .relaxedHTTPSValidation()
+                .body(getJsonFromFile("userCreation.json"))
+                .post(baseServiceOauth2Url + "/testing-support/accounts");
+    }
 }
+

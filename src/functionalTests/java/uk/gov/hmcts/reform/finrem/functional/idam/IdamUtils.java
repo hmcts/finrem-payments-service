@@ -3,16 +3,23 @@ package uk.gov.hmcts.reform.finrem.functional.idam;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import uk.gov.hmcts.reform.finrem.functional.util.FunctionalTestUtils;
 
 
 import java.util.Base64;
+
+import static io.restassured.RestAssured.given;
 
 @Slf4j
 @Component
 public class IdamUtils implements IdamUserClient {
 
+    @Autowired
+
+    private FunctionalTestUtils utils;
     @Value("${idam.api.url}")
     private String idamUserBaseUrl;
 
@@ -56,7 +63,7 @@ public class IdamUtils implements IdamUserClient {
     private String idamCodeUrl() {
         String myUrl = idamUserBaseUrl + "/oauth2/authorize"
             + "?response_type=code"
-            + "&client_id=finrem"
+            + "&client_id=ccd_gateway"
             + "&redirect_uri=" + idamRedirectUri;
         System.out.println(myUrl);
 
@@ -77,4 +84,5 @@ public class IdamUtils implements IdamUserClient {
         System.out.println("username is :" + idamUserPassword );
         return myUrl;
     }
+
 }
