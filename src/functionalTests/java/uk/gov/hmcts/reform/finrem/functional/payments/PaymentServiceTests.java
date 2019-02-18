@@ -15,7 +15,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private static String PBA_VALIDATE = "/payments/pba-validate/";
     private static String PBA_PAYMENT = "/payments/pba-payment";
 
-    private Headers headerInfo = utils.getHeader();
+
 
 
 
@@ -36,6 +36,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     @Test
     public void createUser() {
         utils.createNewUser();
+      System.out.println(utils.getHeader());
     }
 
     //@Test
