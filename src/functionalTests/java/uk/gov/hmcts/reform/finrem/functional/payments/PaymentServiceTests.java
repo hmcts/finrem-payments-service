@@ -83,7 +83,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .body(utils.getJsonFromFile("paymentRequestPayload.json"))
-                .when().post(pbaValidationUrl + url)
+                .when().get(pbaValidationUrl + url)
                 .then()
                 .assertThat().statusCode(200);
     }
