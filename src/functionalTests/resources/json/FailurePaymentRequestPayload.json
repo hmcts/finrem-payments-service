@@ -3,7 +3,7 @@
     "amount": 50,
     "case_reference": "CASE123",
     "ccd_case_number": "CCDCASE123",
-    "currency": "POUND",
+    "currency": "GBP",
     "customer_reference": "CUSTOMER123",
     "description": "Payment Testing",
     "fees": [
@@ -15,6 +15,6 @@
         }
     ],
     "organisation_name": "MOj",
-    "service": "Payment Service",
+    "service": "FINREM",
     "site_id": "123"
 }
