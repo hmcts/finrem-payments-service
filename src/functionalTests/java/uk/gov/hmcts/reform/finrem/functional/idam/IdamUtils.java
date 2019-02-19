@@ -64,7 +64,6 @@ public class IdamUtils implements IdamUserClient {
             + "?response_type=code"
             + "&client_id=finrem"
             + "&redirect_uri=" + idamRedirectUri;
-        System.out.println(myUrl);
 
         return myUrl;
     }
@@ -77,10 +76,6 @@ public class IdamUtils implements IdamUserClient {
             + "&redirect_uri=" + idamRedirectUri
             + "&grant_type=authorization_code";
 
-        System.out.println(myUrl);
-        System.out.println("==========================================================");
-        System.out.println("username is :" + idamUserName );
-        System.out.println("username is :" + idamUserPassword );
         return myUrl;
     }
 
