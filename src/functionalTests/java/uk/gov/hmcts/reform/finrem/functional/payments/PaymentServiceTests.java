@@ -1,12 +1,17 @@
 package uk.gov.hmcts.reform.finrem.functional.payments;
 
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
-import io.restassured.http.Headers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
+
+import java.util.HashMap;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SerenityRunner.class)
 public class PaymentServiceTests extends IntegrationTestBase {
@@ -14,6 +19,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private static String FEE_LOOKUP = "/payments/fee-lookup";
     private static String PBA_VALIDATE = "/payments/pba-validate/";
     private static String PBA_PAYMENT = "/payments/pba-payment";
+    private HashMap<String, String> pbaAccounts = new HashMap<>();
 
 
     @Value("${payment_api_url}")
@@ -28,11 +34,27 @@ public class PaymentServiceTests extends IntegrationTestBase {
     @Value("${pdf_access_key}")
     private String pdfAccessKey;
 
+    @Value("${pba.account.active}")
+    private String pbaAccountActive;
+
+    @Value("${pba.account.inactive}")
+    private String pbaAccountInActive;
+
 
     //@Test
     public void createUser() {
         utils.createNewUser();
         System.out.println(utils.getHeader());
+    }
+
+    @Test
+    public void verifyPBAAccountStatus() {
+        pbaAccounts.put(pbaAccountActive, "Active");
+        pbaAccounts.put(pbaAccountInActive, "Inactive");
+
+        validatePBAAccountNumber(PBA_VALIDATE, pbaAccounts);
+
+
     }
 
     @Test
@@ -87,4 +109,27 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .then()
                 .assertThat().statusCode(200);
     }
+
+    public void validatePBAAccountNumber(String url, HashMap<String, String> pbaAccount) {
+
+        pbaAccount.forEach((account, status) -> {
+
+
+            Response response = SerenityRest.given()
+                    .relaxedHTTPSValidation()
+                    .headers(utils.getHeader())
+                    .when().get(pbaValidationUrl + url + account).andReturn();
+
+            JsonPath jsonPathEvaluator = response.jsonPath();
+
+            if (status.equalsIgnoreCase("Active")) {
+                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString().equalsIgnoreCase("true"));
+            } else if (status.equalsIgnoreCase("Inactive")) {
+                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString().equalsIgnoreCase("false"));
+
+            }
+
+        });
+    }
 }
+
