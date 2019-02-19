@@ -25,7 +25,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
     @Value("${idam.s2s-auth.secret}")
     private String authClientSecret;
 
-
     @Value("${pdf_access_key}")
     private String pdfAccessKey;
 
@@ -82,6 +81,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
+                .contentType("application/json")
                 .body(utils.getJsonFromFile("paymentRequestPayload.json"))
                 .when().post(pbaValidationUrl + url)
                 .then()
