@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
 
 import java.util.HashMap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SerenityRunner.class)
@@ -41,11 +42,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
     private String pbaAccountInActive;
 
 
-    //@Test
-    public void createUser() {
-        utils.createNewUser();
-        System.out.println(utils.getHeader());
-    }
 
     @Test
     public void verifyPBAAccountStatus() {
@@ -75,6 +71,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     }
 
+
+    @Test
     private void validatePostSuccess(String url) {
         System.out.println("Fee LookUp : " + pbaValidationUrl + url);
 
@@ -100,14 +98,18 @@ public class PaymentServiceTests extends IntegrationTestBase {
     public void validatePostSuccessForPBAPayment(String url) {
 
         System.out.println("PBA Payment : " + pbaValidationUrl + url);
-        SerenityRest.given()
+        Response response = SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .contentType("application/json")
                 .body(utils.getJsonFromFile("paymentRequestPayload.json"))
                 .when().post(pbaValidationUrl + url)
-                .then()
-                .assertThat().statusCode(200);
+                .andReturn();
+        int statusCode = response.getStatusCode();
+        JsonPath jsonPathEvaluator = response.jsonPath();
+        assertEquals(statusCode,200);
+        assertTrue(jsonPathEvaluator.get("status").toString().equalsIgnoreCase("Success"));
+        assertTrue(jsonPathEvaluator.get("paymentSuccess").toString().equalsIgnoreCase("true"));
     }
 
     public void validatePBAAccountNumber(String url, HashMap<String, String> pbaAccount) {
@@ -121,14 +123,12 @@ public class PaymentServiceTests extends IntegrationTestBase {
                     .when().get(pbaValidationUrl + url + account).andReturn();
 
             JsonPath jsonPathEvaluator = response.jsonPath();
-            System.out.println("account : " + account + "   Status : "
-                    + jsonPathEvaluator.get("pbaNumberValid").toString());
 
-            //if (status.equalsIgnoreCase("Active")) {
-            //assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString().equalsIgnoreCase("true"));
-            //} else if (status.equalsIgnoreCase("Inactive")) {
-            //assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString().equalsIgnoreCase("false"));
-            //}
+            if (status.equalsIgnoreCase("Active")) {
+                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString().equalsIgnoreCase("true"));
+            } else if (status.equalsIgnoreCase("Inactive")) {
+                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString().equalsIgnoreCase("false"));
+            }
 
         });
     }
