@@ -72,7 +72,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     @Test
     public void verifyPBAPaymentFailureTest() {
-        validatePostSuccessForPBAPayment(PBA_PAYMENT);
+        validateFailurePBAPayment(PBA_PAYMENT);
 
     }
 
@@ -129,7 +129,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     private Response getPBAPaymentResponse(String payload, String url) {
 
-        Response response = SerenityRest.given()
+        return SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .contentType("application/json")
@@ -137,7 +137,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .when().post(url)
                 .andReturn();
 
-        return response;
     }
 
     private void validatePBAAccountNumber(String url, HashMap<String, String> pbaAccount) {
