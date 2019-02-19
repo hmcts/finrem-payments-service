@@ -6,16 +6,18 @@ properties([
     string(name: 'PRODUCT_NAME', defaultValue: 'finrem', description: 'Financial Remedy Application'),
     string(name: 'APP', defaultValue: 'ps', description:  'Financial Remedy Payments Service'),
     string(name: 'TYPE', defaultValue: 'java', description: ''),
-    string(name: 'ENVIRONMENT', defaultValue: 'sandbox', description: 'Environment where code should be build and deployed'),
+    string(name: 'ENVIRONMENT', defaultValue: 'saat', description: 'Environment where code should be build and deployed'),
     choice(name: 'SUBSCRIPTION', choices: 'sandbox\nnonprod\nprod', description: 'Azure subscriptions available to build in')
-  ]),
-  [$class: 'GithubProjectProperty', projectUrlStr: 'github.com/hmcts/finrem-payment-service'],
-  pipelineTriggers([[$class: 'GitHubPushTrigger']])
+  ])
 ])
 
 List<LinkedHashMap<String, Object>> secrets = [
-        secret("auth-provider-service-client-key", "AUTH_PROVIDER_SERVICE_CLIENT_KEY")
-]
+        secret("finrem-payment-service-s2s-key", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
+        secret("idam-secret", "OAUTH2_CLIENT_FINREM"),
+        secret("username-aat-solicitor","USERNAME-AAT-SOLICITOR"),
+        secret("password-aat-solicitor","PASSWORD-AAT-SOLICITOR")
+        ]
+
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   [ $class: 'AzureKeyVaultSecret',
@@ -27,8 +29,5 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
-//  loadVaultSecrets(secrets)
-  before('buildinfra:prod') {
-    error('Halting pipeline before PROD.')
-  }
+  loadVaultSecrets(secrets)
 }

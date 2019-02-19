@@ -1,0 +1,20 @@
+{
+    "account_number": "PBA222",
+    "amount": 50,
+    "case_reference": "CASE123",
+    "ccd_case_number": "CCDCASE123",
+    "currency": "GBP",
+    "customer_reference": "CUSTOMER123",
+    "description": "Payment Testing",
+    "fees": [
+        {
+            "calculated_amount": 50,
+            "code": "string",
+            "version": "string",
+            "volume": 1
+        }
+    ],
+    "organisation_name": "MOj",
+    "service": "FINREM",
+    "site_id": "123"
+}

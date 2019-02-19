@@ -40,12 +40,15 @@ module "finrem-ps" {
     FEES_API_URL                                          = "${var.fees_api_url}"
     PRD_API_URL                                           = "${var.prd_api_url}"
     PAYMENT_API_URL                                       = "${var.payment_api_url}"
+    SSL_VERIFICATION_ENABLED                              = "${var.ssl_verification_enabled}"
+    SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE             = "${var.auth_provider_service_client_microservice}"
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-payment-service-s2s-key.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS = "${var.auth_provider_service_client_tokentimetoliveinseconds}"
-    SSL_VERIFICATION_ENABLED                              = "${var.ssl_verification_enabled}"
-    SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
+    OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
+    USERNAME-AAT-SOLICITOR                                = "${data.azurerm_key_vault_secret.username-aat-solicitor.value}"
+    PASSWORD-AAT-SOLICITOR                                = "${data.azurerm_key_vault_secret.password-aat-solicitor.value}"
   }
 }
 
@@ -58,3 +61,25 @@ data "azurerm_key_vault_secret" "finrem-payment-service-s2s-key" {
   name      = "finrem-payment-service-s2s-key"
   vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
+
+data "azurerm_key_vault_secret" "username-aat-solicitor" {
+  name      = "username-aat-solicitor"
+  vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "idam-secret" {
+  name      = "idam-secret"
+  vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "password-aat-solicitor" {
+  name      = "password-aat-solicitor"
+  vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "pdf-service-access-key" {
+  name      = "pdf-service-access-key"
+  vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+
