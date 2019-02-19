@@ -48,7 +48,7 @@ module "finrem-ps" {
     AUTH_PROVIDER_SERVICE_CLIENT_TOKENTIMETOLIVEINSECONDS = "${var.auth_provider_service_client_tokentimetoliveinseconds}"
     OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
     USERNAME-AAT-SOLICITOR                                = "${data.azurerm_key_vault_secret.username-aat-solicitor.value}"
-    USERNAME-AAT-SOLICITOR                                = "${data.azurerm_key_vault_secret.password-aat-solicitor.value}"
+    PASSWORD-AAT-SOLICITOR                                = "${data.azurerm_key_vault_secret.password-aat-solicitor.value}"
   }
 }
 
