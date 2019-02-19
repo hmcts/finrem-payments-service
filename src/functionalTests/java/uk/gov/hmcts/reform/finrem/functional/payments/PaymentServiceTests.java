@@ -66,13 +66,19 @@ public class PaymentServiceTests extends IntegrationTestBase {
     }
 
     @Test
-    public void verifyPBAPaymentTest() {
+    public void verifyPBAPaymentSuccessTest() {
+        validatePostSuccessForPBAPayment(PBA_PAYMENT);
+
+    }
+
+    @Test
+    public void verifyPBAPaymentFailureTest() {
         validatePostSuccessForPBAPayment(PBA_PAYMENT);
 
     }
 
 
-    @Test
+
     private void validatePostSuccess(String url) {
         System.out.println("Fee LookUp : " + pbaValidationUrl + url);
 
@@ -83,7 +89,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .assertThat().statusCode(200);
     }
 
-    public void validatePostSuccessForPBAValidation(String url) {
+    private void validatePostSuccessForPBAValidation(String url) {
 
         System.out.println("PBA Validation : " + pbaValidationUrl + url + "PBA0066906");
 
@@ -95,24 +101,54 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .assertThat().statusCode(200);
     }
 
-    public void validatePostSuccessForPBAPayment(String url) {
+    private void validateFailurePBAPayment(String url ) {
 
         System.out.println("PBA Payment : " + pbaValidationUrl + url);
+        Response response = getPBAPaymentResponse("SuccessPaymentRequestPayload.json" , pbaValidationUrl + url);
+        int statusCode = response.getStatusCode();
+        JsonPath jsonPathEvaluator = response.jsonPath();
+
+        assertEquals(statusCode,200);
+
+        assertTrue(jsonPathEvaluator.get("paymentError").toString()
+                .equalsIgnoreCase("Account information could not be found"));
+
+        assertTrue(jsonPathEvaluator.get("paymentSuccess").toString()
+                .equalsIgnoreCase("false"));
+
+        assertTrue(jsonPathEvaluator.get("error").toString()
+                .equalsIgnoreCase("404"));
+    }
+
+    private void validatePostSuccessForPBAPayment(String url) {
+        System.out.println("PBA Payment : " + pbaValidationUrl + url);
+        Response response = getPBAPaymentResponse("FailurePaymentRequestPayload.json" , pbaValidationUrl + url);
+        int statusCode = response.getStatusCode();
+        JsonPath jsonPathEvaluator = response.jsonPath();
+
+        assertEquals(statusCode,200);
+
+        assertTrue(jsonPathEvaluator.get("paymentSuccess").toString()
+                .equalsIgnoreCase("false"));
+
+        assertTrue(jsonPathEvaluator.get("status").toString()
+                .equalsIgnoreCase("Success"));
+    }
+
+    private Response getPBAPaymentResponse(String payload , String url) {
+
         Response response = SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
                 .contentType("application/json")
-                .body(utils.getJsonFromFile("paymentRequestPayload.json"))
-                .when().post(pbaValidationUrl + url)
+                .body(utils.getJsonFromFile(payload))
+                .when().post(url)
                 .andReturn();
-        int statusCode = response.getStatusCode();
-        JsonPath jsonPathEvaluator = response.jsonPath();
-        assertEquals(statusCode,200);
-        assertTrue(jsonPathEvaluator.get("status").toString().equalsIgnoreCase("Success"));
-        assertTrue(jsonPathEvaluator.get("paymentSuccess").toString().equalsIgnoreCase("true"));
+
+        return response;
     }
 
-    public void validatePBAAccountNumber(String url, HashMap<String, String> pbaAccount) {
+    private void validatePBAAccountNumber(String url, HashMap<String, String> pbaAccount) {
 
         pbaAccount.forEach((account, status) -> {
 
@@ -125,12 +161,18 @@ public class PaymentServiceTests extends IntegrationTestBase {
             JsonPath jsonPathEvaluator = response.jsonPath();
 
             if (status.equalsIgnoreCase("Active")) {
-                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString().equalsIgnoreCase("true"));
+
+                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString()
+                        .equalsIgnoreCase("true"));
+
             } else if (status.equalsIgnoreCase("Inactive")) {
-                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString().equalsIgnoreCase("false"));
+
+                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString()
+                        .equalsIgnoreCase("false"));
             }
 
         });
     }
 }
+
 
