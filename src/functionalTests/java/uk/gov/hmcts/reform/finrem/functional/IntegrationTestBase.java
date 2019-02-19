@@ -28,7 +28,7 @@ public abstract class IntegrationTestBase {
 
     @Autowired
     public void pbaValidationUrl(@Value("${payment_api_url}")
-                                                    String pbaValidationUrl) {
+                                         String pbaValidationUrl) {
         this.pbaValidationUrl = pbaValidationUrl;
         RestAssured.baseURI = pbaValidationUrl;
     }
