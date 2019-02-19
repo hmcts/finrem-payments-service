@@ -111,8 +111,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
         assertTrue(jsonPathEvaluator.get("paymentError").toString()
                 .equalsIgnoreCase("Account information could not be found"));
 
-        assertTrue(jsonPathEvaluator.get("paymentSuccess").equals(false));
-
         assertTrue(jsonPathEvaluator.get("error").toString()
                 .equalsIgnoreCase("404"));
     }
@@ -124,8 +122,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
         JsonPath jsonPathEvaluator = response.jsonPath();
 
         assertEquals(statusCode, 200);
-
-        assertTrue(jsonPathEvaluator.get("paymentSuccess").equals(true));
 
         assertTrue(jsonPathEvaluator.get("status").toString()
                 .equalsIgnoreCase("Success"));
