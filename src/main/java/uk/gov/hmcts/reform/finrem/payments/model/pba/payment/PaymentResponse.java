@@ -19,6 +19,8 @@ import static java.util.Locale.ENGLISH;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentResponse {
+    public static ImmutableList<String> PAYMENT_STATUS_SUCCESS = ImmutableList.of("success", "pending");
+
     @JsonProperty(value = "reference")
     private String reference;
 
@@ -43,9 +45,8 @@ public class PaymentResponse {
     }
 
     public boolean isPaymentSuccess() {
-        ImmutableList<String> paymentSuccess = ImmutableList.of("success", "pending");
         return Optional.ofNullable(status)
-                .map(s -> paymentSuccess.contains(s.toLowerCase(ENGLISH)))
+                .map(s -> PAYMENT_STATUS_SUCCESS.contains(s.toLowerCase(ENGLISH)))
                 .orElse(false);
     }
 }

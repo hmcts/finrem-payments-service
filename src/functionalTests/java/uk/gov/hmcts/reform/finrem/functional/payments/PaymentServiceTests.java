@@ -13,10 +13,10 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse.PAYMENT_STATUS_SUCCESS;
 
 @RunWith(SerenityRunner.class)
 public class PaymentServiceTests extends IntegrationTestBase {
-
     private static String FEE_LOOKUP = "/payments/fee-lookup";
     private static String PBA_VALIDATE = "/payments/pba-validate/";
     private static String PBA_PAYMENT = "/payments/pba-payment";
@@ -40,6 +40,9 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     @Value("${pba.account.inactive}")
     private String pbaAccountInActive;
+
+    @Value("${pba.account.liberata.check.enabled}")
+    private boolean pbaAccountLiberataCheckEnabled;
 
 
     @Test
@@ -108,11 +111,13 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
         assertEquals(statusCode, 200);
 
-        assertTrue(jsonPathEvaluator.get("paymentError").toString()
-                .equalsIgnoreCase("Account information could not be found"));
+        if (pbaAccountLiberataCheckEnabled) {
+            assertTrue(jsonPathEvaluator.get("paymentError").toString()
+                    .equalsIgnoreCase("Account information could not be found"));
 
-        assertTrue(jsonPathEvaluator.get("error").toString()
-                .equalsIgnoreCase("404"));
+            assertTrue(jsonPathEvaluator.get("error").toString()
+                    .equalsIgnoreCase("404"));
+        }
     }
 
     private void validatePostSuccessForPBAPayment(String url) {
@@ -123,8 +128,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
         assertEquals(statusCode, 200);
 
-        assertTrue(jsonPathEvaluator.get("status").toString()
-                .equalsIgnoreCase("Success"));
+        assertTrue(PAYMENT_STATUS_SUCCESS.contains(jsonPathEvaluator.get("status").toString().toLowerCase()));
     }
 
     private Response getPBAPaymentResponse(String payload, String url) {

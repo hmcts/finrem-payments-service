@@ -21,7 +21,7 @@ public class PBAValidationStub {
     @GetMapping(path = "/pba/{emailId}", produces = APPLICATION_JSON)
     public PBAAccount pbaList(@PathVariable String emailId) {
         log.info("Received request for PBA check, emailId : {}", emailId);
-        return PBAAccount.builder().accountList(Arrays.asList("PBA123", "PBA456")).build();
+        return PBAAccount.builder().accountList(Arrays.asList("PBA123", "PBA222", "PBA456")).build();
     }
 
 }
