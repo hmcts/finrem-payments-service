@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @ComponentScan("uk.gov.hmcts.reform.finrem.functional")
 @PropertySource("classpath:application.properties")
-@PropertySource("classpath:application-aat.properties")
+@PropertySource("classpath:application-${env}.properties")
 public class TestContextConfiguration {
 
 
