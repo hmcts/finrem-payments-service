@@ -45,7 +45,6 @@ public class FunctionalTestUtils {
 
     public Headers getHeader() {
         String authToken = idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword);
-        System.out.println(authToken);
         return Headers.headers(
 
                 new Header("Authorization", "Bearer "

@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.finrem.functional.util.FunctionalTestUtils;
 
@@ -41,6 +42,7 @@ public class IdamUtils implements IdamUserClient {
 
         Response response = RestAssured.given()
             .header("Authorization", authHeader)
+            .header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .relaxedHTTPSValidation()
             .post(idamCodeUrl());
 
@@ -51,6 +53,7 @@ public class IdamUtils implements IdamUserClient {
 
         response = RestAssured.given()
             .relaxedHTTPSValidation()
+            .header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .post(idamTokenUrl(response.getBody().path("code")));
 
         String token = response.getBody().path("access_token");
