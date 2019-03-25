@@ -125,6 +125,9 @@ public class PaymentServiceTests extends IntegrationTestBase {
         Response response = getPBAPaymentResponse("SuccessPaymentRequestPayload.json", pbaValidationUrl + url);
         int statusCode = response.getStatusCode();
         JsonPath jsonPathEvaluator = response.jsonPath();
+        System.out.println("Status Code :" + response.getStatusCode());
+        System.out.println("Response Body : " + response.getBody());
+
 
         assertEquals(statusCode, 200);
 
