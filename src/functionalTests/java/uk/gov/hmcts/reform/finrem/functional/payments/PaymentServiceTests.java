@@ -47,7 +47,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
 
     @Test
-    @Ignore
     public void verifyPBAAccountStatus() {
         pbaAccounts.put(pbaAccountActive, "Active");
         pbaAccounts.put(pbaAccountInActive, "Inactive");
@@ -155,6 +154,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
                     .when().get(pbaValidationUrl + url + account).andReturn();
 
             JsonPath jsonPathEvaluator = response.jsonPath();
+            System.out.println("Reponse Body : " + response.getBody().prettyPrint());
 
             if (status.equalsIgnoreCase("Active")) {
 
