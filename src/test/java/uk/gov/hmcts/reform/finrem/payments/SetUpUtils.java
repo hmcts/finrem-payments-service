@@ -92,7 +92,7 @@ public class SetUpUtils {
     }
 
     public static PaymentRequest paymentRequest() {
-        long amountToPay = Long.valueOf("12");
+        BigDecimal amountToPay = new BigDecimal("12");
         FeeRequest fee = FeeRequest.builder()
                 .calculatedAmount(amountToPay)
                 .code("FEE0640")
