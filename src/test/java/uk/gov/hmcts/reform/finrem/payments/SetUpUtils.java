@@ -21,7 +21,6 @@ public class SetUpUtils {
 
     public static  final int STATUS_CODE = HttpStatus.INTERNAL_SERVER_ERROR.value();
     public static final String ACCOUNT_NUMBER = "Account12345";
-    public static final String SITE_ID = "AA03";
     public static final String PAYMENT_SUCCESS_STATUS = "Success";
     public static final String PAYMENT_FAILED_STATUS = "Failed";
     public static final String PAYMENT_REF = "RC-12345-2323-0712321320-23221";

@@ -48,7 +48,7 @@ public class PaymentRequest {
 
     @JsonProperty(value = "site_id")
     @Builder.Default
-    private String siteId = "AA03";
+    private String siteId = "AA09";
 
     @JsonProperty(value = "fees")
     private List<FeeRequest> feesList;

@@ -24,7 +24,7 @@ public class PaymentRequestTest {
                 + " \"amount\": 1000,"
                 + " \"currency\": \"GBP\","
                 + " \"service\": \"FINREM\","
-                + " \"site_id\": \"AA03\","
+                + " \"site_id\": \"AA09\","
                 + " \"fees\": ["
                 + "   {"
                     + " \"calculated_amount\": 1000,"
@@ -34,6 +34,7 @@ public class PaymentRequestTest {
                 + "   }"
                 + " ]"
                 + "}";
+        System.out.println(json);
         PaymentRequest paymentRequest = mapper.readValue(json, PaymentRequest.class);
         assertThat(paymentRequest.getAccountNumber(), is("PBA1"));
         assertThat(paymentRequest.getCaseReference(), is("caseRef"));
@@ -44,7 +45,7 @@ public class PaymentRequestTest {
         assertThat(paymentRequest.getAmount(), is(BigDecimal.valueOf(1000)));
         assertThat(paymentRequest.getCurrency(), is("GBP"));
         assertThat(paymentRequest.getService(), is("FINREM"));
-        assertThat(paymentRequest.getSiteId(), is("AA03"));
+        assertThat(paymentRequest.getSiteId(), is("AA09"));
         assertThat(paymentRequest.getFeesList().size(), is(1));
         assertThat(paymentRequest.getFeesList().get(0).getCalculatedAmount(), is(BigDecimal.valueOf(1000)));
         assertThat(paymentRequest.getFeesList().get(0).getCode(), is("Fee1"));
