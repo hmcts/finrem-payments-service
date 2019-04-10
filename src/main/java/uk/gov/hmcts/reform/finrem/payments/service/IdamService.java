@@ -29,7 +29,7 @@ public class IdamService {
         log.info("Inside getUserEmailId, IDAM API uri : {}, request : {} ", uri, request);
         ResponseEntity<Map> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, request, Map.class);
         Map result = responseEntity.getBody();
-        return result.get("email").toString();
+        return result.get("email").toString().toLowerCase();
     }
 
     private HttpEntity buildAuthRequest(String authToken) {

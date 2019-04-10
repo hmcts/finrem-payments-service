@@ -21,7 +21,7 @@ public class IdamServiceTest extends BaseServiceTest {
     public void retrieveUserEmailId() {
         mockServer.expect(requestTo(toUri()))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess("{\"email\": \"test@test.com\"}", MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess("{\"email\": \"test@TEST.com\"}", MediaType.APPLICATION_JSON));
 
         String userEmailId = idamService.getUserEmailId("azsssfsdffsafa");
         assertThat(userEmailId, is("test@test.com"));
