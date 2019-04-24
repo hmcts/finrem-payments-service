@@ -1,0 +1,6 @@
+name: finrem-ps
+home: https://github.com/hmcts/finrem-payment-service
+version: 0.0.1
+description: Financial Remedy Payment Service
+maintainers:
+  - name: HMCTS Financial Remedy Team
