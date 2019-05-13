@@ -13,11 +13,13 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONSENTED;
+import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONTESTED;
 import static uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse.PAYMENT_STATUS_SUCCESS;
 
 @RunWith(SerenityRunner.class)
 public class PaymentServiceTests extends IntegrationTestBase {
-    private static String FEE_LOOKUP = "/payments/fee-lookup";
+    private static String FEE_LOOKUP = "/payments/fee-lookup?application-type=";
     private static String PBA_VALIDATE = "/payments/pba-validate/";
     private static String PBA_PAYMENT = "/payments/pba-payment";
     private HashMap<String, String> pbaAccounts = new HashMap<>();
@@ -56,10 +58,14 @@ public class PaymentServiceTests extends IntegrationTestBase {
     }
 
     @Test
-    public void verifyGetFeeLoopUpTest() {
+    public void verifyConsentedFeeLoopUpTest() {
+        validatePostSuccess(FEE_LOOKUP + CONSENTED.toString());
+    }
 
-        validatePostSuccess(FEE_LOOKUP);
 
+    @Test
+    public void verifyContestedFeeLoopUpTest() {
+        validatePostSuccess(FEE_LOOKUP + CONTESTED.toString());
     }
 
     @Test

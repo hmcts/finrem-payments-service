@@ -35,11 +35,17 @@ public class PaymentSmokeTests {
     @Value("${fees.service}")
     private String service;
 
-    @Value("${fees.event}")
-    private String event;
+    @Value("${fees.consented-event}")
+    private String consentedEvent;
 
-    @Value("${fees.keyword}")
-    private String keyword;
+    @Value("${fees.consented-keyword}")
+    private String consentedKeyword;
+
+    @Value("${fees.contested-event}")
+    private String contestedEvent;
+
+    @Value("${fees.contested-keyword}")
+    private String contestedKeyword;
 
     @Value("${http.timeout}")
     private int connectionTimeOut;
@@ -64,15 +70,32 @@ public class PaymentSmokeTests {
     }
 
     @Test
-    public void shouldGetFeeLookup() {
+    public void shouldGetConsentedFeeLookup() {
         given().config(config)
                 .when()
                 .queryParam("service", service)
                 .queryParam("jurisdiction1", jurisdiction1)
                 .queryParam("jurisdiction2", jurisdiction2)
                 .queryParam("channel", channel)
-                .queryParam("event", event)
-                .queryParam("keyword", keyword)
+                .queryParam("event", consentedEvent)
+                .queryParam("keyword", consentedKeyword)
+                .get(feeUrl + feesApi)
+                .prettyPeek()
+                .then()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+
+    @Test
+    public void shouldGetContestedFeeLookup() {
+        given().config(config)
+                .when()
+                .queryParam("service", service)
+                .queryParam("jurisdiction1", jurisdiction1)
+                .queryParam("jurisdiction2", jurisdiction2)
+                .queryParam("channel", channel)
+                .queryParam("event", contestedEvent)
+                .queryParam("keyword", contestedKeyword)
                 .get(feeUrl + feesApi)
                 .prettyPeek()
                 .then()

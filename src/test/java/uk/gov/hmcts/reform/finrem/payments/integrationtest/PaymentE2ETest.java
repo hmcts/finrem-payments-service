@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.reform.finrem.payments.PaymentsApplication;
+import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
@@ -37,6 +38,8 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.pbaAccount;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestStringContent;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseErrorToString;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToString;
+import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONSENTED;
+import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONTESTED;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = PaymentsApplication.class)
@@ -47,7 +50,7 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToSt
 public class PaymentE2ETest {
 
     private static String MAKE_PAYMENT_API = "/payments/pba-payment";
-    private static String FEE_LOOK_UP_API = "/payments/fee-lookup";
+    private static String FEE_LOOK_UP_API = "/payments/fee-lookup?application-type=";
     private static String PBA_VALIDATE_API = "/payments/pba-validate";
 
     private static final String AUTH_TOKEN = "Bearer test.auth.token";
@@ -82,16 +85,30 @@ public class PaymentE2ETest {
     public static WireMockClassRule idamService = new WireMockClassRule(4501);
 
     @Test
-    public void feeLookup() throws Exception {
-        stubFeeLookUp();
+    public void consentedFeeLookup() throws Exception {
+        stubFeeLookUp(CONSENTED);
 
-        webClient.perform(get(FEE_LOOK_UP_API)
+        webClient.perform(get(FEE_LOOK_UP_API + CONSENTED.toString())
                 .header("Authorization", AUTH_TOKEN)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code", is(FEE_CODE)))
                 .andExpect(jsonPath("$.version", is(FEE_VERSION)))
                 .andExpect(jsonPath("$.fee_amount", is(10)));
+    }
+
+
+    @Test
+    public void contestedFeeLookup() throws Exception {
+        stubFeeLookUp(CONTESTED);
+
+        webClient.perform(get(FEE_LOOK_UP_API + CONTESTED.toString())
+                .header("Authorization", AUTH_TOKEN)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code", is(FEE_CODE)))
+                .andExpect(jsonPath("$.version", is(FEE_VERSION)))
+                .andExpect(jsonPath("$.fee_amount", is(255)));
     }
 
     @Test
@@ -163,12 +180,12 @@ public class PaymentE2ETest {
                         .withBody(pbaAccount())));
     }
 
-    private void stubFeeLookUp() {
-        feeService.stubFor(WireMock.get(feeLookupUrl())
+    private void stubFeeLookUp(ApplicationType applicationType) {
+        feeService.stubFor(WireMock.get(feeLookupUrl(applicationType))
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody(feeResponseString())));
+                        .withBody(feeResponseString(applicationType))));
     }
 
     private void stubMakePayment(HttpStatus status, String response) {
@@ -194,8 +211,13 @@ public class PaymentE2ETest {
         return pbaApi + "test@email.com";
     }
 
-    private String feeLookupUrl() {
-        return feeApi + "?service=other&jurisdiction1=family&jurisdiction2=family-court"
-                + "&channel=default&event=general-application&keyword=without-notice";
+    private String feeLookupUrl(ApplicationType applicationType) {
+        if (applicationType == CONSENTED) {
+            return feeApi + "?service=other&jurisdiction1=family&jurisdiction2=family-court"
+                    + "&channel=default&event=general%20application&keyword=without-notice";
+        } else {
+            return feeApi + "?service=other&jurisdiction1=family&jurisdiction2=family-court"
+                    + "&channel=default&event=miscellaneous&keyword=financial-order";
+        }
     }
 }

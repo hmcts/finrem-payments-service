@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import feign.FeignException;
 import feign.Response;
 import org.springframework.http.HttpStatus;
+import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
 import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
@@ -17,9 +18,11 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAAccount;
 import java.math.BigDecimal;
 import java.util.Collections;
 
+import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONSENTED;
+
 public class SetUpUtils {
 
-    public static  final int STATUS_CODE = HttpStatus.INTERNAL_SERVER_ERROR.value();
+    public static final int STATUS_CODE = HttpStatus.INTERNAL_SERVER_ERROR.value();
     public static final String ACCOUNT_NUMBER = "Account12345";
     public static final String PAYMENT_SUCCESS_STATUS = "Success";
     public static final String PAYMENT_FAILED_STATUS = "Failed";
@@ -27,7 +30,8 @@ public class SetUpUtils {
 
     public static final String FEE_CODE = "CODE";
     public static final String FEE_DESC = "Description";
-    public static final BigDecimal FEE_AMOUNT = BigDecimal.TEN;
+    public static final BigDecimal CONSENTED_FEE_AMOUNT = BigDecimal.TEN;
+    public static final BigDecimal CONTESTED_FEE_AMOUNT = BigDecimal.valueOf(255);
     public static final String FEE_VERSION = "v1";
 
     public static final String PBA_NUMBER = "PBA";
@@ -44,17 +48,17 @@ public class SetUpUtils {
         return objectToJson(pbaAccount);
     }
 
-    public static FeeResponse feeResponse() {
+    public static FeeResponse feeResponse(ApplicationType applicationType) {
         FeeResponse feeResponse = new FeeResponse();
         feeResponse.setCode(FEE_CODE);
         feeResponse.setDescription(FEE_DESC);
-        feeResponse.setFeeAmount(FEE_AMOUNT);
+        feeResponse.setFeeAmount(applicationType == CONSENTED ? CONSENTED_FEE_AMOUNT : CONTESTED_FEE_AMOUNT);
         feeResponse.setVersion(FEE_VERSION);
         return feeResponse;
     }
 
-    public static String feeResponseString() {
-        return objectToJson(feeResponse());
+    public static String feeResponseString(ApplicationType applicationType) {
+        return objectToJson(feeResponse(applicationType));
     }
 
     public static PaymentResponse paymentResponse() {
