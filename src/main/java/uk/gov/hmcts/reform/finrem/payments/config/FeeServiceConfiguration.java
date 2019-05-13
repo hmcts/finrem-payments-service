@@ -11,9 +11,13 @@ public class FeeServiceConfiguration {
     private String url;
     private String api;
     private String channel;
-    private String event;
     private String jurisdiction1;
     private String jurisdiction2;
-    private String keyword;
     private String service;
+
+    private String consentedEvent;
+    private String consentedKeyword;
+
+    private String contestedEvent;
+    private String contestedKeyword;
 }
