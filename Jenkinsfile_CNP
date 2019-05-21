@@ -66,8 +66,4 @@ withPipeline(type, product, component) {
         ]
     }
 
-    before('buildinfra:prod') {
-        error('Halting pipeline before PROD.')
-    }
-
 }
