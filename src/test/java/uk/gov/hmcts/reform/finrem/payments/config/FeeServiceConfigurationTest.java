@@ -13,15 +13,28 @@ public class FeeServiceConfigurationTest extends BaseServiceTest {
     private FeeServiceConfiguration config;
 
     @Test
-    public void shouldCreateFeeServiceConfigFromAppProperties() {
+    public void shouldCreateConsentedFeeServiceConfigFromAppProperties() {
         assertThat(config.getUrl(), is("http://localhost:8182"));
         assertThat(config.getApi(), is("/fees-register/fees/lookup"));
         assertThat(config.getChannel(), is("default"));
-        assertThat(config.getEvent(), is("general-application"));
         assertThat(config.getJurisdiction1(), is("family"));
         assertThat(config.getJurisdiction2(), is("family-court"));
-        assertThat(config.getKeyword(), is("without-notice"));
         assertThat(config.getService(), is("other"));
+        assertThat(config.getConsentedEvent(), is("general application"));
+        assertThat(config.getConsentedKeyword(), is("without-notice"));
+    }
+
+
+    @Test
+    public void shouldCreateContestedFeeServiceConfigFromAppProperties() {
+        assertThat(config.getUrl(), is("http://localhost:8182"));
+        assertThat(config.getApi(), is("/fees-register/fees/lookup"));
+        assertThat(config.getChannel(), is("default"));
+        assertThat(config.getJurisdiction1(), is("family"));
+        assertThat(config.getJurisdiction2(), is("family-court"));
+        assertThat(config.getService(), is("other"));
+        assertThat(config.getContestedEvent(), is("miscellaneous"));
+        assertThat(config.getContestedKeyword(), is("financial-order"));
     }
 
 }

@@ -23,6 +23,30 @@ public class PaymentSmokeTests {
     @Value("${fees.api}")
     private String feesApi;
 
+    @Value("${fees.jurisdiction1}")
+    private String jurisdiction1;
+
+    @Value("${fees.jurisdiction2}")
+    private String jurisdiction2;
+
+    @Value("${fees.channel}")
+    private String channel;
+
+    @Value("${fees.service}")
+    private String service;
+
+    @Value("${fees.consented-event}")
+    private String consentedEvent;
+
+    @Value("${fees.consented-keyword}")
+    private String consentedKeyword;
+
+    @Value("${fees.contested-event}")
+    private String contestedEvent;
+
+    @Value("${fees.contested-keyword}")
+    private String contestedKeyword;
+
     @Value("${http.timeout}")
     private int connectionTimeOut;
 
@@ -46,9 +70,22 @@ public class PaymentSmokeTests {
     }
 
     @Test
-    public void shouldGetFeeLookup() {
+    public void shouldGetConsentedFeeLookup() {
         given().config(config)
                 .when()
+                .queryParam("application-type", "consented")
+                .get(feeUrl + feesApi)
+                .prettyPeek()
+                .then()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+
+    @Test
+    public void shouldGetContestedFeeLookup() {
+        given().config(config)
+                .when()
+                .queryParam("application-type", "contested")
                 .get(feeUrl + feesApi)
                 .prettyPeek()
                 .then()
