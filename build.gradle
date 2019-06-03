@@ -246,7 +246,6 @@ pitest {
 }
 
 compileJava.dependsOn(processResources)
-check.dependsOn dependencyCheckAnalyze
 build.dependsOn jacocoTestReport
 
 bootJar {
