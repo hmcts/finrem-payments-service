@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.finrem.payments.error;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 @ControllerAdvice
 @Slf4j
@@ -27,11 +30,12 @@ public class PaymentExceptionHandler {
 
         if (exception.getCause() instanceof HttpClientErrorException) {
             HttpClientErrorException cause = (HttpClientErrorException) exception.getCause();
+            HttpStatus errorCode = cause.getStatusCode();
             try {
                 log.info("Payment error, exception : {} ", cause);
-                if (cause.getStatusCode() == NOT_FOUND) {
+                if (errorCode == BAD_REQUEST || errorCode == NOT_FOUND || errorCode == UNPROCESSABLE_ENTITY) {
                     return ResponseEntity.ok(PaymentResponse.builder()
-                            .error(cause.getStatusCode().toString())
+                            .error(errorCode.toString())
                             .message(cause.getResponseBodyAsString())
                             .build());
                 }

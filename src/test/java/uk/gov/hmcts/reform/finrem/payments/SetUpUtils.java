@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import feign.FeignException;
 import feign.Response;
-import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
 import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
@@ -18,11 +17,15 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAAccount;
 import java.math.BigDecimal;
 import java.util.Collections;
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONSENTED;
 
 public class SetUpUtils {
 
-    public static final int STATUS_CODE = HttpStatus.INTERNAL_SERVER_ERROR.value();
+    public static final int STATUS_CODE = INTERNAL_SERVER_ERROR.value();
     public static final String ACCOUNT_NUMBER = "Account12345";
     public static final String PAYMENT_SUCCESS_STATUS = "Success";
     public static final String PAYMENT_FAILED_STATUS = "Failed";
@@ -68,9 +71,23 @@ public class SetUpUtils {
                 .statusHistories(ImmutableList.of()).build();
     }
 
+    public static PaymentResponse paymentDuplicateError() {
+        return PaymentResponse.builder()
+                .error(BAD_REQUEST.toString())
+                .message("duplicate payment")
+                .build();
+    }
+
+    public static PaymentResponse paymentResponseClient422Error() {
+        return PaymentResponse.builder()
+                .error(UNPROCESSABLE_ENTITY.toString())
+                .message("Invalid or missing attribute")
+                .build();
+    }
+
     public static PaymentResponse paymentResponseClient404Error() {
         return PaymentResponse.builder()
-                .error(HttpStatus.NOT_FOUND.toString())
+                .error(NOT_FOUND.toString())
                 .message("Account information could not be found")
                 .build();
     }
