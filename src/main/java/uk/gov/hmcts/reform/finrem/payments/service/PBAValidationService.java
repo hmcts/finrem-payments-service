@@ -50,6 +50,10 @@ public class PBAValidationService {
 
 
     private URI buildUri(String emailId) {
-        return fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi() + emailId).build().toUri();
+        if (serviceConfig.isEnableOldUrl()) {
+            return fromHttpUrl(serviceConfig.getOldUrl() + serviceConfig.getApi() + emailId).build().toUri();
+        } else {
+            return fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi() + emailId).build().toUri();
+        }
     }
 }

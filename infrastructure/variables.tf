@@ -55,6 +55,10 @@ variable "payment_api_url" {
 }
 
 variable "prd_api_url" {
+  default = "http://rd-professional-api-aat.service.core-compute-aat.internal"
+}
+
+variable "prd_api_old_url" {
   default = "http://rpa-rd-professional-aat.service.core-compute-aat.internal"
 }
 
@@ -97,4 +101,8 @@ variable "ssl_verification_enabled" {
 
 variable "swagger_enabled" {
   default = true
+}
+
+variable "prd_api_old_enabled" {
+  default = false
 }

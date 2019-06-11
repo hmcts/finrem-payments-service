@@ -52,7 +52,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void pbaNotFoud() {
+    public void pbaNotFound() {
         mockServer.expect(requestTo(toUri()))
                 .andExpect(method(GET))
                 .andRespond(withStatus(NOT_FOUND));
