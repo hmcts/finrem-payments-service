@@ -19,8 +19,8 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @RunWith(MockitoJUnitRunner.class)
 public class PBAServiceHealthCheckTest {
 
-    private static final String NEW_PRD_URI = "http://localhost:9001/health";
-    private static final String OLD_PRD_URI = "http://localhost:9002/health";
+    private static final String NEW_PRD_URI = "http://localhost:9010/health";
+    private static final String OLD_PRD_URI = "http://localhost:9011/health";
     private PBAServiceHealthCheck pbaServiceHealthCheck;
 
     @Mock
