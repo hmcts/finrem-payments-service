@@ -30,7 +30,7 @@ public class PBAServiceHealthCheck implements HealthIndicator {
     public PBAServiceHealthCheck(@Value("${pba.validation.health.url}") String newUri,
                                  @Value("${pba.validation.old.health.url}") String oldUri,
                                  @Value("${pba.validation.old.url.enabled}") boolean oldUrlEnabled) {
-        this.uri = (oldUrlEnabled ? this.uri = oldUri : newUri);
+        this.uri = (oldUrlEnabled ? oldUri : newUri);
     }
 
 
