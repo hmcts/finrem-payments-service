@@ -17,5 +17,7 @@ public class PBAValidationServiceConfigurationTest extends BaseServiceTest {
     public void shouldCreatePaymentByAccountServiceConfigFromAppProperties() {
         assertThat(config.getUrl(), is("http://localhost:9001"));
         assertThat(config.getApi(), is("/search/pba/"));
+        assertThat(config.getOldUrl(), is("http://localhost:9002"));
+        assertThat(config.isEnableOldUrl(), is(false));
     }
 }

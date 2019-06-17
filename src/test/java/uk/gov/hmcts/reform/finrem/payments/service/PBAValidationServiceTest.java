@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
+import uk.gov.hmcts.reform.finrem.payments.config.PBAValidationServiceConfiguration;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.io.File;
@@ -34,11 +35,16 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     @MockBean
     private IdamService idamService;
 
+    @MockBean
+    private PBAValidationServiceConfiguration pbaValidationServiceConfiguration;
+
     private JsonNode requestContent;
 
     @Before
     public void setUp() {
         super.setUp();
+        when(pbaValidationServiceConfiguration.getUrl()).thenReturn("http://localhost:9001");
+        when(pbaValidationServiceConfiguration.getApi()).thenReturn("/search/pba/");
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
@@ -52,7 +58,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     }
 
     @Test
-    public void pbaNotFoud() {
+    public void pbaNotFound() {
         mockServer.expect(requestTo(toUri()))
                 .andExpect(method(GET))
                 .andRespond(withStatus(NOT_FOUND));
@@ -97,5 +103,34 @@ public class PBAValidationServiceTest extends BaseServiceTest {
         return new StringBuilder("http://localhost:9001/search/pba/")
                 .append(EMAIL)
                 .toString();
+    }
+
+    private static String toOldUri() {
+        return new StringBuilder("http://localhost:9002/search/pba/")
+                .append(EMAIL)
+                .toString();
+    }
+
+    @Test
+    public void pbaValidationWithOldUrl() {
+        when(pbaValidationServiceConfiguration.isEnableOldUrl()).thenReturn(true);
+        when(pbaValidationServiceConfiguration.getOldUrl()).thenReturn("http://localhost:9002");
+        mockServer.expect(requestTo(toOldUri()))
+                .andExpect(method(GET))
+                .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
+        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM1");
+        assertThat(response.isPbaNumberValid(), is(true));
+    }
+
+    @Test
+    public void pbaNotFoundWithOldUrl() {
+        when(pbaValidationServiceConfiguration.isEnableOldUrl()).thenReturn(true);
+        when(pbaValidationServiceConfiguration.getOldUrl()).thenReturn("http://localhost:9002");
+        mockServer.expect(requestTo(toOldUri()))
+                .andExpect(method(GET))
+                .andRespond(withStatus(NOT_FOUND));
+
+        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM3");
+        assertThat(response.isPbaNumberValid(), is(false));
     }
 }
