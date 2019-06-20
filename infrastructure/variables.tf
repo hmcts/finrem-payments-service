@@ -106,3 +106,7 @@ variable "swagger_enabled" {
 variable "prd_api_old_enabled" {
   default = false
 }
+
+variable "prd_legacy_url_enabled" {
+  default = false
+}
