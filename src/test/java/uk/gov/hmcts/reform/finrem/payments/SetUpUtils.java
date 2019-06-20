@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.sun.tools.javac.util.List;
 import feign.FeignException;
 import feign.Response;
 import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
@@ -19,6 +18,7 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAOrganisationR
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.SuperUserResponse;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -66,7 +66,7 @@ public class SetUpUtils {
                 .companyNumber("1110111")
                 .name("Test org")
                 .organisationIdentifier("111")
-                .paymentAccount(List.of("PBA0222", "PBA0333"))
+                .paymentAccount(Arrays.asList("PBA0222", "PBA0333"))
                 .sraId("s001")
                 .sraRegulated(true)
                 .status("ACTIVE")

@@ -34,7 +34,6 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_REF;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_SUCCESS_STATUS;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PBA_NUMBER;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.feeResponseString;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.pbaAccount;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestStringContent;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseErrorToString;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToString;
