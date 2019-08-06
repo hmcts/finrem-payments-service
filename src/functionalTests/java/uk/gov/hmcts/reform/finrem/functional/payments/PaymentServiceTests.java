@@ -4,6 +4,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +49,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
 
     @Test
+    @Ignore
     public void verifyPBAAccountStatus() {
         pbaAccounts.put(pbaAccountActive, "Active");
         pbaAccounts.put(pbaAccountInActive, "Inactive");
@@ -69,6 +71,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void verifyPBAValidationTest() {
         validatePostSuccessForPBAValidation(PBA_VALIDATE);
     }
@@ -80,6 +83,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void verifyPBAPaymentFailureTest() {
         validateFailurePBAPayment(PBA_PAYMENT);
 
