@@ -1,18 +1,17 @@
-ARG APP_INSIGHTS_AGENT_VERSION=2.0.2
+ARG APP_INSIGHTS_AGENT_VERSION=2.3.1
 FROM hmctspublic.azurecr.io/base/java:openjdk-8-distroless-1.0
-
 
 ENV APP finrem-payment-service.jar
 ENV APPLICATION_TOTAL_MEMORY 1024M
 ENV APPLICATION_SIZE_ON_DISK_IN_MB 59
 
-COPY lib/applicationinsights-agent-2.3.1.jar lib/AI-Agent.xml /opt/app/
-COPY lib/applicationinsights-agent-2.0.2.jar lib/AI-Agent.xml /opt/app/
-
 COPY build/libs/$APP /opt/app/
+COPY lib/applicationinsights-agent-2.3.1.jar lib/AI-Agent.xml /opt/app/
 
 WORKDIR /opt/app
 
 HEALTHCHECK --interval=100s --timeout=100s --retries=10 CMD http_proxy="" wget -q http://localhost:9001/health || exit 1
 
 EXPOSE 9001
+
+CMD ["finrem-payment-service.jar"]
