@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAOrganisationR
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.net.URI;
+import java.util.Objects;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
@@ -31,7 +32,7 @@ public class PBAValidationService {
     private final RestTemplate restTemplate;
     private final AuthTokenGenerator authTokenGenerator;
 
-    public PBAValidationResponse isPBAValid(final String authToken, final String pbaNumber) {
+    public PBAValidationResponse isPBAValid(String authToken, String pbaNumber) {
         String emailId = idamService.getUserEmailId(authToken);
         URI uri = buildUri(emailId);
         log.info("Inside isPBAValid, PRD API uri : {}, emailId : {}", uri, emailId);
@@ -40,11 +41,7 @@ public class PBAValidationService {
             if (serviceConfig.isEnableOldUrl()) {
                 request = buildRequest();
             } else {
-                HttpHeaders headers = new HttpHeaders();
-                headers.add(HttpHeaders.AUTHORIZATION, authToken);
-                headers.add("Content-Type", "application/json");
-                headers.add("ServiceAuthorization", authTokenGenerator.generate());
-                request = new HttpEntity<>(headers);
+                request = buildRequest(authToken);
             }
             log.info("before prd call ...");
             ResponseEntity<PBAOrganisationResponse> responseEntity = restTemplate.exchange(uri, GET,
@@ -60,20 +57,22 @@ public class PBAValidationService {
         }
     }
 
-
-    private HttpEntity buildRequest(String authToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, authToken);
-        headers.add("Content-Type", "application/json");
-        headers.add("ServiceAuthorization", authTokenGenerator.generate());
-        return new HttpEntity<>(headers);
-    }
-
     private HttpEntity buildRequest() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         return new HttpEntity<>(headers);
     }
+
+    private HttpEntity buildRequest(String authToken) {
+        HttpHeaders headers = new HttpHeaders();
+        if (Objects.nonNull(authToken)) {
+            headers.add(HttpHeaders.AUTHORIZATION, authToken);
+        }
+        headers.add("Content-Type", "application/json");
+        headers.add("ServiceAuthorization", authTokenGenerator.generate());
+        return new HttpEntity<>(headers);
+    }
+
 
     private URI buildUri(String emailId) {
         if (serviceConfig.isEnableOldUrl()) {
