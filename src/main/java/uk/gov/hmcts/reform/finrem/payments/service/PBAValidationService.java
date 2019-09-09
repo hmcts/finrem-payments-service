@@ -46,7 +46,6 @@ public class PBAValidationService {
             log.info("before prd call ...");
             ResponseEntity<PBAOrganisationResponse> responseEntity = restTemplate.exchange(uri, GET,
                     request, PBAOrganisationResponse.class);
-            log.info("response Entity ...", responseEntity);
             PBAOrganisationResponse pbaOrganisationResponse = responseEntity.getBody();
             log.info("pbaOrganisationEntityResponse : {}", pbaOrganisationResponse);
             boolean isValid = pbaOrganisationResponse.getOrganisationEntityResponse().getPaymentAccount()
@@ -70,9 +69,7 @@ public class PBAValidationService {
             headers.add("Authorization", authToken);
         }
         headers.add("Content-Type", "application/json");
-        log.info("before ServiceAuthorization ...");
         headers.add("ServiceAuthorization", authTokenGenerator.generate());
-        log.info("after ServiceAuthorization ...");
         return new HttpEntity<>(headers);
     }
 
