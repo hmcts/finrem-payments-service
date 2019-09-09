@@ -10,14 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
+import uk.gov.hmcts.reform.authorisation.exceptions.InvalidTokenException;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.payments.config.PBAValidationServiceConfiguration;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAOrganisationResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.net.URI;
+import java.util.Objects;
 
-import static java.util.Objects.nonNull;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
@@ -64,10 +65,12 @@ public class PBAValidationService {
     }
 
     private HttpEntity buildRequest(String authToken) {
-        HttpHeaders headers = new HttpHeaders();
-        if (nonNull(authToken) && authToken.startsWith("Bearer")) {
-            headers.add(HttpHeaders.AUTHORIZATION, authToken);
+        if (Objects.isNull(authToken) || !authToken.startsWith("Bearer")) {
+            throw new InvalidTokenException("Invalid User Auth Token",
+                    new RuntimeException("Invalid User Auth Token" + authToken));
         }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, authToken);
         headers.add("Content-Type", "application/json");
         headers.add("ServiceAuthorization", authTokenGenerator.generate());
         return new HttpEntity<>(headers);
