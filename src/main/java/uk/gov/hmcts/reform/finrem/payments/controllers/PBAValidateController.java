@@ -29,7 +29,7 @@ public class PBAValidateController {
             @RequestHeader(value = "Authorization") String authToken,
             @PathVariable String pbaNumber) {
         log.info("Received request for PBA validate. Auth token: {}, pbaNumber : {}", authToken, pbaNumber);
-        if (Objects.nonNull(authToken) && authToken.startsWith("Bearer")) {
+        if (Objects.isNull(authToken) || !authToken.startsWith("Bearer")) {
             throw new InvalidTokenException("Invalid Token");
         }
         return pbaValidationService.isPBAValid(authToken, pbaNumber);
