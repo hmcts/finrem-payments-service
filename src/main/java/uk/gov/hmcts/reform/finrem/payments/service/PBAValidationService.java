@@ -16,7 +16,6 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAOrganisationR
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.net.URI;
-import java.util.Objects;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
@@ -65,9 +64,7 @@ public class PBAValidationService {
 
     private HttpEntity buildRequest(String authToken) {
         HttpHeaders headers = new HttpHeaders();
-        if (Objects.nonNull(authToken)) {
-            headers.add("Authorization", authToken);
-        }
+        headers.add("Authorization", authToken);
         headers.add("Content-Type", "application/json");
         headers.add("ServiceAuthorization", authTokenGenerator.generate());
         return new HttpEntity<>(headers);
