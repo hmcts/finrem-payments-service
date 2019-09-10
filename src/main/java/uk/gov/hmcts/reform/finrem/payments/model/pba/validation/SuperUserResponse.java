@@ -1,0 +1,24 @@
+package uk.gov.hmcts.reform.finrem.payments.model.pba.validation;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SuperUserResponse {
+    @JsonProperty
+    private String userIdentifier;
+    @JsonProperty
+    private String firstName;
+    @JsonProperty
+    private String lastName;
+    @JsonProperty
+    private String email;
+}

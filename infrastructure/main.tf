@@ -44,6 +44,7 @@ module "finrem-ps" {
     SSL_VERIFICATION_ENABLED                              = "${var.ssl_verification_enabled}"
     SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
     PRD_API_OLD_URL_ENABLED                               = "${var.prd_api_old_enabled}"
+    PRD_LEGACY_URL_ENABLED                                = "${var.prd_legacy_url_enabled}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE             = "${var.auth_provider_service_client_microservice}"
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-payment-service-s2s-key.value}"

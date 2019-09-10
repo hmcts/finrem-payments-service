@@ -13,6 +13,12 @@ public class PBAValidationServiceConfiguration {
     private String api;
     @Value("${pba.validation.old.url}")
     private String oldUrl;
+    @Value("${pba.validation.old.api}")
+    private String oldApi;
     @Value("${pba.validation.old.url.enabled}")
     private boolean enableOldUrl;
+    @Value("${pba.validation.legacy.api}")
+    private String legacyApi;
+    @Value("${pba.validation.old.url.enabled}")
+    private boolean enableLegacyUrl;
 }

@@ -34,10 +34,10 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_REF;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_SUCCESS_STATUS;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PBA_NUMBER;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.feeResponseString;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.pbaAccount;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestStringContent;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseErrorToString;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToString;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.pbaOrganisationResponse;
 import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONSENTED;
 import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONTESTED;
 
@@ -114,6 +114,7 @@ public class PaymentE2ETest {
     @Test
     public void pbaValidate() throws Exception {
         stubIdamService();
+        stubServiceAuthProvider(HttpStatus.OK, TEST_SERVICE_AUTH_TOKEN);
         stubPbaService();
 
         webClient.perform(get(PBA_VALIDATE_API + "/" + PBA_NUMBER)
@@ -177,7 +178,7 @@ public class PaymentE2ETest {
                 .willReturn(aResponse()
                         .withStatus(HttpStatus.OK.value())
                         .withHeader("Content-Type", "application/json")
-                        .withBody(pbaAccount())));
+                        .withBody(pbaOrganisationResponse())));
     }
 
     private void stubFeeLookUp(ApplicationType applicationType) {
@@ -208,7 +209,7 @@ public class PaymentE2ETest {
     }
 
     private String pbaValidateUrl() {
-        return pbaApi + "test@email.com";
+        return pbaApi + "?email=test@email.com";
     }
 
     private String feeLookupUrl(ApplicationType applicationType) {

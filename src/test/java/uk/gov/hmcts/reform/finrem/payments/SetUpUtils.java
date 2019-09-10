@@ -12,9 +12,13 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentStatusHistory;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.OrganisationEntityResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAAccount;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAOrganisationResponse;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.SuperUserResponse;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -37,7 +41,7 @@ public class SetUpUtils {
     public static final BigDecimal CONTESTED_FEE_AMOUNT = BigDecimal.valueOf(255);
     public static final String FEE_VERSION = "v1";
 
-    public static final String PBA_NUMBER = "PBA";
+    public static final String PBA_NUMBER = "PBA0222";
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -49,6 +53,31 @@ public class SetUpUtils {
     public static String pbaAccount() {
         PBAAccount pbaAccount = PBAAccount.builder().accountList(ImmutableList.of(PBA_NUMBER)).build();
         return objectToJson(pbaAccount);
+    }
+
+    public static String pbaOrganisationResponse() {
+        SuperUserResponse superUserResponse = SuperUserResponse.builder()
+                .email("test@email.com")
+                .firstName("TestFirstName")
+                .lastName("TestLastName")
+                .userIdentifier("USR01")
+                .build();
+        OrganisationEntityResponse organisationEntityResponse = OrganisationEntityResponse.builder()
+                .companyNumber("1110111")
+                .name("Test org")
+                .organisationIdentifier("111")
+                .paymentAccount(Arrays.asList("PBA0222", "PBA0333"))
+                .sraId("s001")
+                .sraRegulated(true)
+                .status("ACTIVE")
+                .superUser(superUserResponse)
+                .companyUrl("http://testorg2.co.uk")
+                .build();
+        PBAOrganisationResponse pbaOrganisationResponse = PBAOrganisationResponse
+                .builder()
+                .organisationEntityResponse(organisationEntityResponse)
+                .build();
+        return objectToJson(pbaOrganisationResponse);
     }
 
     public static FeeResponse feeResponse(ApplicationType applicationType) {
