@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
+import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.error.PaymentException;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 
@@ -22,6 +23,7 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToSt
 public class PBAPaymentServiceTest extends BaseServiceTest {
 
     public static final String AUTH_TOKEN = "Bearer HBJHBKJiuui7097HJH";
+    private static final String INVALID_AUTH_TOKEN = "HBJHBKJiuui7097HJH";
     public static final String URI = "http://localhost:8181/credit-account-payments";
     @Autowired
     private PBAPaymentService pbaPaymentService;
@@ -44,5 +46,10 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                         .body(paymentResponseErrorToString()).contentType(APPLICATION_JSON));
 
         pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest());
+    }
+
+    @Test(expected = InvalidTokenException.class)
+    public void invalidUserToken() {
+        pbaPaymentService.makePayment(INVALID_AUTH_TOKEN, paymentRequest());
     }
 }
