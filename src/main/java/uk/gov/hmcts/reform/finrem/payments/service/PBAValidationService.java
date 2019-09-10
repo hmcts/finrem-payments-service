@@ -66,7 +66,7 @@ public class PBAValidationService {
     private HttpEntity buildRequest(String authToken) {
         HttpHeaders headers = new HttpHeaders();
         if (!authToken.matches("^Bearer .+")) {
-           throw new InvalidTokenException("Invalid user token");
+            throw new InvalidTokenException("Invalid user token");
         }
         headers.add("Authorization", authToken);
         headers.add("Content-Type", "application/json");
