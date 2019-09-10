@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import feign.FeignException;
 import feign.Response;
+import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
 import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
@@ -21,10 +22,10 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONSENTED;
 
 public class SetUpUtils {
@@ -48,6 +49,10 @@ public class SetUpUtils {
     public static FeignException feignError() {
         Response response = Response.builder().status(STATUS_CODE).headers(ImmutableMap.of()).build();
         return FeignException.errorStatus("test", response);
+    }
+
+    public static InvalidTokenException invalidTokenException() {
+        return new InvalidTokenException("Invalid User Token");
     }
 
     public static String pbaAccount() {

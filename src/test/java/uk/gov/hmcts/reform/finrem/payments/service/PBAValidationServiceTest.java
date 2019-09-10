@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
 import uk.gov.hmcts.reform.finrem.payments.config.PBAValidationServiceConfiguration;
+import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.io.File;
@@ -28,6 +29,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
 
     private static final String EMAIL = "test@test.com";
     private static final String AUTH_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9";
+    private static final String INVALID_AUTH_TOKEN = "eyJhbGciOiJIUzI1NiJ9";
 
     @Autowired
     private PBAValidationService pbaValidationService;
@@ -180,5 +182,14 @@ public class PBAValidationServiceTest extends BaseServiceTest {
 
         PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM3");
         assertThat(response.isPbaNumberValid(), is(false));
+    }
+
+    @Test(expected = InvalidTokenException.class)
+    public void invalidToken() {
+        mockServer.expect(requestTo(toUri()))
+                .andExpect(method(GET))
+                .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
+
+        pbaValidationService.isPBAValid(INVALID_AUTH_TOKEN, "NUM1");
     }
 }

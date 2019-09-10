@@ -7,11 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.PathVariable;
-import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 import uk.gov.hmcts.reform.finrem.payments.service.PBAValidationService;
-
-import java.util.Objects;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
