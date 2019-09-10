@@ -64,7 +64,7 @@ public class PBAValidationService {
 
     private HttpEntity buildRequest(String authToken) {
         HttpHeaders headers = new HttpHeaders();
-        if (!authToken.isEmpty() && authToken.startsWith("Bearer")) {
+        if (authToken.matches("^Bearer .+")) {
             headers.add("Authorization", authToken);
         }
         headers.add("Content-Type", "application/json");
