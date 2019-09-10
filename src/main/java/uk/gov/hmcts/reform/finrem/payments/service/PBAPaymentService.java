@@ -16,7 +16,6 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 
 import java.net.URI;
-import java.util.Objects;
 
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
@@ -44,7 +43,7 @@ public class PBAPaymentService {
 
     private HttpEntity<PaymentRequest> buildPaymentRequest(String authToken, PaymentRequest paymentRequest) {
         HttpHeaders headers = new HttpHeaders();
-        if (Objects.nonNull(authToken)) {
+        if (authToken.matches("^Bearer .+")) {
             headers.add("Authorization", authToken);
         }
         headers.add("ServiceAuthorization", authTokenGenerator.generate());
