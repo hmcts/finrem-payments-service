@@ -34,7 +34,9 @@ public class IdamService {
 
     private HttpEntity buildAuthRequest(String authToken) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", authToken);
+        if (authToken.matches("^Bearer .+")) {
+            headers.add("Authorization", authToken);
+        }
         headers.add("Content-Type", "application/json");
         return new HttpEntity<>(headers);
     }
