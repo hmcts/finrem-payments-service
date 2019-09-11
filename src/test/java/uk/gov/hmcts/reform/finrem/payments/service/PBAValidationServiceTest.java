@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
 import uk.gov.hmcts.reform.finrem.payments.config.PBAValidationServiceConfiguration;
+import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.io.File;
@@ -28,6 +29,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
 
     private static final String EMAIL = "test@test.com";
     private static final String AUTH_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9";
+    private static final String INVALID_AUTH_TOKEN = "eyJhbGciOiJIUzI1NiJ9";
 
     @Autowired
     private PBAValidationService pbaValidationService;
@@ -44,7 +46,9 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     public void setUp() {
         super.setUp();
         when(pbaValidationServiceConfiguration.getUrl()).thenReturn("http://localhost:9001");
-        when(pbaValidationServiceConfiguration.getApi()).thenReturn("/search/pba/");
+        when(pbaValidationServiceConfiguration.getApi()).thenReturn("/v1/organisations/pbas/");
+        when(pbaValidationServiceConfiguration.getOldApi()).thenReturn("/search/pba/");
+        when(pbaValidationServiceConfiguration.getLegacyApi()).thenReturn("/search/pba/");
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
@@ -93,20 +97,43 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     public void validPbaNoPbaResult() {
         mockServer.expect(requestTo(toUri()))
                 .andExpect(method(GET))
-                .andRespond(withSuccess("{\"payment_accounts\": []}", APPLICATION_JSON));
+                .andRespond(withSuccess("{\n"
+                        + "  \"organisationEntityResponse\": {\n"
+                        + "    \"organisationIdentifier\": \"LY7RZOE\",\n"
+                        + "    \"name\": \"TestOrg1\",\n"
+                        + "    \"status\": \"ACTIVE\",\n"
+                        + "    \"sraId\": \"1111\",\n"
+                        + "    \"sraRegulated\": true,\n"
+                        + "    \"companyNumber\": \"1110111\",\n"
+                        + "    \"companyUrl\": \"http://testorg2.co.uk\",\n"
+                        + "    \"superUser\": {\n"
+                        + "      \"userIdentifier\": \"9503a799-5f4f-4814-8227-776ef5c4dce8\",\n"
+                        + "      \"firstName\": \"Henry\",\n"
+                        + "      \"lastName\": \"Harper\",\n"
+                        + "      \"email\": \"henry_fr_harper@yahoo.com\"\n"
+                        + "    },\n"
+                        + "    \"paymentAccount\": []\n"
+                        + "  }\n"
+                        + "}", APPLICATION_JSON));
 
         PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM1");
         assertThat(response.isPbaNumberValid(), is(false));
     }
 
     private static String toUri() {
-        return new StringBuilder("http://localhost:9001/search/pba/")
+        return new StringBuilder("http://localhost:9001/v1/organisations/pbas/?email=")
                 .append(EMAIL)
                 .toString();
     }
 
     private static String toOldUri() {
         return new StringBuilder("http://localhost:9002/search/pba/")
+                .append(EMAIL)
+                .toString();
+    }
+
+    private static String toLegacyUri() {
+        return new StringBuilder("http://localhost:9001/search/pba/")
                 .append(EMAIL)
                 .toString();
     }
@@ -132,5 +159,37 @@ public class PBAValidationServiceTest extends BaseServiceTest {
 
         PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM3");
         assertThat(response.isPbaNumberValid(), is(false));
+    }
+
+    @Test
+    public void pbaValidationWithLegacyUrl() {
+        when(pbaValidationServiceConfiguration.isEnableLegacyUrl()).thenReturn(true);
+        when(pbaValidationServiceConfiguration.getUrl()).thenReturn("http://localhost:9001");
+        mockServer.expect(requestTo(toLegacyUri()))
+                .andExpect(method(GET))
+                .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
+        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM1");
+        assertThat(response.isPbaNumberValid(), is(true));
+    }
+
+    @Test
+    public void pbaNotFoundWithLegacyUrl() {
+        when(pbaValidationServiceConfiguration.isEnableLegacyUrl()).thenReturn(true);
+        when(pbaValidationServiceConfiguration.getUrl()).thenReturn("http://localhost:9001");
+        mockServer.expect(requestTo(toLegacyUri()))
+                .andExpect(method(GET))
+                .andRespond(withStatus(NOT_FOUND));
+
+        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM3");
+        assertThat(response.isPbaNumberValid(), is(false));
+    }
+
+    @Test(expected = InvalidTokenException.class)
+    public void invalidToken() {
+        mockServer.expect(requestTo(toUri()))
+                .andExpect(method(GET))
+                .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
+
+        pbaValidationService.isPBAValid(INVALID_AUTH_TOKEN, "NUM1");
     }
 }

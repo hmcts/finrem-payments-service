@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.payments.config.PBAPaymentServiceConfiguration;
+import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.error.PaymentException;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
@@ -43,6 +44,9 @@ public class PBAPaymentService {
 
     private HttpEntity<PaymentRequest> buildPaymentRequest(String authToken, PaymentRequest paymentRequest) {
         HttpHeaders headers = new HttpHeaders();
+        if (!authToken.matches("^Bearer .+")) {
+            throw new InvalidTokenException("Invalid user token");
+        }
         headers.add("Authorization", authToken);
         headers.add("ServiceAuthorization", authTokenGenerator.generate());
         headers.add("Content-Type", "application/json");

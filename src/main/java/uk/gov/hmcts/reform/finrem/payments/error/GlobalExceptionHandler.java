@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.finrem.payments.error;
 
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,5 +18,12 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage(), exception);
 
         return ResponseEntity.status(exception.status()).body(SERVER_ERROR_MSG);
+    }
+
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<Object> handleInvalidException(InvalidTokenException exception) {
+        log.error(exception.getMessage(), exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 }

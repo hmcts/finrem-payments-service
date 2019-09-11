@@ -1,6 +1,21 @@
 {
-  "payment_accounts": [
-    "NUM1",
-    "NUM2"
-  ]
+  "organisationEntityResponse": {
+    "organisationIdentifier": "LY7RZOE",
+    "name": "TestOrg1",
+    "status": "ACTIVE",
+    "sraId": "1111",
+    "sraRegulated": true,
+    "companyNumber": "1110111",
+    "companyUrl": "http://testorg2.co.uk",
+    "superUser": {
+      "userIdentifier": "9503a799-5f4f-4814-8227-776ef5c4dce8",
+      "firstName": "Henry",
+      "lastName": "Harper",
+      "email": "henry_fr_harper@yahoo.com"
+    },
+    "paymentAccount": [
+      "NUM1",
+      "NUM2"
+    ]
+  }
 }

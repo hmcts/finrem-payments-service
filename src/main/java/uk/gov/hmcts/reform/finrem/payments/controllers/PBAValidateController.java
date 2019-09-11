@@ -28,5 +28,4 @@ public class PBAValidateController {
         log.info("Received request for PBA validate. Auth token: {}, pbaNumber : {}", authToken, pbaNumber);
         return pbaValidationService.isPBAValid(authToken, pbaNumber);
     }
-
 }
