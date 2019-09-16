@@ -55,7 +55,7 @@ variable "payment_api_url" {
 }
 
 variable "prd_api_url" {
-  default = "http://rd-professional-api-aat.service.core-compute-aat.internal"
+  default = "https://rd-professional-api-aat.service.core-compute-aat.internal"
 }
 
 variable "prd_api_old_url" {
