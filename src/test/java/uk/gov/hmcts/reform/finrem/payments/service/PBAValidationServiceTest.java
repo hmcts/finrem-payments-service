@@ -29,7 +29,6 @@ public class PBAValidationServiceTest extends BaseServiceTest {
 
     private static final String EMAIL = "test@test.com";
     private static final String AUTH_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9";
-    private static final String INVALID_AUTH_TOKEN = "eyJhbGciOiJIUzI1NiJ9";
 
     @Autowired
     private PBAValidationService pbaValidationService;

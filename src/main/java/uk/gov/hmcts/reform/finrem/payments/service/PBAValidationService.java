@@ -12,15 +12,14 @@ import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.payments.config.PBAValidationServiceConfiguration;
-import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAOrganisationResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.net.URI;
-import java.util.Objects;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
+import static uk.gov.hmcts.reform.finrem.payments.helper.AuthUtil.getBearerToken;
 
 
 @Service
@@ -36,7 +35,7 @@ public class PBAValidationService {
     public PBAValidationResponse isPBAValid(String authToken, String pbaNumber) {
         String emailId = idamService.getUserEmailId(authToken);
         URI uri = buildUri(emailId);
-        log.info("Inside isPBAValid, PRD API uri : {}, emailId : {}", uri, emailId);
+        log.info("Inside isPBAValid, PRD API uri : {}, emailId : {}, auth Token {}", uri, emailId, authToken);
         try {
             HttpEntity request;
             if (serviceConfig.isEnableOldUrl()) {
@@ -66,9 +65,7 @@ public class PBAValidationService {
 
     private HttpEntity buildRequest(String authToken) {
         HttpHeaders headers = new HttpHeaders();
-        if (Objects.isNull(authToken)) {
-            throw new InvalidTokenException("Invalid user token");
-        }
+        headers.add("Authorization", getBearerToken(authToken));
         headers.add("Authorization", authToken);
         headers.add("Content-Type", "application/json");
         headers.add("ServiceAuthorization", authTokenGenerator.generate());
