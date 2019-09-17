@@ -190,6 +190,6 @@ public class PBAValidationServiceTest extends BaseServiceTest {
                 .andExpect(method(GET))
                 .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
 
-        pbaValidationService.isPBAValid(INVALID_AUTH_TOKEN, "NUM1");
+        pbaValidationService.isPBAValid(null, "NUM1");
     }
 }

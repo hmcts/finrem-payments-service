@@ -23,7 +23,6 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToSt
 public class PBAPaymentServiceTest extends BaseServiceTest {
 
     public static final String AUTH_TOKEN = "Bearer HBJHBKJiuui7097HJH";
-    private static final String INVALID_AUTH_TOKEN = "HBJHBKJiuui7097HJH";
     public static final String URI = "http://localhost:8181/credit-account-payments";
     @Autowired
     private PBAPaymentService pbaPaymentService;
@@ -50,6 +49,6 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
 
     @Test(expected = InvalidTokenException.class)
     public void invalidUserToken() {
-        pbaPaymentService.makePayment(INVALID_AUTH_TOKEN, paymentRequest());
+        pbaPaymentService.makePayment(null, paymentRequest());
     }
 }
