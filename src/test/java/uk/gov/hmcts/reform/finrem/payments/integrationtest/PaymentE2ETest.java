@@ -54,7 +54,7 @@ public class PaymentE2ETest {
     private static String PBA_VALIDATE_API = "/payments/pba-validate";
 
     private static final String AUTH_TOKEN = "Bearer test.auth.token";
-    private static final String TEST_SERVICE_AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+    private static final String TEST_SERVICE_AUTH_TOKEN = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
             + ".eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ"
             + ".SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
