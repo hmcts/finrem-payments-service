@@ -49,6 +49,6 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
 
     @Test(expected = InvalidTokenException.class)
     public void invalidUserToken() {
-        pbaPaymentService.makePayment(null, paymentRequest());
+        pbaPaymentService.makePayment("eeyyy", paymentRequest());
     }
 }
