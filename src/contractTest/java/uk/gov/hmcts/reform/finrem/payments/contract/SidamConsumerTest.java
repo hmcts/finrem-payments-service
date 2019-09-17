@@ -25,8 +25,8 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @PactTestFor(providerName = "SIDAM_Provider", port = "8888")
 @SpringBootTest({
         "idam.url: http://localhost:8888"
-})
-@TestPropertySource(locations="classpath:application-contractTest.properties")
+    })
+@TestPropertySource(locations = "classpath:application-contractTest.properties")
 public class SidamConsumerTest {
 
 
