@@ -10,8 +10,6 @@ COPY lib/applicationinsights-agent-2.3.1.jar lib/AI-Agent.xml /opt/app/
 
 WORKDIR /opt/app
 
-HEALTHCHECK --interval=100s --timeout=100s --retries=10 CMD http_proxy="" wget -q http://localhost:9001/health || exit 1
-
 EXPOSE 9001
 
 CMD ["finrem-payment-service.jar"]
