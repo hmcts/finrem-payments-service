@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 
 public class SuperUserResponseTest {
     private String json = "{\n"
-            + "      \"userIdentifier\": \"9503a799-5f4f-4814-8227-776ef5c4dce8\",\n"
             + "      \"firstName\": \"Henry\",\n"
             + "      \"lastName\": \"Harper\",\n"
             + "      \"email\": \"henry_fr_harper@yahoo.com\"\n"
@@ -26,7 +25,6 @@ public class SuperUserResponseTest {
     @Test
     public void shouldPopulateData() {
         assertThat(superUser.getEmail(), Is.is("henry_fr_harper@yahoo.com"));
-        assertThat(superUser.getUserIdentifier(), Is.is("9503a799-5f4f-4814-8227-776ef5c4dce8"));
         assertThat(superUser.getFirstName(), Is.is("Henry"));
         assertThat(superUser.getLastName(), Is.is("Harper"));
     }

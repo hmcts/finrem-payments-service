@@ -20,7 +20,6 @@ public class OrganisationEntityResponseTest {
             + "    \"companyNumber\": \"1110111\",\n"
             + "    \"companyUrl\": \"http://testorg2.co.uk\",\n"
             + "    \"superUser\": {\n"
-            + "      \"userIdentifier\": \"9503a799-5f4f-4814-8227-776ef5c4dce8\",\n"
             + "      \"firstName\": \"Henry\",\n"
             + "      \"lastName\": \"Harper\",\n"
             + "      \"email\": \"henry_fr_harper@yahoo.com\"\n"
@@ -52,7 +51,6 @@ public class OrganisationEntityResponseTest {
         assertThat(organisationEntityResponse.getSuperUser(), notNullValue());
         SuperUserResponse superUser = organisationEntityResponse.getSuperUser();
         assertThat(superUser.getEmail(), Is.is("henry_fr_harper@yahoo.com"));
-        assertThat(superUser.getUserIdentifier(), Is.is("9503a799-5f4f-4814-8227-776ef5c4dce8"));
         assertThat(superUser.getFirstName(), Is.is("Henry"));
         assertThat(superUser.getLastName(), Is.is("Harper"));
         assertThat(organisationEntityResponse.getPaymentAccount(), hasItems("NUM1", "NUM2"));
