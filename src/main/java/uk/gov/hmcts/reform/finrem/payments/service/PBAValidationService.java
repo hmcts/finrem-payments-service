@@ -52,7 +52,7 @@ public class PBAValidationService {
                     .contains(pbaNumber);
             return PBAValidationResponse.builder().pbaNumberValid(isValid).build();
         } catch (HttpClientErrorException ex) {
-            log.info("HttpClientErrorException ...", ex);
+            log.info("HttpClientErrorException ...{}", ex);
             return PBAValidationResponse.builder().build();
         }
     }
@@ -68,9 +68,12 @@ public class PBAValidationService {
         if (!authToken.matches("^Bearer .+")) {
             throw new InvalidTokenException("Invalid user token");
         }
-        headers.add("Authorization", authToken);
+        log.info("authToken .... {}", authToken);
+        headers.add("authToken", authToken);
         headers.add("Content-Type", "application/json");
-        headers.add("ServiceAuthorization", "Bearer " + authTokenGenerator.generate());
+        String generate = authTokenGenerator.generate();
+        headers.add("ServiceAuthorization", generate);
+        log.info("ServiceAuthorization .... {}", generate);
         return new HttpEntity<>(headers);
     }
 
