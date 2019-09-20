@@ -17,20 +17,20 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ContactInformationResponse {
 
-    @JsonProperty
+    @JsonProperty(value = "addressLine1")
     private String addressLine1;
-    @JsonProperty
+    @JsonProperty(value = "addressLine2")
     private String addressLine2;
-    @JsonProperty
+    @JsonProperty(value = "addressLine3")
     private String addressLine3;
-    @JsonProperty
+    @JsonProperty(value = "townCity")
     private String townCity;
-    @JsonProperty
+    @JsonProperty(value = "county")
     private String county;
-    @JsonProperty
+    @JsonProperty(value = "country")
     private String country;
-    @JsonProperty
+    @JsonProperty(value = "postCode")
     private String postCode;
-    @JsonProperty
+    @JsonProperty(value = "dxAddress")
     private List<DxAddressResponse> dxAddress;
 }

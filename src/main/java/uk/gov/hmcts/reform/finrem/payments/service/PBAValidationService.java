@@ -43,7 +43,7 @@ public class PBAValidationService {
             } else {
                 request = buildRequest(authToken);
             }
-            log.info("before prd call ...");
+                log.info("before prd call ...");
             ResponseEntity<PBAOrganisationResponse> responseEntity = restTemplate.exchange(uri, GET,
                     request, PBAOrganisationResponse.class);
             PBAOrganisationResponse pbaOrganisationResponse = responseEntity.getBody();

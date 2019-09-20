@@ -65,7 +65,6 @@ public class SetUpUtils {
                 .email("test@email.com")
                 .firstName("TestFirstName")
                 .lastName("TestLastName")
-                .userIdentifier("USR01")
                 .build();
         OrganisationEntityResponse organisationEntityResponse = OrganisationEntityResponse.builder()
                 .companyNumber("1110111")
