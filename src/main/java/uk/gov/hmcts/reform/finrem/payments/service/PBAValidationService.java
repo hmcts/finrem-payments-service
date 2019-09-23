@@ -68,12 +68,9 @@ public class PBAValidationService {
         if (!authToken.matches("^Bearer .+")) {
             throw new InvalidTokenException("Invalid user token");
         }
-        log.info("authToken .... {}", authToken);
         headers.add("Authorization", authToken);
         headers.add("Content-Type", "application/json");
-        String generate = authTokenGenerator.generate();
-        headers.add("ServiceAuthorization", generate);
-        log.info("ServiceAuthorization .... {}", generate);
+        headers.add("ServiceAuthorization", authTokenGenerator.generate());
         return new HttpEntity<>(headers);
     }
 
