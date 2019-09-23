@@ -69,7 +69,7 @@ public class PBAValidationService {
             throw new InvalidTokenException("Invalid user token");
         }
         log.info("authToken .... {}", authToken);
-        headers.add("authToken", authToken);
+        headers.add("Authorization", authToken);
         headers.add("Content-Type", "application/json");
         String generate = authTokenGenerator.generate();
         headers.add("ServiceAuthorization", generate);
