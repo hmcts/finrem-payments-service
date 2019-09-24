@@ -13,12 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SuperUserResponse {
-    @JsonProperty
-    private String userIdentifier;
-    @JsonProperty
+    @JsonProperty(value = "firstName")
     private String firstName;
-    @JsonProperty
+    @JsonProperty(value = "lastName")
     private String lastName;
-    @JsonProperty
+    @JsonProperty(value = "email")
     private String email;
 }
