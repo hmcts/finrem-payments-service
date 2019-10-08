@@ -70,7 +70,9 @@ public class PBAValidationService {
         }
         headers.add("Authorization", authToken);
         headers.add("Content-Type", "application/json");
-        headers.add("ServiceAuthorization", authTokenGenerator.generate());
+        String serviceAuth = authTokenGenerator.generate();
+        log.info("user Token {},  serviceAuth : {} ", authToken, serviceAuth);
+        headers.add("ServiceAuthorization", serviceAuth);
         return new HttpEntity<>(headers);
     }
 
