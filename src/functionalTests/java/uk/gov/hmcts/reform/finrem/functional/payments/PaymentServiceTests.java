@@ -77,6 +77,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void verifyPBAPaymentSuccessTest() {
         validatePostSuccessForPBAPayment(PBA_PAYMENT);
 
