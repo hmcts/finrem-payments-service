@@ -85,8 +85,7 @@ public class PBAServiceHealthCheckTest {
         when(restTemplate.getForEntity(eq(uri), eq(Object.class)))
                 .thenThrow(ex);
 
-        assertThat(pbaServiceHealthCheck.health(), is(Health.down().withDetail("uri", uri)
-        .withException(ex).build()));
+        assertThat(pbaServiceHealthCheck.health(), is(Health.down().withDetail("uri", uri).withException(ex).build()));
 
     }
 }
