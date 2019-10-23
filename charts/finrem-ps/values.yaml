@@ -1,6 +1,6 @@
 java:
   aadIdentityName: finrem
-  ngressHost: "finrem-ps-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+  ingressHost: "finrem-ps-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
   applicationPort: '9001'
   livenessPath: '/health'
   image: 'https://hmcts.azurecr.io/hmcts/finrem-payment-service:latest'
