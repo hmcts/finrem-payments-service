@@ -4,6 +4,7 @@ FROM hmctspublic.azurecr.io/base/java:openjdk-8-distroless-1.2
 ENV APP finrem-payment-service.jar
 
 COPY build/libs/$APP /opt/app/
+COPY lib/AI-Agent.xml /opt/app/
 
 WORKDIR /opt/app
 
