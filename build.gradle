@@ -146,7 +146,7 @@ dependencies {
     compile group: 'org.springframework.retry', name: 'spring-retry', version: versions.springRetry
     compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
 
-    compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version:'0.0.3'
+    compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version:'0.0.5'
     compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version:'0.0.4'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
