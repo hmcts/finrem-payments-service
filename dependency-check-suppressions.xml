@@ -12,11 +12,9 @@
         <notes>Does not apply as tomcat is not installed as a service</notes>
         <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
         <cve>CVE-2016-6325</cve>
-    </suppress>
-    <suppress>
-        <notes>Does not apply as tomcat is not installed as a service</notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
         <cve>CVE-2016-5425</cve>
+        <cve>CVE-2019-12418</cve>
+        <cve>CVE-2019-17563</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
