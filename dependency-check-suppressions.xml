@@ -1,141 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
     <suppress>
-        <notes>Does not apply as tomcat is not installed as a service</notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
-        <cve>CVE-2016-6325</cve>
-    </suppress>
-    <suppress>
-        <notes>Does not apply as tomcat is not installed as a service</notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
-        <cve>CVE-2016-5425</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-      only effects distribution based tomcat that has been backported.
-      our tomcat version has the fix in it
-      ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-websocket:.*$</gav>
-        <cve>CVE-2017-6056</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-      only effects distribution based tomcat that has been backported.
-      our tomcat version has the fix in it
-      ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-core:.*$</gav>
-        <cve>CVE-2017-6056</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-      Does not apply as we're not using the XmlMapper.
-    ]]></notes>
-        <gav regex="true">^com\.fasterxml\.jackson\.(core|datatype|module):jackson-.*:.*$</gav>
-        <cve>CVE-2016-7051</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-      Applies to Mac OS X implementation of Java only.
-    ]]></notes>
-        <gav regex="true">^com\.apple:AppleJavaExtensions:.*$</gav>
-        <cve>CVE-2010-0538</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-      This vulnerability is related to a Ruby Gem, not Spring Boot Mail.
-    ]]></notes>
-        <gav regex="true">^org\.springframework\.boot:spring-boot-starter-mail:.*$</gav>
-        <cve>CVE-2015-9097</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-   file name: tomcat-annotations-api-8.5.23.jar
-   ]]></notes>
-        <gav regex="true">^org\.apache\.tomcat:tomcat-annotations-api:.*$</gav>
-        <cpe>cpe:/a:apache:tomcat</cpe>
-        <cpe>cpe:/a:apache_tomcat:apache_tomcat</cpe>
-        <cpe>cpe:/a:apache_software_foundation:tomcat</cpe>
-    </suppress>
-    <suppress>
         <notes>last present in 24.1; fixed in 24.1.1 and 25.0</notes>
         <cpe>cpe:2.3:a:google:guava:*:*:*:*:*:*:*:*</cpe>
         <cve>CVE-2018-10237</cve>
     </suppress>
     <suppress>
-        <notes><![CDATA[
-   relates to CETS
-   ]]></notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2018-8088</cve>
-    </suppress>
-    <suppress>
-        <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see https://pivotal.io/security/cve-2018-1258</notes>
+        <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see
+            https://pivotal.io/security/cve-2018-1258
+        </notes>
         <cve>CVE-2018-1258</cve>
     </suppress>
     <suppress>
         <notes>We are using SecureRandom without a custom seed so not affected. This will however be
-            fixed with spring boot 2.1.4 upgrade which is using spring-security.* of 5.1.5 or higher</notes>
+            fixed with spring boot 2.1.4 upgrade which is using spring-security.* of 5.1.5 or higher
+        </notes>
         <gav regex="true">.*</gav>
         <cve>CVE-2019-3795</cve>
     </suppress>
     <suppress>
-        <notes><![CDATA[
-       file name: wiremock-standalone-2.20.0.jar.
-       This is only used for TESTING purposes.
-   ]]></notes>
-        <filePath regex="true">.*wiremock-standalone-.*\.jar.*</filePath>
-        <cpe>cpe:/a:eclipse:jetty</cpe>
-        <cpe>cpe:/a:jetty:jetty</cpe>
-        <cpe>cpe:/a:fasterxml:jackson</cpe>
-        <cpe>cpe:/a:google:guava</cpe>
-        <!-- Following are separately enlisted as there is no way suppress `pkg:..` signature -->
-        <!-- guava -->
-        <cve>CVE-2018-10237</cve>
-        <!-- jackson-databind -->
-        <cve>CVE-2018-14718</cve>
-        <cve>CVE-2018-14719</cve>
-        <cve>CVE-2018-14720</cve>
-        <cve>CVE-2018-14721</cve>
-        <cve>CVE-2018-19360</cve>
-        <cve>CVE-2018-19361</cve>
-        <cve>CVE-2018-19362</cve>
-        <cve>CVE-2018-1000873</cve>
-        <cve>CVE-2019-12086</cve>
-        <cve>CVE-2019-12384</cve>
-        <cve>CVE-2019-12814</cve>
-        <!-- jetty -->
-        <cve>CVE-2017-7656</cve>
-        <cve>CVE-2017-7657</cve>
-        <cve>CVE-2017-7658</cve>
-        <cve>CVE-2017-9735</cve>
-        <cve>CVE-2018-12536</cve>
-        <cve>CVE-2019-10241</cve>
-        <cve>CVE-2019-10247</cve>
-        <!-- jquery -->
-        <cve>CVE-2012-6708</cve>
-        <cve>CVE-2015-9251</cve>
-        <cve>CVE-2019-11358</cve>
-        <!--jackson databind-->
-        <cve>CVE-2019-14379</cve>
-        <cve>CVE-2019-14439</cve>
-    </suppress>
-
-    <suppress>
-        <notes><![CDATA[
-            This is a false positive on gradle-pi-test
-            which fails because it is prefixed with gradle ]]>
-        </notes>
+        <notes>Ignore checkstyle</notes>
         <gav regex="true">.*</gav>
-        <cve>CVE-2019-10241</cve>
-        <cve>CVE-2019-10247</cve>
-        <cve>CVE-2019-10101</cve>
-        <cve>CVE-2019-10102</cve>
-        <cve>CVE-2019-10103</cve>
-        <cve>CVE-2012-6708</cve>
-        <cve>CVE-2015-9251</cve>
-        <cve>CVE-2019-11358</cve>
-        <cve>CVE-2019-11065</cve>
-        <cve>CVE-2019-16370</cve>
+        <cve>CVE-2019-9658</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -146,7 +32,6 @@
         <cve>CVE-2019-14540</cve>
         <cve>CVE-2019-16335</cve>
     </suppress>
-
     <suppress>
         <notes><![CDATA[
 			Netty before 4.1.42.
@@ -156,19 +41,18 @@
         <cve>CVE-2015-2156</cve>
         <cve>CVE-2014-3488</cve>
     </suppress>
-
-    <suppress>
-        <notes>FasterXML jackson</notes>
-        <cve>CVE-2019-17531</cve>
-    </suppress>
-	
     <suppress>
         <notes><![CDATA[
-            Release day supressions ]]>
+            Caused by not using latest version of HMCTS service-auth-provider-client.
+            Once we move to >3.0.0 these should be removed ]]>
         </notes>
         <gav regex="true">.*</gav>
-        <cve>CVE-2019-16942</cve>
-        <cve>CVE-2019-16943</cve>
-        <cve>CVE-2019-17267</cve>
-    </suppress>  	
+        <cve>CVE-2016-6497</cve>
+        <cve>CVE-2017-13098</cve>
+        <cve>CVE-2018-1000180</cve>
+        <cve>CVE-2018-1000613</cve>
+        <cve>CVE-2019-10101</cve>
+        <cve>CVE-2019-10102</cve>
+        <cve>CVE-2019-10103</cve>
+    </suppress>
 </suppressions>

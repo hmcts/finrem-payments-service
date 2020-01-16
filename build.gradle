@@ -20,7 +20,6 @@ buildscript {
 plugins {
     id 'application'
     id 'checkstyle'
-    id 'com.github.ben-manes.versions' version '0.27.0'
     id 'io.franzbecker.gradle-lombok' version '3.2.0'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id "info.solidsoft.pitest" version "1.4.6"
@@ -185,8 +184,6 @@ dependencies {
     contractCompile group: 'au.com.dius', name: 'pact-jvm-consumer-junit5_2.12', version: versions.pact_version
     contractCompile group: 'au.com.dius', name: 'pact-jvm-provider-spring_2.12', version: versions.pact_version
     contractCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    contractCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.3.2'
-    contractImplementation('org.junit.jupiter:junit-jupiter-api:5.3.2')
 
     contractCompile sourceSets.main.runtimeClasspath
 
