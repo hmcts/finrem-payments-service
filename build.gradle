@@ -102,7 +102,7 @@ def versions = [
         pitest                  : '1.4.11',
         puppyCrawl              : '7.6',
         reformHealth            : '0.0.5',
-        reformJavaLogging       : '3.0.1',
+        reformLogging           : '5.1.1',
         reformPropertiesVolume  : '0.0.4',
         restAssured             : '4.1.2',
         serenity                : '2.0.91',
@@ -157,7 +157,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot
     compile group: 'org.springframework.retry', name: 'spring-retry', version: versions.springRetry
     compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: versions.reformHealth
-    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: versions.reformJavaLogging
+    compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
     compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
     compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
 
