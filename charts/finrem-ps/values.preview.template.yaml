@@ -1,4 +1,6 @@
 java:
+  # aadIdentityName needs to be unset as it's not used in preview env yet
+  aadIdentityName:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
@@ -9,4 +11,3 @@ java:
     PRD_API_URL : http://rpa-rd-professional-aat.service.core-compute-aat.internal
     IDAM_S2S_URL : http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     PAYMENT_API_URL: http://finrem-ps-aat.service.core-compute-aat.internal
-
