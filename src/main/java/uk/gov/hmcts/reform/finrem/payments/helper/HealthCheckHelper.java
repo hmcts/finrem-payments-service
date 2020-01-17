@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.finrem.payments.helper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +10,19 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class HealthCheckHelper {
 
+    @Value("${pba.validation.old.url.enabled}")
+    static boolean oldUrlEnabled;
+
+
     public static Health configureRestTemplate(RestTemplate restTemplate, String uri) {
         try {
             ResponseEntity<Object> response = restTemplate.getForEntity(uri, Object.class);
             return response.getStatusCode() == (HttpStatus.OK) ? statusHealthy(uri) : statusUnknown(uri);
         } catch (Exception ex) {
-            log.error("Exception while checking health on {}, exception: {}", uri, ex);
+            log.info("oldUrlEnabled: {}", oldUrlEnabled);
+            log.info("PRD_API_OLD_URL_ENABLED: {}", System.getenv("PRD_API_OLD_URL_ENABLED"));
+            log.info("PRD_LEGACY_URL_ENABLED: {}", System.getenv("PRD_LEGACY_URL_ENABLED"));
+            log.error("Exception while checking health on {}", uri, ex);
             return statusError(ex, uri);
         }
     }
