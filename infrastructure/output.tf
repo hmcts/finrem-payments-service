@@ -14,10 +14,6 @@ output "prd_api_url" {
   value = "${var.prd_api_url}"
 }
 
-output "prd_api_old_url" {
-  value = "${var.prd_api_old_url}"
-}
-
 output "idam_s2s_url" {
   value = "${local.idam_s2s_url}"
 }
