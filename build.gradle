@@ -104,7 +104,7 @@ def versions = [
         reformHealth            : '0.0.5',
         reformLogging           : '5.1.1',
         reformPropertiesVolume  : '0.0.4',
-        restAssured             : '4.1.2',
+        restAssured             : '3.0.3',
         serenity                : '2.0.91',
         serenityCucumber        : '1.9.50',
         serviceTokenGenerator   : '1.0.4',
