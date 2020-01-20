@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.finrem.functional.util.FunctionalTestUtils;
 
-
 import java.util.Base64;
 
 @Slf4j
