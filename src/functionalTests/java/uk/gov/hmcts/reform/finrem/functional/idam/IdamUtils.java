@@ -54,8 +54,7 @@ public class IdamUtils implements IdamUserClient {
             .post(idamTokenUrl(response.getBody().path("code")));
 
         String token = response.getBody().path("access_token");
-        System.out.println("Printing " +
-            "autho Token :" + token);
+        System.out.println("Printing autho Token :" + token);
 
         return token;
     }
