@@ -151,6 +151,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
                     .when().get(pbaValidationUrl + url + account).andReturn();
 
             JsonPath jsonPathEvaluator = response.jsonPath();
+            System.out.println("Response code " + response.getStatusCode() + ", " + response.getStatusLine());
+            System.out.println("Response: " + response.getBody().prettyPrint());
 
             if (status.equalsIgnoreCase("Active")) {
                 assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString()
