@@ -6,6 +6,5 @@ java:
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL : http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     IDAM_API_URL : https://idam-api.aat.platform.hmcts.net
     FEES_API_URL : http://fees-register-api-aat.service.core-compute-aat.internal
-    PRD_API_URL : http://rpa-rd-professional-aat.service.core-compute-aat.internal
+    PRD_API_URL : http://rd-professional-api-aat.service.core-compute-aat.internal
     IDAM_S2S_URL : http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-
