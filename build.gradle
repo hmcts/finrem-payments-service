@@ -129,7 +129,10 @@ dependencyManagement {
             entry 'tomcat-embed-el'
             entry 'tomcat-embed-websocket'
         }
+        // CVE-2019-10086
         dependency group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanUtils
+        // CVE-2018-10237
+        dependency group: 'com.google.guava', name: 'guava', version: '28.1-jre'
     }
 }
 
