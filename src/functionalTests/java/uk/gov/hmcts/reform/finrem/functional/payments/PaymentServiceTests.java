@@ -55,8 +55,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
         pbaAccounts.put(pbaAccountInActive, "Inactive");
 
         validatePBAAccountNumber(PBA_VALIDATE, pbaAccounts);
-
-
     }
 
     @Test
@@ -79,7 +77,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
     @Test
     public void verifyPBAPaymentSuccessTest() {
         validatePostSuccessForPBAPayment(PBA_PAYMENT);
-
     }
 
     @Test
@@ -88,7 +85,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
         validateFailurePBAPayment(PBA_PAYMENT);
 
     }
-
 
     private void validatePostSuccess(String url) {
         System.out.println("Fee LookUp : " + pbaValidationUrl + url);
@@ -101,7 +97,6 @@ public class PaymentServiceTests extends IntegrationTestBase {
     }
 
     private void validatePostSuccessForPBAValidation(String url) {
-
         System.out.println("PBA Validation : " + pbaValidationUrl + url + "PBA0066906");
 
         SerenityRest.given()
@@ -119,7 +114,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
         int statusCode = response.getStatusCode();
         JsonPath jsonPathEvaluator = response.jsonPath();
 
-        assertEquals(statusCode, 200);
+        assertEquals(200, statusCode);
 
         if (pbaAccountLiberataCheckEnabled) {
             assertTrue(jsonPathEvaluator.get("paymentError").toString()
@@ -136,7 +131,7 @@ public class PaymentServiceTests extends IntegrationTestBase {
         int statusCode = response.getStatusCode();
         JsonPath jsonPathEvaluator = response.jsonPath();
 
-        assertEquals(statusCode, 200);
+        assertEquals(200, statusCode);
 
         assertTrue(PAYMENT_STATUS_SUCCESS.contains(jsonPathEvaluator.get("status").toString().toLowerCase()));
     }
@@ -150,13 +145,10 @@ public class PaymentServiceTests extends IntegrationTestBase {
                 .body(utils.getJsonFromFile(payload))
                 .when().post(url)
                 .andReturn();
-
     }
 
     private void validatePBAAccountNumber(String url, HashMap<String, String> pbaAccount) {
-
         pbaAccount.forEach((account, status) -> {
-
             Response response = SerenityRest.given()
                     .relaxedHTTPSValidation()
                     .headers(utils.getHeader())
@@ -165,18 +157,12 @@ public class PaymentServiceTests extends IntegrationTestBase {
             JsonPath jsonPathEvaluator = response.jsonPath();
 
             if (status.equalsIgnoreCase("Active")) {
-
                 assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString()
                         .equalsIgnoreCase("true"));
-
             } else if (status.equalsIgnoreCase("Inactive")) {
-
                 assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString()
                         .equalsIgnoreCase("false"));
             }
-
         });
     }
 }
-
-
