@@ -46,12 +46,23 @@ public class ApplicationConfiguration {
         }
 
         CloseableHttpClient httpClient = httpClientBuilder.build();
-        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
-        requestFactory.setConnectionRequestTimeout(httpConfiguration.getRequestTimeout());
-        requestFactory.setConnectTimeout(httpConfiguration.getTimeout());
-        requestFactory.setReadTimeout(httpConfiguration.getReadTimeout());
+        HttpComponentsClientHttpRequestFactory requestFactory = createHttpRequestFactory(httpClient);
 
         return new RestTemplate(requestFactory);
+    }
+
+    private HttpComponentsClientHttpRequestFactory createHttpRequestFactory(CloseableHttpClient httpClient) {
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        if (httpConfiguration.getRequestTimeout() >= 0) {
+            requestFactory.setConnectionRequestTimeout(httpConfiguration.getRequestTimeout());
+        }
+        if (httpConfiguration.getTimeout() >= 0) {
+            requestFactory.setConnectTimeout(httpConfiguration.getTimeout());
+        }
+        if (httpConfiguration.getReadTimeout() >= 0) {
+            requestFactory.setReadTimeout(httpConfiguration.getReadTimeout());
+        }
+        return requestFactory;
     }
 
     @Bean

@@ -58,10 +58,6 @@ variable "prd_api_url" {
   default = "https://rd-professional-api-aat.service.core-compute-aat.internal"
 }
 
-variable "prd_api_old_url" {
-  default = "http://rpa-rd-professional-aat.service.core-compute-aat.internal"
-}
-
 variable "idam_s2s_url_prefix" {
   default = "rpe-service-auth-provider"
 }
@@ -101,12 +97,4 @@ variable "ssl_verification_enabled" {
 
 variable "swagger_enabled" {
   default = true
-}
-
-variable "prd_api_old_enabled" {
-  default = false
-}
-
-variable "prd_legacy_url_enabled" {
-  default = false
 }

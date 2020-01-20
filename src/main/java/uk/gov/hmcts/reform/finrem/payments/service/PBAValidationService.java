@@ -21,12 +21,12 @@ import java.net.URI;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
 @EnableFeignClients(basePackageClasses = ServiceAuthorisationApi.class)
 public class PBAValidationService {
+
     private final IdamService idamService;
     private final PBAValidationServiceConfiguration serviceConfig;
     private final RestTemplate restTemplate;
@@ -38,12 +38,7 @@ public class PBAValidationService {
         log.info("Inside isPBAValid, PRD API uri : {}, emailId : {}", uri, emailId);
         try {
             HttpEntity request;
-            if (serviceConfig.isEnableOldUrl()) {
-                request = buildRequest();
-            } else {
-                request = buildRequest(authToken);
-            }
-            log.info("before prd call ...");
+            request = buildRequest(authToken);
             ResponseEntity<PBAOrganisationResponse> responseEntity = restTemplate.exchange(uri, GET,
                     request, PBAOrganisationResponse.class);
             PBAOrganisationResponse pbaOrganisationResponse = responseEntity.getBody();
@@ -52,15 +47,9 @@ public class PBAValidationService {
                     .contains(pbaNumber);
             return PBAValidationResponse.builder().pbaNumberValid(isValid).build();
         } catch (HttpClientErrorException ex) {
-            log.info("HttpClientErrorException ...{}", ex);
+            log.info("HttpClientErrorException caught", ex);
             return PBAValidationResponse.builder().build();
         }
-    }
-
-    private HttpEntity buildRequest() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        return new HttpEntity<>(headers);
     }
 
     private HttpEntity buildRequest(String authToken) {
@@ -74,16 +63,9 @@ public class PBAValidationService {
         return new HttpEntity<>(headers);
     }
 
-
     private URI buildUri(String emailId) {
-        if (serviceConfig.isEnableOldUrl()) {
-            return fromHttpUrl(serviceConfig.getOldUrl() + serviceConfig.getOldApi() + emailId).build().toUri();
-        } else if (serviceConfig.isEnableLegacyUrl()) {
-            return fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getLegacyApi() + emailId).build().toUri();
-        } else {
-            return fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi())
-                    .queryParam("email", emailId)
-                    .build().toUri();
-        }
+        return fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi())
+                .queryParam("email", emailId)
+                .build().toUri();
     }
 }

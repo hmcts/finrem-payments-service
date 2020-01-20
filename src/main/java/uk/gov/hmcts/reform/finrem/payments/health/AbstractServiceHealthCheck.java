@@ -3,9 +3,9 @@ package uk.gov.hmcts.reform.finrem.payments.health;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
-import static uk.gov.hmcts.reform.finrem.payments.helper.HealthCheckHelper.configureRestTemplate;
 
 @Slf4j
 public abstract class AbstractServiceHealthCheck implements HealthIndicator {
@@ -18,13 +18,26 @@ public abstract class AbstractServiceHealthCheck implements HealthIndicator {
         this.restTemplate = restTemplate;
     }
 
-    /**
-     * Return an indication of health.
-     *
-     * @return the health for Fees service
-     */
     @Override
     public Health health() {
-        return configureRestTemplate(restTemplate, uri);
+        try {
+            ResponseEntity<Object> response = restTemplate.getForEntity(uri, Object.class);
+            return response.getStatusCode() == (HttpStatus.OK) ? statusHealthy(uri) : statusUnknown(uri);
+        } catch (Exception ex) {
+            log.error("Exception while checking health on {}", uri, ex);
+            return statusError(ex, uri);
+        }
+    }
+
+    private Health statusHealthy(String uri) {
+        return Health.up().withDetail("uri", uri).build();
+    }
+
+    private Health statusError(Exception ex, String uri) {
+        return Health.down().withDetail("uri", uri).withException(ex).build();
+    }
+
+    private Health statusUnknown(String uri) {
+        return Health.unknown().withDetail("uri", uri).build();
     }
 }

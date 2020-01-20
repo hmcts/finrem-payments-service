@@ -8,4 +8,3 @@ java:
     FEES_API_URL : http://fees-register-api-aat.service.core-compute-aat.internal
     PRD_API_URL : http://rd-professional-api-aat.service.core-compute-aat.internal
     IDAM_S2S_URL : http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    PAYMENT_API_URL: http://finrem-ps-aat.service.core-compute-aat.internal

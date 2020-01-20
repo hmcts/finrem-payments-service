@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
     <suppress>
-        <notes>last present in 24.1; fixed in 24.1.1 and 25.0</notes>
-        <cpe>cpe:2.3:a:google:guava:*:*:*:*:*:*:*:*</cpe>
-        <cve>CVE-2018-10237</cve>
-    </suppress>
-    <suppress>
         <notes>CVE-2018-1258: we do not use Spring Method Security, so this does not affect us. see
             https://pivotal.io/security/cve-2018-1258
         </notes>
@@ -25,24 +20,6 @@
     </suppress>
     <suppress>
         <notes><![CDATA[
-            This is exploitable in com.zaxxer.hikari.HikariConfig and com.zaxxer.hikari.HikariDataSource
-            which we do not use. Pending the release of a stable jackson databind version (>2.9.9.3) ]]>
-        </notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2019-14540</cve>
-        <cve>CVE-2019-16335</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
-			Netty before 4.1.42.
-			]]></notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2019-16869</cve>
-        <cve>CVE-2015-2156</cve>
-        <cve>CVE-2014-3488</cve>
-    </suppress>
-    <suppress>
-        <notes><![CDATA[
             Caused by not using latest version of HMCTS service-auth-provider-client.
             Once we move to >3.0.0 these should be removed ]]>
         </notes>
@@ -51,8 +28,5 @@
         <cve>CVE-2017-13098</cve>
         <cve>CVE-2018-1000180</cve>
         <cve>CVE-2018-1000613</cve>
-        <cve>CVE-2019-10101</cve>
-        <cve>CVE-2019-10102</cve>
-        <cve>CVE-2019-10103</cve>
     </suppress>
 </suppressions>

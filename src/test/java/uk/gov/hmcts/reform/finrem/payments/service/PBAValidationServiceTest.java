@@ -47,8 +47,6 @@ public class PBAValidationServiceTest extends BaseServiceTest {
         super.setUp();
         when(pbaValidationServiceConfiguration.getUrl()).thenReturn("http://localhost:9001");
         when(pbaValidationServiceConfiguration.getApi()).thenReturn("/v1/organisations/pbas/");
-        when(pbaValidationServiceConfiguration.getOldApi()).thenReturn("/search/pba/");
-        when(pbaValidationServiceConfiguration.getLegacyApi()).thenReturn("/search/pba/");
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
@@ -124,64 +122,6 @@ public class PBAValidationServiceTest extends BaseServiceTest {
         return new StringBuilder("http://localhost:9001/v1/organisations/pbas/?email=")
                 .append(EMAIL)
                 .toString();
-    }
-
-    private static String toOldUri() {
-        return new StringBuilder("http://localhost:9002/search/pba/")
-                .append(EMAIL)
-                .toString();
-    }
-
-    private static String toLegacyUri() {
-        return new StringBuilder("http://localhost:9001/search/pba/")
-                .append(EMAIL)
-                .toString();
-    }
-
-    @Test
-    public void pbaValidationWithOldUrl() {
-        when(pbaValidationServiceConfiguration.isEnableOldUrl()).thenReturn(true);
-        when(pbaValidationServiceConfiguration.getOldUrl()).thenReturn("http://localhost:9002");
-        mockServer.expect(requestTo(toOldUri()))
-                .andExpect(method(GET))
-                .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
-        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM1");
-        assertThat(response.isPbaNumberValid(), is(true));
-    }
-
-    @Test
-    public void pbaNotFoundWithOldUrl() {
-        when(pbaValidationServiceConfiguration.isEnableOldUrl()).thenReturn(true);
-        when(pbaValidationServiceConfiguration.getOldUrl()).thenReturn("http://localhost:9002");
-        mockServer.expect(requestTo(toOldUri()))
-                .andExpect(method(GET))
-                .andRespond(withStatus(NOT_FOUND));
-
-        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM3");
-        assertThat(response.isPbaNumberValid(), is(false));
-    }
-
-    @Test
-    public void pbaValidationWithLegacyUrl() {
-        when(pbaValidationServiceConfiguration.isEnableLegacyUrl()).thenReturn(true);
-        when(pbaValidationServiceConfiguration.getUrl()).thenReturn("http://localhost:9001");
-        mockServer.expect(requestTo(toLegacyUri()))
-                .andExpect(method(GET))
-                .andRespond(withSuccess(requestContent.toString(), APPLICATION_JSON));
-        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM1");
-        assertThat(response.isPbaNumberValid(), is(true));
-    }
-
-    @Test
-    public void pbaNotFoundWithLegacyUrl() {
-        when(pbaValidationServiceConfiguration.isEnableLegacyUrl()).thenReturn(true);
-        when(pbaValidationServiceConfiguration.getUrl()).thenReturn("http://localhost:9001");
-        mockServer.expect(requestTo(toLegacyUri()))
-                .andExpect(method(GET))
-                .andRespond(withStatus(NOT_FOUND));
-
-        PBAValidationResponse response = pbaValidationService.isPBAValid(AUTH_TOKEN, "NUM3");
-        assertThat(response.isPbaNumberValid(), is(false));
     }
 
     @Test(expected = InvalidTokenException.class)

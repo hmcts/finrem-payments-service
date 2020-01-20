@@ -14,8 +14,8 @@ public class HttpConfigurationTest extends BaseServiceTest {
 
     @Test
     public void shouldCreateHttpConfigFromAppProperties() {
-        assertThat(httpConfiguration.getReadTimeout(), is(60000));
-        assertThat(httpConfiguration.getRequestTimeout(), is(60000));
-        assertThat(httpConfiguration.getReadTimeout(), is(60000));
+        assertThat(httpConfiguration.getTimeout(), is(-1));
+        assertThat(httpConfiguration.getRequestTimeout(), is(-1));
+        assertThat(httpConfiguration.getReadTimeout(), is(-1));
     }
 }
