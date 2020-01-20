@@ -145,6 +145,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     private void validatePBAAccountNumber(String url, HashMap<String, String> pbaAccount) {
         pbaAccount.forEach((account, status) -> {
+            System.out.println("TEST_URL: " + System.getenv("TEST_URL"));
+            System.out.println("Fetching response from " + pbaValidationUrl + url + account);
             Response response = SerenityRest.given()
                     .relaxedHTTPSValidation()
                     .headers(utils.getHeader())
