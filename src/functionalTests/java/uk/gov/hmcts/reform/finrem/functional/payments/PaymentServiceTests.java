@@ -19,38 +19,31 @@ import static uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRespo
 
 @RunWith(SerenityRunner.class)
 public class PaymentServiceTests extends IntegrationTestBase {
-    private static String FEE_LOOKUP = "/payments/fee-lookup?application-type=";
-    private static String PBA_VALIDATE = "/payments/pba-validate/";
-    private static String PBA_PAYMENT = "/payments/pba-payment";
-    private HashMap<String, String> pbaAccounts = new HashMap<>();
 
+    private static final String FEE_LOOKUP = "/payments/fee-lookup?application-type=";
+    private static final String PBA_VALIDATE = "/payments/pba-validate/";
+    private static final String PBA_PAYMENT = "/payments/pba-payment";
+    private static final String VALID = "Valid";
+    private static final String INVALID = "Invalid";
+
+    private HashMap<String, String> pbaAccounts = new HashMap<>();
 
     @Value("${payment_api_url}")
     private String pbaValidationUrl;
 
-    @Value("${idam.s2s-auth.microservice}")
-    private String microservice;
+    @Value("${pba.account.valid}")
+    private String pbaAccountValid;
 
-    @Value("${idam.s2s-auth.secret}")
-    private String authClientSecret;
-
-    @Value("${pdf_access_key}")
-    private String pdfAccessKey;
-
-    @Value("${pba.account.active}")
-    private String pbaAccountActive;
-
-    @Value("${pba.account.inactive}")
-    private String pbaAccountInActive;
+    @Value("${pba.account.invalid}")
+    private String pbaAccountInvalid;
 
     @Value("${pba.account.liberata.check.enabled}")
     private boolean pbaAccountLiberataCheckEnabled;
 
-
     @Test
     public void verifyPBAAccountStatus() {
-        pbaAccounts.put(pbaAccountActive, "Active");
-        pbaAccounts.put(pbaAccountInActive, "Inactive");
+        pbaAccounts.put(pbaAccountValid, VALID);
+        pbaAccounts.put(pbaAccountInvalid, INVALID);
 
         validatePBAAccountNumber(PBA_VALIDATE, pbaAccounts);
     }
@@ -145,24 +138,12 @@ public class PaymentServiceTests extends IntegrationTestBase {
 
     private void validatePBAAccountNumber(String url, HashMap<String, String> pbaAccount) {
         pbaAccount.forEach((account, status) -> {
-            System.out.println("TEST_URL: " + System.getenv("TEST_URL"));
-            System.out.println("Fetching response from " + pbaValidationUrl + url + account);
             Response response = SerenityRest.given()
                     .relaxedHTTPSValidation()
                     .headers(utils.getHeader())
                     .when().get(pbaValidationUrl + url + account).andReturn();
 
-            JsonPath jsonPathEvaluator = response.jsonPath();
-            System.out.println("Response code " + response.getStatusCode() + ", " + response.getStatusLine());
-            System.out.println("Response: " + response.getBody().prettyPrint());
-
-            if (status.equalsIgnoreCase("Active")) {
-                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString()
-                        .equalsIgnoreCase("true"));
-            } else if (status.equalsIgnoreCase("Inactive")) {
-                assertTrue(jsonPathEvaluator.get("pbaNumberValid").toString()
-                        .equalsIgnoreCase("false"));
-            }
+            assertTrue(response.jsonPath().get("pbaNumberValid").toString().equalsIgnoreCase(VALID.equals(status) ? "true" : "false"));
         });
     }
 }
