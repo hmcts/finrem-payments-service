@@ -143,7 +143,8 @@ public class PaymentServiceTests extends IntegrationTestBase {
                     .headers(utils.getHeader())
                     .when().get(pbaValidationUrl + url + account).andReturn();
 
-            assertTrue(response.jsonPath().get("pbaNumberValid").toString().equalsIgnoreCase(VALID.equals(status) ? "true" : "false"));
+            assertTrue(response.jsonPath().get("pbaNumberValid").toString().equalsIgnoreCase(
+                VALID.equals(status) ? "true" : "false"));
         });
     }
 }
