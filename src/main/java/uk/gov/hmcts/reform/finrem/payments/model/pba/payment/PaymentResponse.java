@@ -38,10 +38,8 @@ public class PaymentResponse {
 
 
     public String getPaymentError() {
-        return Optional.ofNullable(statusHistories)
-                .map(s -> (s.size() > 0 ? s.get(0).getErrorMessage() : message))
-                .orElse(message);
-
+        return Optional.ofNullable(statusHistories).filter(s -> s.size() > 0)
+            .map(s -> s.get(0).getErrorMessage()).orElse(message);
     }
 
     public boolean isPaymentSuccess() {

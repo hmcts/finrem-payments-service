@@ -11,11 +11,11 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequest;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponse;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestStringContent;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_REF;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_SUCCESS_STATUS;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequest;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestStringContent;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponse;
 
 @WebMvcTest(PBAPaymentController.class)
 public class PBAPaymentControllerTest extends BaseControllerTest {

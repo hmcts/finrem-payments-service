@@ -14,17 +14,17 @@ import java.nio.charset.Charset;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentDuplicateError;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseClient422Error;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseClient404Error;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseClient401Error;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseClient404Error;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseClient422Error;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseErrorToString;
 
 @RunWith(MockitoJUnitRunner.class)
