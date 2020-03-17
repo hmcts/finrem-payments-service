@@ -17,11 +17,9 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @RequiredArgsConstructor
 @RequestMapping(value = "/payments")
 @Slf4j
-@SuppressWarnings("unchecked")
 public class PBAValidateController {
     private final PBAValidationService pbaValidationService;
 
-    @SuppressWarnings("unchecked")
     @ApiOperation("Validate Solicitor Pay By Account (PBA) number for payment")
     @GetMapping(path = "/pba-validate/{pbaNumber}", produces = APPLICATION_JSON)
     public PBAValidationResponse pbaValidate(

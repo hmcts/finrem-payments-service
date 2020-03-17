@@ -20,7 +20,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @RequiredArgsConstructor
 @RequestMapping(value = "/payments")
 @Slf4j
-@SuppressWarnings("unchecked")
 public class FeeLookupController {
     private final FeeService feeService;
 
