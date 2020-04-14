@@ -65,14 +65,4 @@ withPipeline(type, product, component) {
                 alwaysLinkToLastBuild: true
         ]
     }
-
-//    enablePactAs([
-//            AppPipelineDsl.PactRoles.CONSUMER,
-//            AppPipelineDsl.PactRoles.PROVIDER
-//    ])
-
-//    before('buildinfra:prod') {
-//        error('Halting pipeline before PROD.')
-//    }
-
 }
