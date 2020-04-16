@@ -17,11 +17,4 @@
         <cve>CVE-2018-1000180</cve>
         <cve>CVE-2018-1000613</cve>
     </suppress>
-    <suppress>
-        <notes>Suppressing for demo deployment</notes>
-        <cve>CVE-2019-16942</cve>
-        <cve>CVE-2019-16943</cve>
-        <cve>CVE-2019-17267</cve>
-        <cve>CVE-2019-17531</cve>
-    </suppress>
 </suppressions>
