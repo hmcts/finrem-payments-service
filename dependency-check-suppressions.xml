@@ -7,18 +7,6 @@
         <cve>CVE-2018-1258</cve>
     </suppress>
     <suppress>
-        <notes>We are using SecureRandom without a custom seed so not affected. This will however be
-            fixed with spring boot 2.1.4 upgrade which is using spring-security.* of 5.1.5 or higher
-        </notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2019-3795</cve>
-    </suppress>
-    <suppress>
-        <notes>Ignore checkstyle</notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2019-9658</cve>
-    </suppress>
-    <suppress>
         <notes><![CDATA[
             Caused by not using latest version of HMCTS service-auth-provider-client.
             Once we move to >3.0.0 these should be removed ]]>
