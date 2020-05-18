@@ -215,7 +215,7 @@ public class PaymentE2ETest {
     private String feeLookupUrl(ApplicationType applicationType) {
         if (applicationType == CONSENTED) {
             return feeApi + "?service=other&jurisdiction1=family&jurisdiction2=family-court"
-                    + "&channel=default&event=general%20application&keyword=without-notice";
+                    + "&channel=default&event=general%20application&keyword=GeneralAppWithoutNotice";
         } else {
             return feeApi + "?service=other&jurisdiction1=family&jurisdiction2=family-court"
                     + "&channel=default&event=miscellaneous&keyword=financial-order";

@@ -21,7 +21,7 @@ public class FeeServiceConfigurationTest extends BaseServiceTest {
         assertThat(config.getJurisdiction2(), is("family-court"));
         assertThat(config.getService(), is("other"));
         assertThat(config.getConsentedEvent(), is("general application"));
-        assertThat(config.getConsentedKeyword(), is("without-notice"));
+        assertThat(config.getConsentedKeyword(), is("GeneralAppWithoutNotice"));
     }
 
 

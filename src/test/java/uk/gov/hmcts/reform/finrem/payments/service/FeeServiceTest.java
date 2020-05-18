@@ -55,7 +55,7 @@ public class FeeServiceTest extends BaseServiceTest {
 
     private String consentedUri() {
         return "http://localhost:8182/fees-register/fees/lookup?service=other&jurisdiction1=family&jurisdiction2=family-court&channel=default"
-                + "&event=general%20application&keyword=without-notice";
+                + "&event=general%20application&keyword=GeneralAppWithoutNotice";
     }
 
     private String contestedUri() {
