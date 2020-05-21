@@ -12,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '2.8 -> 2.8.0.1969'
+        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '2.8'
         classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.83")
     }
 }
@@ -48,6 +48,7 @@ repositories {
     mavenLocal()
     jcenter()
     maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
+    maven { url "http://repo.maven.apache.org/maven2" }
     maven { url 'https://repo.spring.io/libs-milestone' }
 }
 
@@ -99,13 +100,13 @@ def versions = [
         javaxWsRs               : '2.1.1',
         jsonAssert              : '1.5.0',
         junit                   : '4.13',
-        lombok                  : '1.18.12',
+        lombok                  : '1.18.10',
         mockito                 : '2.8.9',
-        pact_version            : '3.6.15',
+        pact_version            : '3.6.14',
         pitest                  : '1.4.11',
         puppyCrawl              : '8.29',
         reformHealth            : '0.0.5',
-        reformLogging           : '5.1.5',
+        reformLogging           : '5.1.1',
         reformPropertiesVolume  : '0.0.4',
         restAssured             : '3.0.3',
         serenity                : '2.0.91',
@@ -114,7 +115,7 @@ def versions = [
         springfoxSwagger        : '2.9.2',
         springRetry             : '1.2.5.RELEASE',
         tomcat                  : '9.0.31',
-        wiremockVersion         : '2.26.3'
+        wiremockVersion         : '2.25.1'
 ]
 
 dependencyManagement {
