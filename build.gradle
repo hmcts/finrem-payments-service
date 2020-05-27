@@ -114,7 +114,7 @@ def versions = [
         serviceTokenGenerator   : '1.0.4',
         springfoxSwagger        : '2.9.2',
         springRetry             : '1.2.5.RELEASE',
-        tomcat                  : '9.0.31',
+        tomcat                  : '9.0.35',
         wiremockVersion         : '2.25.1'
 ]
 
