@@ -86,12 +86,12 @@ public class PaymentServiceTests extends IntegrationTestBase {
     }
 
     private void validatePostSuccessForPBAValidation(String url) {
-        System.out.println("PBA Validation : " + pbaValidationUrl + url + "PBA0066906");
+        System.out.println("PBA Validation : " + pbaValidationUrl + url + "PBA0087935");
 
         SerenityRest.given()
                 .relaxedHTTPSValidation()
                 .headers(utils.getHeader())
-                .when().get(pbaValidationUrl + url + "PBA0066906")
+                .when().get(pbaValidationUrl + url + "PBA0087935")
                 .then()
                 .assertThat().statusCode(200);
     }
