@@ -4,6 +4,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
 import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
@@ -21,6 +22,9 @@ public class FeeServiceTest extends BaseServiceTest {
 
     @Autowired
     private FeeService feeService;
+
+    @Value("${fees.consented-keyword}")
+    private String consentedFeeKeyword;
 
     @Test
     public void retrieveConsentedFee() {
@@ -55,7 +59,7 @@ public class FeeServiceTest extends BaseServiceTest {
 
     private String consentedUri() {
         return "http://localhost:8182/fees-register/fees/lookup?service=other&jurisdiction1=family&jurisdiction2=family-court&channel=default"
-                + "&event=general%20application&keyword=without-notice";
+                + "&event=general%20application&keyword=" + consentedFeeKeyword;
     }
 
     private String contestedUri() {
