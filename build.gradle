@@ -97,14 +97,12 @@ def versions = [
         commonsBeanUtils        : '1.9.4',
         commonsLang3            : '3.9',
         commonsIo               : '2.6',
-        gradlePitest            : '1.4.5',
         javaxWsRs               : '2.1.1',
         jsonAssert              : '1.5.0',
         junit                   : '4.13',
         lombok                  : '1.18.10',
         mockito                 : '2.8.9',
         pact_version            : '3.6.14',
-        pitest                  : '1.4.11',
         puppyCrawl              : '8.29',
         reformHealth            : '0.0.5',
         reformLogging           : '5.1.1',
@@ -152,9 +150,6 @@ dependencies {
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
     implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
-
-    implementation group: 'org.pitest', name: 'pitest', version: versions.pitest
-    implementation group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: versions.gradlePitest
     implementation group: 'org.codehaus.sonar-plugins', name:'sonar-pitest-plugin', version: versions.sonarPitest
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
@@ -257,16 +252,16 @@ sonarqube {
 }
 
 pitest {
-    targetClasses = ['uk.gov.hmcts.reform.finrem.payments.*']
-    excludedClasses = [
+    targetClasses.set( ['uk.gov.hmcts.reform.finrem.payments.*'])
+    excludedClasses.set([
             'uk.gov.hmcts.reform.finrem.payments.PaymentsApplication',
             'uk.gov.hmcts.reform.finrem.payments.model.*',
             'uk.gov.hmcts.reform.finrem.payments.config.*',
-            'uk.gov.hmcts.reform.finrem.payments.controllers.PaymentByAccountStub']
-    threads = 4
-    outputFormats = ['XML', 'HTML']
-    timestampedReports = false
-    mutationThreshold = 80
+            'uk.gov.hmcts.reform.finrem.payments.controllers.PaymentByAccountStub'])
+    threads.set(4)
+    outputFormats.set(['XML', 'HTML'])
+    timestampedReports.set(false)
+    mutationThreshold.set(80)
 }
 
 bootJar {
