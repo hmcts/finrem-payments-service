@@ -2,26 +2,18 @@ buildscript {
     ext {
         springBootVersion = '2.2.6.RELEASE'
     }
-    repositories {
-        jcenter()
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
-        maven { url "https://repo1.maven.org/maven2/" }
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '2.8'
-        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.83")
+        classpath group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '3.0'
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.2.12")
     }
 }
 
 plugins {
     id 'application'
     id 'checkstyle'
-    id 'com.github.ben-manes.versions' version '0.28.0'
-    id 'io.franzbecker.gradle-lombok' version '3.2.0'
+    id 'com.github.ben-manes.versions' version '0.29.0'
+    id 'io.franzbecker.gradle-lombok' version '4.0.0'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "info.solidsoft.pitest" version "1.5.1"
     id 'jacoco'
@@ -41,14 +33,12 @@ apply plugin: 'net.serenity-bdd.aggregator'
 group = 'uk.gov.hmcts.reform.finrem'
 version = '0.0.1'
 mainClassName = 'uk.gov.hmcts.reform.finrem.payments.PaymentsApplication'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
-    mavenLocal()
     jcenter()
     maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
-    maven { url "http://repo.maven.apache.org/maven2" }
     maven { url 'https://repo.spring.io/libs-milestone' }
 }
 
@@ -95,36 +85,33 @@ configurations {
 
 def versions = [
         commonsBeanUtils        : '1.9.4',
-        commonsLang3            : '3.9',
-        commonsIo               : '2.6',
+        commonsLang3            : '3.11',
+        commonsIo               : '2.7',
         javaxWsRs               : '2.1.1',
         jsonAssert              : '1.5.0',
         junit                   : '4.13',
-        lombok                  : '1.18.10',
-        mockito                 : '2.8.9',
-        pact_version            : '3.6.14',
+        lombok                  : '1.18.12',
+        mockito                 : '3.4.4',
+        pact_version            : '3.6.15',
         puppyCrawl              : '8.29',
         reformHealth            : '0.0.5',
-        reformLogging           : '5.1.1',
-        reformPropertiesVolume  : '0.0.4',
+        reformLogging           : '5.1.6',
+        reformPropertiesVolume  : '0.1.0',
         restAssured             : '3.0.3',
-        serenity                : '2.0.91',
-        serenityCucumber        : '1.9.50',
+        serenity                : '2.2.12',
+        serenityCucumber        : '1.9.51',
         serviceTokenGenerator   : '1.0.4',
         sonarPitest             : '0.5',
         springfoxSwagger        : '2.9.2',
-        springRetry             : '1.2.5.RELEASE',
+        springRetry             : '1.3.0',
         tomcat                  : '9.0.37',
-        wiremockVersion         : '2.25.1'
+        wiremockVersion         : '2.27.1'
 ]
 
 dependencyManagement {
     dependencies {
         // CVE-2019-17563
-        dependencySet(
-                group: 'org.apache.tomcat.embed',
-                version: versions.tomcat
-        ) {
+        dependencySet(group: 'org.apache.tomcat.embed', version: versions.tomcat) {
             entry 'tomcat-embed-core'
             entry 'tomcat-embed-el'
             entry 'tomcat-embed-websocket'
@@ -191,18 +178,11 @@ dependencyCheck {
     // range of 0-10 fails the build, anything greater and it doesn't fail the build
     failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
     suppressionFile = 'dependency-check-suppressions.xml'
-    analyzers {
-        // Disable scanning of .NET related binaries
-        assemblyEnabled = false
-    }
 }
 
-checkstyle {
-    maxWarnings = 0
-    toolVersion = '8.29'
-    // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
-    configFile = new File(rootDir, "checkstyle.xml")
-}
+checkstyle.toolVersion = '8.32'
+checkstyle.configFile = new File(rootDir, "checkstyle.xml")
+checkstyle.maxWarnings(0)
 
 // make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
 tasks.withType(Checkstyle).each { checkstyleTask ->
@@ -218,7 +198,6 @@ tasks.withType(Checkstyle).each { checkstyleTask ->
 
 jacocoTestReport {
     executionData(test)
-
     reports {
         xml.enabled = true
         csv.enabled = false
