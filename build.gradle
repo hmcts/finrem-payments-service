@@ -92,14 +92,14 @@ def versions = [
         junit                   : '4.13',
         lombok                  : '1.18.12',
         mockito                 : '3.4.4',
-        pact_version            : '3.6.14',
+        pact_version            : '3.6.15',
         puppyCrawl              : '8.29',
         reformHealth            : '0.0.5',
         reformLogging           : '5.1.6',
         reformPropertiesVolume  : '0.1.0',
         restAssured             : '3.0.3',
         serenity                : '2.2.12',
-        serenityCucumber        : '1.9.50',
+        serenityCucumber        : '1.9.51',
         serviceTokenGenerator   : '1.0.4',
         sonarPitest             : '0.5',
         springfoxSwagger        : '2.9.2',
@@ -111,10 +111,7 @@ def versions = [
 dependencyManagement {
     dependencies {
         // CVE-2019-17563
-        dependencySet(
-                group: 'org.apache.tomcat.embed',
-                version: versions.tomcat
-        ) {
+        dependencySet(group: 'org.apache.tomcat.embed', version: versions.tomcat) {
             entry 'tomcat-embed-core'
             entry 'tomcat-embed-el'
             entry 'tomcat-embed-websocket'
@@ -201,7 +198,6 @@ tasks.withType(Checkstyle).each { checkstyleTask ->
 
 jacocoTestReport {
     executionData(test)
-
     reports {
         xml.enabled = true
         csv.enabled = false
