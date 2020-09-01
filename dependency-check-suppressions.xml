@@ -28,4 +28,5 @@
         <packageUrl regex="true">^pkg:maven/org.yaml/snakeyaml@.*$</packageUrl>
         <cve>CVE-2017-18640</cve>
     </suppress>
+
 </suppressions>
