@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.finrem.functional.util;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import java.nio.file.Files;
 
 import static io.restassured.RestAssured.given;
 
-
+@Slf4j
 @Component
 public class FunctionalTestUtils {
 
@@ -44,6 +45,7 @@ public class FunctionalTestUtils {
     }
 
     public Headers getHeader() {
+        log.info("Username is : {}, password is : {} ", idamUserName, idamUserPassword);
         String authToken = idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword);
         System.out.println(authToken);
         return Headers.headers(
