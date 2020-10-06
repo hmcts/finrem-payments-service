@@ -17,6 +17,7 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAOrganisationR
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationResponse;
 
 import java.net.URI;
+import java.util.Objects;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
@@ -41,7 +42,7 @@ public class PBAValidationService {
             request = buildRequest(authToken);
             ResponseEntity<PBAOrganisationResponse> responseEntity = restTemplate.exchange(uri, GET,
                     request, PBAOrganisationResponse.class);
-            PBAOrganisationResponse pbaOrganisationResponse = responseEntity.getBody();
+            PBAOrganisationResponse pbaOrganisationResponse = Objects.requireNonNull(responseEntity.getBody());
             log.info("pbaOrganisationEntityResponse : {}", pbaOrganisationResponse);
             boolean isValid = pbaOrganisationResponse.getOrganisationEntityResponse().getPaymentAccount()
                     .contains(pbaNumber);

@@ -12,6 +12,7 @@ import uk.gov.hmcts.reform.finrem.payments.config.IdamServiceConfiguration;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 
@@ -28,7 +29,7 @@ public class IdamService {
         URI uri = buildUri();
         log.info("Inside getUserEmailId, IDAM API uri : {}, request : {} ", uri, request);
         ResponseEntity<Map> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, request, Map.class);
-        Map result = responseEntity.getBody();
+        Map result = Objects.requireNonNull(responseEntity.getBody());
         return result.get("email").toString().toLowerCase();
     }
 
