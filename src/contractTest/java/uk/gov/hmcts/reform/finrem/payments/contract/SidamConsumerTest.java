@@ -15,17 +15,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import uk.gov.hmcts.reform.finrem.payments.service.IdamService;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "SIDAM_Provider", port = "8888")
-@SpringBootTest({
-        "idam.url: http://localhost:8888"
-    })
+@SpringBootTest({"idam.url: http://localhost:8888"})
 @TestPropertySource(locations = "classpath:application-contractTest.properties")
 public class SidamConsumerTest {
-
 
     @Autowired
     private IdamService idamService;
@@ -52,14 +49,12 @@ public class SidamConsumerTest {
     @PactTestFor(pactMethod = "sidamServicePact")
     public void verifyIdamUserDetailsRolesPact() {
         String userEmail =  idamService.getUserEmailId(AUTH_TOKEN);
-        assertTrue("User is not Admin",userEmail.equals("testforename@test.com"));
+        assertEquals("User is not Admin", "testforename@test.com", userEmail);
     }
-
-
 
     private JSONObject idamUserDetailsResponse() throws JSONException {
         JSONObject details = new JSONObject();
-        details.put("email","testforename@test.com");
+        details.put("email", "testforename@test.com");
 
         return details;
     }

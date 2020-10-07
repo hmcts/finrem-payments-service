@@ -31,7 +31,6 @@ public class IdamUtils implements IdamUserClient {
     @Value("${idam.api.secret}")
     private String idamSecret;
 
-
     public String generateUserTokenWithNoRoles(String username, String password) {
 
         String userLoginDetails = String.join(":", username, password);
@@ -53,29 +52,26 @@ public class IdamUtils implements IdamUserClient {
             .post(idamTokenUrl(response.getBody().path("code")));
 
         String token = response.getBody().path("access_token");
-        System.out.println("Printing autho Token :" + token);
+        System.out.println("Printing auth token: " + token);
 
         return token;
     }
 
     private String idamCodeUrl() {
-        String myUrl = idamUserBaseUrl + "/oauth2/authorize"
+
+        return idamUserBaseUrl + "/oauth2/authorize"
             + "?response_type=code"
             + "&client_id=finrem"
             + "&redirect_uri=" + idamRedirectUri;
-
-        return myUrl;
     }
 
     private String idamTokenUrl(String code) {
-        String myUrl = idamUserBaseUrl + "/oauth2/token"
+
+        return idamUserBaseUrl + "/oauth2/token"
             + "?code=" + code
             + "&client_id=finrem"
             + "&client_secret=" + idamSecret
             + "&redirect_uri=" + idamRedirectUri
             + "&grant_type=authorization_code";
-
-        return myUrl;
     }
-
 }

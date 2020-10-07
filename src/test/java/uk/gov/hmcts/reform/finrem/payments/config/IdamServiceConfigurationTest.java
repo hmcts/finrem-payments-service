@@ -4,8 +4,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 public class IdamServiceConfigurationTest extends BaseServiceTest {
 
@@ -17,5 +17,4 @@ public class IdamServiceConfigurationTest extends BaseServiceTest {
         assertThat(config.getUrl(), is("http://localhost:4501"));
         assertThat(config.getApi(), is("/details"));
     }
-
 }

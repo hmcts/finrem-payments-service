@@ -21,6 +21,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @RequestMapping(value = "/payments")
 @Slf4j
 public class FeeLookupController {
+
     private final FeeService feeService;
 
     @InitBinder
@@ -32,8 +33,7 @@ public class FeeLookupController {
     @ApiOperation("Return fee amount for application type (consented/contested)")
     @GetMapping(path = "/fee-lookup", produces = APPLICATION_JSON)
     public FeeResponse feeLookup(@RequestParam(value = "application-type") ApplicationType applicationType) {
-        log.info("Received request for FEE lookup, applicationType = {} ", applicationType);
+        log.info("Received request for Fee lookup, applicationType = {} ", applicationType);
         return feeService.getApplicationFee(applicationType);
     }
-
 }

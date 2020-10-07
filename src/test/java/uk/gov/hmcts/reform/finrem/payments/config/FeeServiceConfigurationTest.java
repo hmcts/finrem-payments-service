@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.reform.finrem.payments.BaseServiceTest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 public class FeeServiceConfigurationTest extends BaseServiceTest {
 
@@ -39,5 +39,4 @@ public class FeeServiceConfigurationTest extends BaseServiceTest {
         assertThat(config.getContestedEvent(), is("miscellaneous"));
         assertThat(config.getContestedKeyword(), is("financial-order"));
     }
-
 }

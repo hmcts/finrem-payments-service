@@ -8,8 +8,8 @@ import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.error.PaymentException;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -25,6 +25,7 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
     public static final String AUTH_TOKEN = "Bearer HBJHBKJiuui7097HJH";
     private static final String INVALID_AUTH_TOKEN = "HBJHBKJiuui7097HJH";
     public static final String URI = "http://localhost:8181/credit-account-payments";
+
     @Autowired
     private PBAPaymentService pbaPaymentService;
 

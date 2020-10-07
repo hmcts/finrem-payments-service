@@ -4,7 +4,7 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.STATUS_CODE;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.feignError;

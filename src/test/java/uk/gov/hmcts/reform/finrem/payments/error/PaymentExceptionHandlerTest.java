@@ -10,10 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
-import java.nio.charset.Charset;
-
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -29,7 +28,6 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseErro
 
 @RunWith(MockitoJUnitRunner.class)
 public class PaymentExceptionHandlerTest {
-    private static Charset UTF8 = Charset.forName("UTF-8");
 
     @Spy
     private final ObjectMapper mapper = new ObjectMapper();
@@ -92,7 +90,7 @@ public class PaymentExceptionHandlerTest {
     private PaymentException duplicatePaymentError() {
         return new PaymentException(
                 new HttpClientErrorException(BAD_REQUEST, "",
-                        "duplicate payment".getBytes(), UTF8)
+                        "duplicate payment".getBytes(), UTF_8)
         );
 
     }
@@ -100,29 +98,28 @@ public class PaymentExceptionHandlerTest {
     private PaymentException paymentApi422Error() {
         return new PaymentException(
                 new HttpClientErrorException(UNPROCESSABLE_ENTITY, "",
-                        "Invalid or missing attribute".getBytes(), UTF8)
+                        "Invalid or missing attribute".getBytes(), UTF_8)
         );
     }
 
     private PaymentException paymentApi404Error() {
         return new PaymentException(
                 new HttpClientErrorException(NOT_FOUND, "",
-                        "Account information could not be found".getBytes(), UTF8)
+                        "Account information could not be found".getBytes(), UTF_8)
         );
     }
 
     private PaymentException paymentApi401Error() {
         return new PaymentException(
                 new HttpClientErrorException(FORBIDDEN, "",
-                        paymentResponseErrorToString().getBytes(), UTF8)
+                        paymentResponseErrorToString().getBytes(), UTF_8)
         );
     }
 
     private PaymentException paymentApi403ValidationError() {
         return new PaymentException(
                 new HttpClientErrorException(FORBIDDEN, "",
-                        paymentResponseErrorToString().getBytes(), UTF8)
+                        paymentResponseErrorToString().getBytes(), UTF_8)
         );
     }
-
 }
