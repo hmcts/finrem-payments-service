@@ -5,13 +5,18 @@ import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 
 public class OrganisationEntityResponseTest {
 
-    private String json = "{\n"
+    private OrganisationEntityResponse organisationEntityResponse;
+
+    @Before
+    public void setUp() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = "{\n"
             + "    \"organisationIdentifier\": \"LY7RZOE\",\n"
             + "    \"name\": \"TestOrg1\",\n"
             + "    \"status\": \"ACTIVE\",\n"
@@ -30,12 +35,6 @@ public class OrganisationEntityResponseTest {
             + "    ],\n"
             + "\"contactInformation\" : []"
             + "  }\n";
-
-    private OrganisationEntityResponse organisationEntityResponse;
-
-    @Before
-    public void setUp() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
         organisationEntityResponse = mapper.readValue(json, OrganisationEntityResponse.class);
     }
 

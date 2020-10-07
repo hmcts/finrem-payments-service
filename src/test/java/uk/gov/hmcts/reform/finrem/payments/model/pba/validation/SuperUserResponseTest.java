@@ -5,20 +5,21 @@ import org.hamcrest.core.Is;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SuperUserResponseTest {
-    private String json = "{\n"
-            + "      \"firstName\": \"Henry\",\n"
-            + "      \"lastName\": \"Harper\",\n"
-            + "      \"email\": \"henry_fr_harper@yahoo.com\"\n"
-            + "    },\n";
 
     private SuperUserResponse superUser;
 
     @Before
     public void setUp() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
+        String json = "{\n"
+            + "      \"firstName\": \"Henry\",\n"
+            + "      \"lastName\": \"Harper\",\n"
+            + "      \"email\": \"henry_fr_harper@yahoo.com\"\n"
+            + "    },\n";
+
         superUser = mapper.readValue(json, SuperUserResponse.class);
     }
 

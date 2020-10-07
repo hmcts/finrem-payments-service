@@ -13,8 +13,8 @@ import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.PBAValidationRes
 
 import java.io.File;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpMethod.GET;
@@ -119,9 +119,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     }
 
     private static String toUri() {
-        return new StringBuilder("http://localhost:9001/v1/organisations/pbas/?email=")
-                .append(EMAIL)
-                .toString();
+        return "http://localhost:9001/v1/organisations/pbas/?email=" + EMAIL;
     }
 
     @Test(expected = InvalidTokenException.class)
