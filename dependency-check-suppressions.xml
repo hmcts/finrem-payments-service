@@ -19,4 +19,8 @@
         <packageUrl regex="true">^pkg:maven/org\.scala\-lang/scala\-library@.*$</packageUrl>
         <vulnerabilityName>CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')</vulnerabilityName>
     </suppress>
+    <suppress>
+        <notes>highest available Tomcat version does not fix this issue, suppressing for the moment</notes>
+        <cve>CVE-2020-13943</cve>
+    </suppress>
 </suppressions>
