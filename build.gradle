@@ -89,7 +89,7 @@ def versions = [
         commonsIo               : '2.7',
         javaxWsRs               : '2.1.1',
         jsonAssert              : '1.5.0',
-        junit                   : '4.13',
+        junit                   : '4.13.1',
         lombok                  : '1.18.12',
         mockito                 : '3.4.4',
         pact_version            : '3.6.15',
