@@ -20,12 +20,13 @@
         <vulnerabilityName>CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')</vulnerabilityName>
     </suppress>
     <suppress>
-        <notes>highest available Tomcat version does not fix this issue, suppressing for the moment</notes>
-        <cve>CVE-2020-13943</cve>
-    </suppress>
-    <suppress>
         <notes>latest junit version upgrade didn't fix </notes>
         <packageUrl regex="true">^pkg:maven/junit/junit@.*$</packageUrl>
         <vulnerabilityName>CVE-2020-15250</vulnerabilityName>
+    </suppress>
+    <suppress>
+        <notes>Suppress HTTP Client as we don't use this library directly</notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents/httpclient@.*$</packageUrl>
+        <cve>CVE-2020-13956</cve>
     </suppress>
 </suppressions>
