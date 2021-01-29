@@ -84,9 +84,11 @@ configurations {
 }
 
 def versions = [
+        bouncycastle            : '1.61',
         commonsBeanUtils        : '1.9.4',
         commonsLang3            : '3.11',
         commonsIo               : '2.7',
+        guava                   : '30.1-jre',
         javaxWsRs               : '2.1.1',
         jsonAssert              : '1.5.0',
         junit                   : '4.13.1',
@@ -119,9 +121,9 @@ dependencyManagement {
         // CVE-2019-10086
         dependency group: 'commons-beanutils', name: 'commons-beanutils', version: versions.commonsBeanUtils
         // CVE-2018-10237
-        dependency group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+        dependency group: 'com.google.guava', name: 'guava', version: versions.guava
         // CVE-2020-26939
-        dependency group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.61'
+        dependency group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: versions.bouncycastle
         // CVE-2020-13956
         dependencySet(group: 'org.apache.httpcomponents', version: '4.5.13') {
             entry 'httpclient'
@@ -132,6 +134,8 @@ dependencyManagement {
             entry 'groovy'
             entry 'groovy-json'
         }
+        // CVE-2020-15250
+        dependency group: 'junit', name: 'junit', version: versions.junit
     }
 }
 
