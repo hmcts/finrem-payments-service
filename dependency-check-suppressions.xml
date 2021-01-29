@@ -6,32 +6,8 @@
         <cpe>cpe:/a:pivotal_software:spring_security</cpe>
     </suppress>
     <suppress>
-        <notes>Caused by not using latest version of HMCTS service-auth-provider-client.
-            Once we move to >3.0.0 these should be removed</notes>
-        <gav regex="true">.*</gav>
-        <cve>CVE-2016-6497</cve>
-        <cve>CVE-2017-13098</cve>
-        <cve>CVE-2018-1000180</cve>
-        <cve>CVE-2018-1000613</cve>
-    </suppress>
-    <suppress>
         <notes> XSS issue, not relevant in performance tests</notes>
         <packageUrl regex="true">^pkg:maven/org\.scala\-lang/scala\-library@.*$</packageUrl>
         <vulnerabilityName>CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')</vulnerabilityName>
-    </suppress>
-    <suppress>
-        <notes>latest junit version upgrade didn't fix </notes>
-        <packageUrl regex="true">^pkg:maven/junit/junit@.*$</packageUrl>
-        <vulnerabilityName>CVE-2020-15250</vulnerabilityName>
-    </suppress>
-    <suppress>
-        <notes>Suppress HTTP Client as we don't use this library directly</notes>
-        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents/httpclient@.*$</packageUrl>
-        <cve>CVE-2020-13956</cve>
-    </suppress>
-    <suppress>
-        <notes>Suppress Bouncy Castle</notes>
-        <packageUrl regex="true">^pkg:maven/org\.bouncycastle/bcprov\-jdk15on@.*$</packageUrl>
-        <cve>CVE-2020-26939</cve>
     </suppress>
 </suppressions>
