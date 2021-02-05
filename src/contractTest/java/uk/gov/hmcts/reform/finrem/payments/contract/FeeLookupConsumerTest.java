@@ -21,8 +21,6 @@ import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
 import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 import uk.gov.hmcts.reform.finrem.payments.service.FeeService;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest({"fees.url: http://localhost:8889"})
@@ -64,7 +62,7 @@ public class FeeLookupConsumerTest extends BaseTest {
             .matchQuery("event", event, event)
             .matchQuery("keyword", keyword, keyword)
             .willRespondWith()
-            .matchHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .matchHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .body(buildFeesResponseBodyDsl(feeCode))
             .status(HttpStatus.SC_OK)
             .toPact();
@@ -74,7 +72,7 @@ public class FeeLookupConsumerTest extends BaseTest {
         return new PactDslJsonBody()
             .stringType("code", feeCode)
             .stringType("description", "Fee Description")
-            .stringType("version", "V1")
+            .numberType("version", 1)
             .decimalType("fee_amount", 200.00);
     }
 
