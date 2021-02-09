@@ -49,11 +49,6 @@ public class PBAPaymentConsumerFailTest extends BaseTest {
     @Rule
     public PactProviderRule mockProvider = new PactProviderRule("payment_creditAccountPayment", "localhost", 8887, this);
 
-    @BeforeEach
-    public void setUpEachTest() throws InterruptedException {
-        Thread.sleep(5000);
-    }
-
     @After
     public void teardown() {
         Executor.closeIdleConnections();
