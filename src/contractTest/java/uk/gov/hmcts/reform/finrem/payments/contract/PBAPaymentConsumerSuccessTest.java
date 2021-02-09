@@ -7,14 +7,12 @@ import au.com.dius.pact.consumer.junit.PactVerification;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import au.com.dius.pact.core.model.annotations.PactFolder;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.fluent.Executor;
 import org.json.JSONException;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -92,20 +90,20 @@ public class PBAPaymentConsumerSuccessTest extends BaseTest {
             o.stringType("reference", "reference")
                     .stringType("status", status)
                     .minArrayLike("status_histories", 1, 1,
-                            (sh) -> {
-                                sh.stringMatcher("date_updated",
-                                        "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})$",
-                                        "2020-10-06T18:54:48.785+0000")
-                                        .stringMatcher("date_created",
-                                                "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})$",
-                                                "2020-10-06T18:54:48.785+0000")
-                                        .stringValue("status", paymentStatus);
-                                if (errorCode != null) {
-                                    sh.stringValue("error_code", errorCode);
-                                    sh.stringType("error_message",
-                                            errorMessage);
-                                }
-                            });
+                        (sh) -> {
+                            sh.stringMatcher("date_updated",
+                                    "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})$",
+                                    "2020-10-06T18:54:48.785+0000")
+                                    .stringMatcher("date_created",
+                                            "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4})$",
+                                            "2020-10-06T18:54:48.785+0000")
+                                    .stringValue("status", paymentStatus);
+                            if (errorCode != null) {
+                                sh.stringValue("error_code", errorCode);
+                                sh.stringType("error_message",
+                                        errorMessage);
+                            }
+                        });
         }).build();
     }
 

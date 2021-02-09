@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -77,18 +76,18 @@ public class PBAPaymentConsumerFailTest extends BaseTest {
 
     @Test
     @PactVerification(fragment = "generatePactFragmentFail")
-    public void verifyPBAPaymentPactFail(){
+    public void verifyPBAPaymentPactFail() {
         verifyForbiddenRequest(new BigDecimal("1500.00"));
     }
 
-    private void verifyForbiddenRequest(BigDecimal ONE_THOUSAND_FIVE_HUNDRED){
-        PaymentRequest paymentRequest = getPaymentRequest(ONE_THOUSAND_FIVE_HUNDRED);
+    private void verifyForbiddenRequest(BigDecimal amount) {
+        PaymentRequest paymentRequest = getPaymentRequest(amount);
         Exception exception = assertThrows(Exception.class, () -> {
             PaymentResponse responseEntity = pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest);
         });
     }
 
-    private DslPart buildPBAPaymentResponseDsl(String status, String paymentStatus, String errorCode, String errorMessage){
+    private DslPart buildPBAPaymentResponseDsl(String status, String paymentStatus, String errorCode, String errorMessage) {
         return getDslPart(status, paymentStatus, errorCode, errorMessage);
     }
 
