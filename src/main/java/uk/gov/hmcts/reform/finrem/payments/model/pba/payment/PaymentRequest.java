@@ -46,9 +46,9 @@ public class PaymentRequest {
     @Builder.Default
     private String service = "FINREM";
 
-    @JsonProperty(value = "site_id")
+    @JsonProperty(value = "case_type")
     @Builder.Default
-    private String siteId = "AA09";
+    private String caseType = "FinancialRemedyMVP2";
 
     @JsonProperty(value = "fees")
     private List<FeeRequest> feesList;

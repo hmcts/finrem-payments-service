@@ -153,7 +153,6 @@ public class SetUpUtils {
                 .build();
         return PaymentRequest.builder()
                 .accountNumber(ACCOUNT_NUMBER)
-                .siteId(ACCOUNT_NUMBER)
                 .caseReference("ED12345")
                 .customerReference("SOL1")
                 .organisationName("ORG SOL1")
