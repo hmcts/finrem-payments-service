@@ -1,61 +1,84 @@
 package uk.gov.hmcts.reform.finrem.payments.contract;
 
-import au.com.dius.pact.consumer.Pact;
+import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
-import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
-import au.com.dius.pact.consumer.junit5.PactTestFor;
-import au.com.dius.pact.model.RequestResponsePact;
+import au.com.dius.pact.consumer.junit.PactProviderRule;
+import au.com.dius.pact.consumer.junit.PactVerification;
+import au.com.dius.pact.core.model.RequestResponsePact;
+import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.core.model.annotations.PactFolder;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Rule;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
+import uk.gov.hmcts.reform.finrem.payments.BaseTest;
 import uk.gov.hmcts.reform.finrem.payments.service.IdamService;
 
+import java.io.IOException;
+
+import static io.pactfoundation.consumer.dsl.LambdaDsl.newJsonBody;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
-@ExtendWith(PactConsumerTestExt.class)
-@PactTestFor(providerName = "SIDAM_Provider", port = "8888")
+
 @SpringBootTest({"idam.url: http://localhost:8888"})
 @TestPropertySource(locations = "classpath:application-contractTest.properties")
-public class SidamConsumerTest {
+@PactFolder("pacts")
+public class SidamConsumerTest extends BaseTest {
 
     @Autowired
     private IdamService idamService;
-    private static final String AUTH_TOKEN = "Bearer .someAuthorizationToken";
+    private static final String AUTH_TOKEN = "Bearer someAuthorizationToken";
 
-    @Pact(state = "SIDAM Returns user details",
-            provider = "SIDAM_Service", consumer = "finrem_payment_service")
-    public RequestResponsePact sidamServicePact(PactDslWithProvider packBuilder) throws JSONException {
 
-        return packBuilder
-                .given("Provider haa user details")
-                .uponReceiving("GET request user email ")
-                .path("/details")
-                .method("GET")
-                .matchHeader("Authorization",AUTH_TOKEN)
-                .matchHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .willRespondWith()
-                .status(200)
-                .body(idamUserDetailsResponse())
-                .toPact();
+    @Rule
+    public PactProviderRule mockProvider = new PactProviderRule("idamApi_users", "localhost", 8888, this);
+
+    @Pact(provider = "idamApi_users", consumer = "fr_paymentService")
+    public RequestResponsePact generatePactFragment(PactDslWithProvider builder) throws JSONException, IOException {
+
+        return builder
+            .given("a valid user exists")
+            .uponReceiving("A request for a User")
+            .path("/details")
+            .method("GET")
+            .matchHeader("Authorization", AUTH_TOKEN)
+            .matchHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .willRespondWith()
+            .status(200)
+            .body(buildIdamDetailsResponseDsl())
+            .toPact();
     }
 
     @Test
-    @PactTestFor(pactMethod = "sidamServicePact")
+    @PactVerification()
     public void verifyIdamUserDetailsRolesPact() {
-        String userEmail =  idamService.getUserEmailId(AUTH_TOKEN);
-        assertEquals("User is not Admin", "testforename@test.com", userEmail);
+        String userEmail = idamService.getUserEmailId(AUTH_TOKEN);
+        assertEquals("User is not Admin", "joe.bloggs@hmcts.net", userEmail);
     }
 
-    private JSONObject idamUserDetailsResponse() throws JSONException {
-        JSONObject details = new JSONObject();
-        details.put("email", "testforename@test.com");
 
-        return details;
+    private DslPart buildIdamDetailsResponseDsl() {
+        return newJsonBody((o) -> {
+            o.stringType("id",
+                "123432")
+                .stringType("forename", "Joe")
+                .stringType("surname", "Bloggs")
+                .stringType("email", "joe.bloggs@hmcts.net")
+                .booleanType("active", true)
+                .array("roles", r -> r.stringType("caseworker"))
+            ;
+
+
+        }).build();
+    }
+
+
+    @Override
+    public void setUp() {
+
     }
 }
