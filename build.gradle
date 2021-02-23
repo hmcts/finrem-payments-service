@@ -97,7 +97,6 @@ def versions = [
         mockito                 : '3.4.4',
         pact_version            : '4.1.11',
         puppyCrawl              : '8.29',
-        reformHealth            : '0.0.5',
         reformLogging           : '5.1.7',
         reformPropertiesVolume  : '0.1.0',
         restAssured             : '3.0.3',
@@ -150,7 +149,6 @@ dependencies {
     implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.retry', name: 'spring-retry', version: versions.springRetry
-    implementation group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: versions.reformHealth
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
     implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
