@@ -20,5 +20,10 @@
   "10054_Cookie Without SameSite Attribute_http://finrem-ps-aat.service.core-compute-aat.internal/payments/fee-lookup?application-type=consented_GET": "ignore",
   "10054_Cookie Without SameSite Attribute_http://finrem-ps-aat.service.core-compute-aat.internal/search/pba/emailId_GET": "ignore",
   "10054_Cookie Without SameSite Attribute_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-payment_POST": "ignore",
-  "10054_Cookie Without SameSite Attribute_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-validate/pbaNumber_GET": "ignore"
+  "10054_Cookie Without SameSite Attribute_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-validate/pbaNumber_GET": "ignore",
+  "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore",
+  "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/search/pba/emailId_GET": "ignore",
+  "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/payments/fee-lookup?application-type=consented_GET": "ignore",
+  "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-validate/pbaNumber_GET": "ignore",
+  "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-payment_POST": "ignore"
 }
