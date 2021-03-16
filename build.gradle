@@ -301,8 +301,6 @@ task runAndPublishConsumerPactTests(type: Test) {
 
 }
 
-runAndPublishConsumerPactTests.dependsOn contract
-
 runAndPublishConsumerPactTests.finalizedBy pactPublish
 
 def getCheckedOutGitCommitHash() {
