@@ -10,7 +10,8 @@ import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
 import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithCaseType;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentStatusHistory;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.OrganisationEntityResponse;
@@ -43,6 +44,8 @@ public class SetUpUtils {
     public static final String FEE_VERSION = "v1";
 
     public static final String PBA_NUMBER = "PBA0222";
+    public static final String CONSENTED_CASE_TYPE = "FinancialRemedyMVP2";
+    public static final String CONTESTED_CASE_TYPE = "FinancialRemedyContested";
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -144,14 +147,18 @@ public class SetUpUtils {
         return objectToJson(paymentRequest());
     }
 
-    public static PaymentRequest paymentRequest() {
+    public static String paymentRequestStringContentWithCaseType() {
+        return objectToJson(paymentRequestWithCaseType());
+    }
+
+    public static PaymentRequestWithSiteId paymentRequest() {
         BigDecimal amountToPay = new BigDecimal("12");
         FeeRequest fee = FeeRequest.builder()
                 .calculatedAmount(amountToPay)
                 .code("FEE0640")
                 .version("v1")
                 .build();
-        return PaymentRequest.builder()
+        return PaymentRequestWithSiteId.builder()
                 .accountNumber(ACCOUNT_NUMBER)
                 .siteId(ACCOUNT_NUMBER)
                 .caseReference("ED12345")
@@ -174,5 +181,23 @@ public class SetUpUtils {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static PaymentRequestWithCaseType paymentRequestWithCaseType() {
+        BigDecimal amountToPay = new BigDecimal("12");
+        FeeRequest fee = FeeRequest.builder()
+                .calculatedAmount(amountToPay)
+                .code("FEE0640")
+                .version("v1")
+                .build();
+        return PaymentRequestWithCaseType.builder()
+                .accountNumber(ACCOUNT_NUMBER)
+                .caseType(CONSENTED_CASE_TYPE)
+                .caseReference("ED12345")
+                .customerReference("SOL1")
+                .organisationName("ORG SOL1")
+                .amount(amountToPay)
+                .feesList(Collections.singletonList(fee))
+                .build();
     }
 }

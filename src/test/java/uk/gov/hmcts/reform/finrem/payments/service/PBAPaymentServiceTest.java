@@ -35,7 +35,7 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withSuccess(paymentResponseToString(), APPLICATION_JSON));
 
-        PaymentResponse response = pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest());
+        PaymentResponse response = pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, paymentRequest());
         assertThat(response, is(paymentResponse()));
     }
 
@@ -46,11 +46,11 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                 .andRespond(withUnauthorizedRequest()
                         .body(paymentResponseErrorToString()).contentType(APPLICATION_JSON));
 
-        pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest());
+        pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, paymentRequest());
     }
 
     @Test(expected = InvalidTokenException.class)
     public void invalidUserToken() {
-        pbaPaymentService.makePayment(INVALID_AUTH_TOKEN, paymentRequest());
+        pbaPaymentService.makePaymentWithSiteId(INVALID_AUTH_TOKEN, paymentRequest());
     }
 }

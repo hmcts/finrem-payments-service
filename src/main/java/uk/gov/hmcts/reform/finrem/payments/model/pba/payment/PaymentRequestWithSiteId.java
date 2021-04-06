@@ -15,7 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PaymentRequest {
+public class PaymentRequestWithSiteId {
+
     @JsonProperty(value = "account_number")
     private String accountNumber;
 
