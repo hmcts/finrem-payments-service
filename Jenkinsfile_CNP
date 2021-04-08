@@ -12,7 +12,7 @@ properties([
         ])
 ])
 
-@Library("Infrastructure@TA-471_PactCanIDeploy")
+@Library("Infrastructure@FixYarnPactSkipBuildIssue")
 
 def type = "java"
 def product = "finrem"
