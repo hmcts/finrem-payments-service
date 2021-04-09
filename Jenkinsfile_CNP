@@ -12,7 +12,7 @@ properties([
         ])
 ])
 
-@Library("Infrastructure")
+@Library("Infrastructure@FixNodePactIssue")
 
 def type = "java"
 def product = "finrem"
