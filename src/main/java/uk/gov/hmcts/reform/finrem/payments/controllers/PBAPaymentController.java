@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithCaseType;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 import uk.gov.hmcts.reform.finrem.payments.service.PBAPaymentService;
@@ -36,7 +36,7 @@ public class PBAPaymentController {
     @PostMapping(path = "/new-pba-payment", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
     public PaymentResponse newPbaPayment(
             @RequestHeader(value = "Authorization") String authToken,
-            @RequestBody PaymentRequestWithCaseType paymentRequest) {
+            @RequestBody PaymentRequest paymentRequest) {
         log.info("Received request for PBA payment. Auth token: {}, Payment request : {}", authToken, paymentRequest);
         return pbaPaymentService.makePaymentWithCaseType(authToken, paymentRequest);
     }

@@ -13,7 +13,7 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.payments.config.PBAPaymentServiceConfiguration;
 import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.error.PaymentException;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithCaseType;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 
@@ -54,8 +54,8 @@ public class PBAPaymentService {
         return new HttpEntity<>(paymentRequest, headers);
     }
 
-    public PaymentResponse makePaymentWithCaseType(String authToken, PaymentRequestWithCaseType paymentRequest) {
-        HttpEntity<PaymentRequestWithCaseType> request = buildPaymentRequestWithCaseType(authToken, paymentRequest);
+    public PaymentResponse makePaymentWithCaseType(String authToken, PaymentRequest paymentRequest) {
+        HttpEntity<PaymentRequest> request = buildPaymentRequestWithCaseType(authToken, paymentRequest);
         URI uri = buildUri();
         log.info("Inside makePayment, payment API uri : {}, request : {} ", uri, request);
         try {
@@ -67,7 +67,7 @@ public class PBAPaymentService {
         }
     }
 
-    private HttpEntity<PaymentRequestWithCaseType> buildPaymentRequestWithCaseType(String authToken, PaymentRequestWithCaseType paymentRequest) {
+    private HttpEntity<PaymentRequest> buildPaymentRequestWithCaseType(String authToken, PaymentRequest paymentRequest) {
         HttpHeaders headers = new HttpHeaders();
         if (!authToken.matches("^Bearer .+")) {
             throw new InvalidTokenException("Invalid user token");

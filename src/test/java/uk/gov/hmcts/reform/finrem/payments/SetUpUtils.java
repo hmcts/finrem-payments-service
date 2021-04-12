@@ -10,7 +10,7 @@ import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
 import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithCaseType;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentStatusHistory;
@@ -183,14 +183,14 @@ public class SetUpUtils {
         }
     }
 
-    public static PaymentRequestWithCaseType paymentRequestWithCaseType() {
+    public static PaymentRequest paymentRequestWithCaseType() {
         BigDecimal amountToPay = new BigDecimal("12");
         FeeRequest fee = FeeRequest.builder()
                 .calculatedAmount(amountToPay)
                 .code("FEE0640")
                 .version("v1")
                 .build();
-        return PaymentRequestWithCaseType.builder()
+        return PaymentRequest.builder()
                 .accountNumber(ACCOUNT_NUMBER)
                 .caseType(CONSENTED_CASE_TYPE)
                 .caseReference("ED12345")
