@@ -19,7 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
 import uk.gov.hmcts.reform.finrem.payments.BaseTest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 import uk.gov.hmcts.reform.finrem.payments.service.PBAPaymentService;
 
@@ -77,7 +77,7 @@ public class PBAPaymentConsumerSuccessTest extends BaseTest {
     @Test
     @PactVerification(fragment = "generatePactFragmentSuccess")
     public void verifyPBAPaymentPactSuccess() {
-        PaymentResponse paymentResponse = pbaPaymentService.makePayment(AUTH_TOKEN, getPaymentRequestSuccess(BigDecimal.TEN));
+        PaymentResponse paymentResponse = pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, getPaymentRequestSuccess(BigDecimal.TEN));
         assertEquals("reference", paymentResponse.getReference());
     }
 
@@ -107,12 +107,12 @@ public class PBAPaymentConsumerSuccessTest extends BaseTest {
         }).build();
     }
 
-    private PaymentRequest getPaymentRequestSuccess(BigDecimal amount) {
+    private PaymentRequestWithSiteId getPaymentRequestSuccess(BigDecimal amount) {
         return getPaymentRequest(amount);
     }
 
-    static PaymentRequest getPaymentRequest(BigDecimal amount) {
-        PaymentRequest expectedRequest = new PaymentRequest();
+    static PaymentRequestWithSiteId getPaymentRequest(BigDecimal amount) {
+        PaymentRequestWithSiteId expectedRequest = new PaymentRequestWithSiteId();
         expectedRequest.setService("FINREM");
         expectedRequest.setCurrency("GBP");
         expectedRequest.setAmount(amount);

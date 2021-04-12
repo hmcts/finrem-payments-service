@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
 import uk.gov.hmcts.reform.finrem.payments.BaseTest;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
 import uk.gov.hmcts.reform.finrem.payments.service.PBAPaymentService;
 
 import java.io.IOException;
@@ -79,9 +79,9 @@ public class PBAPaymentConsumerFailTest extends BaseTest {
     }
 
     private void verifyForbiddenRequest(BigDecimal amount) {
-        PaymentRequest paymentRequest = getPaymentRequest(amount);
+        PaymentRequestWithSiteId paymentRequest = getPaymentRequest(amount);
         assertThrows(Exception.class, () -> {
-            pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest);
+            pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, paymentRequest);
         });
     }
 

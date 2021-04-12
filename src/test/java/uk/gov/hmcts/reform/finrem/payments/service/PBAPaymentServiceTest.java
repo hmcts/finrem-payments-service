@@ -16,6 +16,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withUnauthorizedRequest;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequest;
+import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestWithCaseType;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponse;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseErrorToString;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponseToString;
@@ -35,7 +36,7 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withSuccess(paymentResponseToString(), APPLICATION_JSON));
 
-        PaymentResponse response = pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest());
+        PaymentResponse response = pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, paymentRequest());
         assertThat(response, is(paymentResponse()));
     }
 
@@ -46,11 +47,36 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                 .andRespond(withUnauthorizedRequest()
                         .body(paymentResponseErrorToString()).contentType(APPLICATION_JSON));
 
-        pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest());
+        pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, paymentRequest());
     }
 
     @Test(expected = InvalidTokenException.class)
     public void invalidUserToken() {
-        pbaPaymentService.makePayment(INVALID_AUTH_TOKEN, paymentRequest());
+        pbaPaymentService.makePaymentWithSiteId(INVALID_AUTH_TOKEN, paymentRequest());
+    }
+
+    @Test
+    public void makePaymentWithCaseType() {
+        mockServer.expect(requestTo(URI))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withSuccess(paymentResponseToString(), APPLICATION_JSON));
+
+        PaymentResponse response = pbaPaymentService.makePaymentWithCaseType(AUTH_TOKEN, paymentRequestWithCaseType());
+        assertThat(response, is(paymentResponse()));
+    }
+
+    @Test(expected = PaymentException.class)
+    public void makePaymentWithCaseTypeReceivesClientError() {
+        mockServer.expect(requestTo(URI))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withUnauthorizedRequest()
+                        .body(paymentResponseErrorToString()).contentType(APPLICATION_JSON));
+
+        pbaPaymentService.makePaymentWithCaseType(AUTH_TOKEN, paymentRequestWithCaseType());
+    }
+
+    @Test(expected = InvalidTokenException.class)
+    public void invalidUserTokenWithCaseType() {
+        pbaPaymentService.makePaymentWithCaseType(INVALID_AUTH_TOKEN, paymentRequestWithCaseType());
     }
 }

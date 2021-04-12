@@ -14,6 +14,7 @@ import uk.gov.hmcts.reform.finrem.payments.config.PBAPaymentServiceConfiguration
 import uk.gov.hmcts.reform.finrem.payments.error.InvalidTokenException;
 import uk.gov.hmcts.reform.finrem.payments.error.PaymentException;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 
 import java.net.URI;
@@ -29,8 +30,8 @@ public class PBAPaymentService {
     private final RestTemplate restTemplate;
     private final AuthTokenGenerator authTokenGenerator;
 
-    public PaymentResponse makePayment(String authToken, PaymentRequest paymentRequest) {
-        HttpEntity<PaymentRequest> request = buildPaymentRequest(authToken, paymentRequest);
+    public PaymentResponse makePaymentWithSiteId(String authToken, PaymentRequestWithSiteId paymentRequest) {
+        HttpEntity<PaymentRequestWithSiteId> request = buildPaymentRequestWithSiteId(authToken, paymentRequest);
         URI uri = buildUri();
         log.info("Inside makePayment, payment API uri : {}, request : {} ", uri, request);
         try {
@@ -42,7 +43,31 @@ public class PBAPaymentService {
         }
     }
 
-    private HttpEntity<PaymentRequest> buildPaymentRequest(String authToken, PaymentRequest paymentRequest) {
+    private HttpEntity<PaymentRequestWithSiteId> buildPaymentRequestWithSiteId(String authToken, PaymentRequestWithSiteId paymentRequest) {
+        HttpHeaders headers = new HttpHeaders();
+        if (!authToken.matches("^Bearer .+")) {
+            throw new InvalidTokenException("Invalid user token");
+        }
+        headers.add("Authorization", authToken);
+        headers.add("ServiceAuthorization", authTokenGenerator.generate());
+        headers.add("Content-Type", "application/json");
+        return new HttpEntity<>(paymentRequest, headers);
+    }
+
+    public PaymentResponse makePaymentWithCaseType(String authToken, PaymentRequest paymentRequest) {
+        HttpEntity<PaymentRequest> request = buildPaymentRequestWithCaseType(authToken, paymentRequest);
+        URI uri = buildUri();
+        log.info("Inside makePayment, payment API uri : {}, request : {} ", uri, request);
+        try {
+            ResponseEntity<PaymentResponse> response = restTemplate.postForEntity(uri, request, PaymentResponse.class);
+            log.info("Payment response: {} ", response);
+            return response.getBody();
+        } catch (Exception ex) {
+            throw new PaymentException(ex);
+        }
+    }
+
+    private HttpEntity<PaymentRequest> buildPaymentRequestWithCaseType(String authToken, PaymentRequest paymentRequest) {
         HttpHeaders headers = new HttpHeaders();
         if (!authToken.matches("^Bearer .+")) {
             throw new InvalidTokenException("Invalid user token");
