@@ -50,6 +50,6 @@ public class PaymentRequest {
     @JsonProperty(value = "fees")
     private List<FeeRequest> feesList;
 
-    @JsonProperty(value = "case_type_id")
+    @JsonProperty(value = "case_type")
     private String caseType;
 }
