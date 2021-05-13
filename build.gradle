@@ -152,7 +152,7 @@ dependencies {
     implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
     implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
-    implementation group: 'org.codehaus.sonar-plugins', name:'sonar-pitest-plugin', version: versions.sonarPitest
+    implementation group: 'org.codehaus.sonar-plugins', name: 'sonar-pitest-plugin', version: versions.sonarPitest
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: versions.wiremock
@@ -290,17 +290,16 @@ task contract(type: Test) {
 }
 
 project.ext {
-    pactVersion = getCheckedOutGitCommitHash()
+    pacticipant = 'fr_paymentService'
+    pacticipantVersion = getCheckedOutGitCommitHash()
 }
 
-task runAndPublishConsumerPactTests(type: Test){
+task runAndPublishConsumerPactTests(type: Test) {
     logger.lifecycle("Runs pact Tests")
     testClassesDirs = sourceSets.contract.output.classesDirs
     classpath = sourceSets.contract.runtimeClasspath
 
 }
-
-runAndPublishConsumerPactTests.dependsOn contract
 
 runAndPublishConsumerPactTests.finalizedBy pactPublish
 
@@ -310,10 +309,12 @@ def getCheckedOutGitCommitHash() {
 
 
 pact {
+    broker {
+        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'
+    }
     publish {
         pactDirectory = 'pacts'
-        pactBrokerUrl = System.getenv("PACT_BROKER_FULL_URL") ?: 'http://localhost:80'
         tags = [System.getenv("PACT_BRANCH_NAME") ?: 'Dev']
-        version = project.pactVersion
+        version = project.pacticipantVersion
     }
 }
