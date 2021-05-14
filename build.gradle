@@ -153,6 +153,7 @@ dependencies {
     implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
     implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
     implementation group: 'org.codehaus.sonar-plugins', name: 'sonar-pitest-plugin', version: versions.sonarPitest
+    implementation 'org.jetbrains:annotations:20.1.0'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: versions.wiremock
