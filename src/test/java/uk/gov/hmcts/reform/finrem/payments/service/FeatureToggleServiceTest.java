@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.finrem.payments.service;
 
-import com.google.common.collect.Maps;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;

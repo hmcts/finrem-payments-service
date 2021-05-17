@@ -13,7 +13,7 @@ public class PaymentRequestTest {
     ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    public void shouldCreateConsentedPaymentRequest() throws Exception {
+    public void shouldCreateConsentedPaymentRequestWithConsentedCaseType() throws Exception {
         String json = "{"
                 + " \"account_number\": \"PBA1\","
                 + " \"case_reference\": \"caseRef\","
@@ -54,7 +54,7 @@ public class PaymentRequestTest {
     }
 
     @Test
-    public void shouldCreateContestedPaymentRequest() throws Exception {
+    public void shouldCreateContestedPaymentRequestWithContestedCaseType() throws Exception {
         String json = "{"
                 + " \"account_number\": \"PBA1\","
                 + " \"case_reference\": \"caseRef\","

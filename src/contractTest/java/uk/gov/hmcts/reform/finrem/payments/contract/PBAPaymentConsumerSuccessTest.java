@@ -17,15 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
-import uk.gov.hmcts.reform.finrem.payments.BaseTest;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
+import uk.gov.hmcts.reform.finrem.payments.BaseContractTest;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 import uk.gov.hmcts.reform.finrem.payments.service.PBAPaymentService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest({"payment.url: http://localhost:8886"})
 @TestPropertySource(locations = "classpath:application-contractTest.properties")
 @PactFolder("pacts")
-public class PBAPaymentConsumerSuccessTest extends BaseTest {
+public class PBAPaymentConsumerSuccessTest extends BaseContractTest {
 
     public static final String AUTH_TOKEN = "Bearer someAuthorizationToken";
 
@@ -77,7 +75,7 @@ public class PBAPaymentConsumerSuccessTest extends BaseTest {
     @Test
     @PactVerification(fragment = "generatePactFragmentSuccess")
     public void verifyPBAPaymentPactSuccess() {
-        PaymentResponse paymentResponse = pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, getPaymentRequestSuccess(BigDecimal.TEN));
+        PaymentResponse paymentResponse = pbaPaymentService.makePayment(AUTH_TOKEN, getPaymentRequestSuccess(BigDecimal.TEN));
         assertEquals("reference", paymentResponse.getReference());
     }
 
@@ -107,30 +105,8 @@ public class PBAPaymentConsumerSuccessTest extends BaseTest {
         }).build();
     }
 
-    private PaymentRequestWithSiteId getPaymentRequestSuccess(BigDecimal amount) {
+    private PaymentRequest getPaymentRequestSuccess(BigDecimal amount) {
         return getPaymentRequest(amount);
-    }
-
-    static PaymentRequestWithSiteId getPaymentRequest(BigDecimal amount) {
-        PaymentRequestWithSiteId expectedRequest = new PaymentRequestWithSiteId();
-        expectedRequest.setService("FINREM");
-        expectedRequest.setCurrency("GBP");
-        expectedRequest.setAmount(amount);
-        expectedRequest.setCcdCaseNumber("test.case.id");
-        expectedRequest.setSiteId("AA09");
-        expectedRequest.setAccountNumber("test.account");
-        expectedRequest.setOrganisationName("test.organisation");
-        expectedRequest.setCustomerReference("test.customer.reference");
-        expectedRequest.setDescription("Financial Remedy Payment");
-
-        FeeRequest feeRequest = new FeeRequest();
-        feeRequest.setCode("test");
-        feeRequest.setVersion("v1");
-        feeRequest.setCalculatedAmount(amount);
-        feeRequest.setVolume(1);
-
-        expectedRequest.setFeesList(Collections.singletonList(feeRequest));
-        return expectedRequest;
     }
 
     @Override

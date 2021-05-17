@@ -36,7 +36,7 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withSuccess(paymentResponseToString(), APPLICATION_JSON));
 
-        PaymentResponse response = pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, paymentRequest());
+        PaymentResponse response = pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest());
         assertThat(response, is(paymentResponse()));
     }
 
@@ -47,12 +47,12 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                 .andRespond(withUnauthorizedRequest()
                         .body(paymentResponseErrorToString()).contentType(APPLICATION_JSON));
 
-        pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, paymentRequest());
+        pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest());
     }
 
     @Test(expected = InvalidTokenException.class)
     public void invalidUserToken() {
-        pbaPaymentService.makePaymentWithSiteId(INVALID_AUTH_TOKEN, paymentRequest());
+        pbaPaymentService.makePayment(INVALID_AUTH_TOKEN, paymentRequest());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withSuccess(paymentResponseToString(), APPLICATION_JSON));
 
-        PaymentResponse response = pbaPaymentService.makePaymentWithCaseType(AUTH_TOKEN, paymentRequestWithCaseType());
+        PaymentResponse response = pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequestWithCaseType());
         assertThat(response, is(paymentResponse()));
     }
 
@@ -72,11 +72,11 @@ public class PBAPaymentServiceTest extends BaseServiceTest {
                 .andRespond(withUnauthorizedRequest()
                         .body(paymentResponseErrorToString()).contentType(APPLICATION_JSON));
 
-        pbaPaymentService.makePaymentWithCaseType(AUTH_TOKEN, paymentRequestWithCaseType());
+        pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequestWithCaseType());
     }
 
     @Test(expected = InvalidTokenException.class)
     public void invalidUserTokenWithCaseType() {
-        pbaPaymentService.makePaymentWithCaseType(INVALID_AUTH_TOKEN, paymentRequestWithCaseType());
+        pbaPaymentService.makePayment(INVALID_AUTH_TOKEN, paymentRequestWithCaseType());
     }
 }
