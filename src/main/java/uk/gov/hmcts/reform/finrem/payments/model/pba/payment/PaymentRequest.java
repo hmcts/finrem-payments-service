@@ -50,6 +50,10 @@ public class PaymentRequest {
     @JsonProperty(value = "fees")
     private List<FeeRequest> feesList;
 
+    @JsonProperty(value = "site_id")
+    @Builder.Default
+    private String siteId = "AA09";
+
     @JsonProperty(value = "case_type")
     private String caseType;
 }

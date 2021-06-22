@@ -11,7 +11,6 @@ import uk.gov.hmcts.reform.finrem.payments.model.ApplicationType;
 import uk.gov.hmcts.reform.finrem.payments.model.fee.FeeResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.FeeRequest;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentResponse;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentStatusHistory;
 import uk.gov.hmcts.reform.finrem.payments.model.pba.validation.OrganisationEntityResponse;
@@ -151,14 +150,14 @@ public class SetUpUtils {
         return objectToJson(paymentRequestWithCaseType());
     }
 
-    public static PaymentRequestWithSiteId paymentRequest() {
+    public static PaymentRequest paymentRequest() {
         BigDecimal amountToPay = new BigDecimal("12");
         FeeRequest fee = FeeRequest.builder()
                 .calculatedAmount(amountToPay)
                 .code("FEE0640")
                 .version("v1")
                 .build();
-        return PaymentRequestWithSiteId.builder()
+        return PaymentRequest.builder()
                 .accountNumber(ACCOUNT_NUMBER)
                 .siteId(ACCOUNT_NUMBER)
                 .caseReference("ED12345")

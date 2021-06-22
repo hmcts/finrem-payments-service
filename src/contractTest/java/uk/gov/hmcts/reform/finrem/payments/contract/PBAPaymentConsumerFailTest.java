@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
-import uk.gov.hmcts.reform.finrem.payments.BaseTest;
-import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequestWithSiteId;
+import uk.gov.hmcts.reform.finrem.payments.BaseContractTest;
+import uk.gov.hmcts.reform.finrem.payments.model.pba.payment.PaymentRequest;
 import uk.gov.hmcts.reform.finrem.payments.service.PBAPaymentService;
 
 import java.io.IOException;
@@ -27,12 +27,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static uk.gov.hmcts.reform.finrem.payments.contract.PBAPaymentConsumerSuccessTest.getDslPart;
-import static uk.gov.hmcts.reform.finrem.payments.contract.PBAPaymentConsumerSuccessTest.getPaymentRequest;
 
 @SpringBootTest({"payment.url: http://localhost:8887"})
 @TestPropertySource(locations = "classpath:application-contractTest.properties")
 @PactFolder("pacts")
-public class PBAPaymentConsumerFailTest extends BaseTest {
+public class PBAPaymentConsumerFailTest extends BaseContractTest {
 
     public static final String AUTH_TOKEN = "Bearer someAuthorizationToken";
     public static final BigDecimal ONE_THOUSAND_FIVE_HUNDRED = new BigDecimal("1500.00");
@@ -79,9 +78,9 @@ public class PBAPaymentConsumerFailTest extends BaseTest {
     }
 
     private void verifyForbiddenRequest(BigDecimal amount) {
-        PaymentRequestWithSiteId paymentRequest = getPaymentRequest(amount);
+        PaymentRequest paymentRequest = getPaymentRequest(amount);
         assertThrows(Exception.class, () -> {
-            pbaPaymentService.makePaymentWithSiteId(AUTH_TOKEN, paymentRequest);
+            pbaPaymentService.makePayment(AUTH_TOKEN, paymentRequest);
         });
     }
 

@@ -15,41 +15,23 @@ import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_REF;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.PAYMENT_SUCCESS_STATUS;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequest;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestStringContent;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestStringContentWithCaseType;
-import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentRequestWithCaseType;
 import static uk.gov.hmcts.reform.finrem.payments.SetUpUtils.paymentResponse;
 
 @WebMvcTest(PBAPaymentController.class)
 public class PBAPaymentControllerTest extends BaseControllerTest {
 
     private static final String PBA_PAYMENT_URL = "/payments/pba-payment";
-    private static final String PBA_PAYMENT_WITH_CASE_TYPE_URL = "/payments/new-pba-payment";
     private static final String BEARER_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9";
 
     @Test
     public void shouldMakePayment() throws Exception {
-        when(pbaPaymentService.makePaymentWithSiteId(BEARER_TOKEN, paymentRequest()))
+        when(pbaPaymentService.makePayment(BEARER_TOKEN, paymentRequest()))
                 .thenReturn(paymentResponse());
 
         mvc.perform(post(PBA_PAYMENT_URL)
                 .header("Authorization", BEARER_TOKEN)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(paymentRequestStringContent()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.reference", is(PAYMENT_REF)))
-                .andExpect(jsonPath("$.status", is(PAYMENT_SUCCESS_STATUS)))
-                .andExpect(jsonPath("$.status_histories", hasSize(0)));
-    }
-
-    @Test
-    public void shouldMakePaymentWithCaseType() throws Exception {
-        when(pbaPaymentService.makePaymentWithCaseType(BEARER_TOKEN, paymentRequestWithCaseType()))
-                .thenReturn(paymentResponse());
-
-        mvc.perform(post(PBA_PAYMENT_WITH_CASE_TYPE_URL)
-                .header("Authorization", BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(paymentRequestStringContentWithCaseType()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.reference", is(PAYMENT_REF)))
                 .andExpect(jsonPath("$.status", is(PAYMENT_SUCCESS_STATUS)))
