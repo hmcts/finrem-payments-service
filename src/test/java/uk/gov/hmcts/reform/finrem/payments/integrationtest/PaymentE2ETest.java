@@ -221,7 +221,7 @@ public class PaymentE2ETest {
                     + "&channel=default&event=general%20application&keyword=" + consentedFeeKeyword;
         } else {
             return feeApi + "?service=other&jurisdiction1=family&jurisdiction2=family-court"
-                    + "&channel=default&event=miscellaneous&keyword=financial-order";
+                    + "&channel=default&event=miscellaneous&keyword=FinancialOrderOnNotice";
         }
     }
 }

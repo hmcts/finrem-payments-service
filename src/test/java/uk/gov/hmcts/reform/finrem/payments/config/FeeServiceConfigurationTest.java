@@ -37,6 +37,6 @@ public class FeeServiceConfigurationTest extends BaseServiceTest {
         assertThat(config.getJurisdiction2(), is("family-court"));
         assertThat(config.getService(), is("other"));
         assertThat(config.getContestedEvent(), is("miscellaneous"));
-        assertThat(config.getContestedKeyword(), is("financial-order"));
+        assertThat(config.getContestedKeyword(), is("FinancialOrderOnNotice"));
     }
 }
