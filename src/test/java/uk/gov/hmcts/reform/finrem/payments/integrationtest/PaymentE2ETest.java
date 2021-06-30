@@ -49,9 +49,9 @@ import static uk.gov.hmcts.reform.finrem.payments.model.ApplicationType.CONTESTE
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PaymentE2ETest {
 
-    private static String MAKE_PAYMENT_API = "/payments/pba-payment";
-    private static String FEE_LOOK_UP_API = "/payments/fee-lookup?application-type=";
-    private static String PBA_VALIDATE_API = "/payments/pba-validate";
+    private static final String MAKE_PAYMENT_API = "/payments/pba-payment";
+    private static final String FEE_LOOK_UP_API = "/payments/fee-lookup?application-type=";
+    private static final String PBA_VALIDATE_API = "/payments/pba-validate";
 
     private static final String AUTH_TOKEN = "Bearer test.auth.token";
     private static final String TEST_SERVICE_AUTH_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
