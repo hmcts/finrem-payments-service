@@ -43,7 +43,7 @@ public class FeeLookupConsumerTest extends BaseTest {
 
     @Pact(provider = "feeRegister_lookUp", consumer = "fr_paymentService")
     public RequestResponsePact generateContestedFeesPactFragment(PactDslWithProvider builder) throws JSONException {
-        return buildRequestResponsePact(builder, "miscellaneous", "financial-order",
+        return buildRequestResponsePact(builder, "miscellaneous", "FinancialOrderOnNotice",
             "FEE0229", "Contested Fees exist for Financial Remedy", "a request for Contested FR fees");
 
     }
