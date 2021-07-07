@@ -35,5 +35,7 @@
   "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/search/pba/emailId_GET": "ignore",
   "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/payments/fee-lookup?application-type=consented_GET": "ignore",
   "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-validate/pbaNumber_GET": "ignore",
-  "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-payment_POST": "ignore"
+  "10096_Timestamp Disclosure - Unix_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-payment_POST": "ignore",
+  "100000_A Client Error response code was returned by the server_http://finrem-ps-aat.service.core-compute-aat.internal/payments/pba-validate/pbaNumber_GET": "ignore"
+
 }
