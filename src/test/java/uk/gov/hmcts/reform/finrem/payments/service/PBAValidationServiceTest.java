@@ -96,7 +96,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     @Test
     public void validPbaNoPbaResult() {
         mockServer.expect(requestTo(toUri()))
-                .andExpect(header(USER_EMAIL, EMAIL) )
+                .andExpect(header(USER_EMAIL, EMAIL))
                 .andExpect(method(GET))
                 .andRespond(withSuccess("{\n"
                         + "  \"organisationEntityResponse\": {\n"
