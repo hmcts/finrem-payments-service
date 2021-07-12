@@ -20,10 +20,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static uk.gov.hmcts.reform.finrem.payments.service.PBAValidationService.USER_EMAIL;
 
 public class PBAValidationServiceTest extends BaseServiceTest {
 
@@ -46,7 +48,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     public void setUp() {
         super.setUp();
         when(pbaValidationServiceConfiguration.getUrl()).thenReturn("http://localhost:9001");
-        when(pbaValidationServiceConfiguration.getApi()).thenReturn("/v1/organisations/pbas/");
+        when(pbaValidationServiceConfiguration.getApi()).thenReturn("/v1/organisations/pbas");
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
@@ -94,6 +96,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     @Test
     public void validPbaNoPbaResult() {
         mockServer.expect(requestTo(toUri()))
+                .andExpect(header(USER_EMAIL, EMAIL))
                 .andExpect(method(GET))
                 .andRespond(withSuccess("{\n"
                         + "  \"organisationEntityResponse\": {\n"
@@ -119,7 +122,7 @@ public class PBAValidationServiceTest extends BaseServiceTest {
     }
 
     private static String toUri() {
-        return "http://localhost:9001/v1/organisations/pbas/?email=" + EMAIL;
+        return "http://localhost:9001/v1/organisations/pbas";
     }
 
     @Test(expected = InvalidTokenException.class)
