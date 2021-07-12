@@ -36,6 +36,7 @@ public class PBAValidateConsumerTest extends BaseTest {
     public static final String SOME_SERVICE_AUTHORIZATION_TOKEN = "ServiceToken";
     public static final String ORGANISATION_EMAIL = "someemailaddress@organisation.com";
     public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
+    private static final String USER_EMAIL = "UserEmail";
 
     @Autowired
     ObjectMapper objectMapper;
@@ -58,10 +59,9 @@ public class PBAValidateConsumerTest extends BaseTest {
             .given("Pbas organisational data exists for identifier " + ORGANISATION_EMAIL)
             .uponReceiving("a request for information for that organisation's pbas")
             .path("/refdata/external/v1/organisations/pbas")
-            .query("email=" + ORGANISATION_EMAIL)
             .method("GET")
             .headers(HttpHeaders.AUTHORIZATION, SOME_AUTHORIZATION_TOKEN, SERVICE_AUTHORIZATION,
-                SOME_SERVICE_AUTHORIZATION_TOKEN)
+                SOME_SERVICE_AUTHORIZATION_TOKEN, USER_EMAIL, ORGANISATION_EMAIL)
             .willRespondWith()
             .status(200)
             .body(buildOrganisationalResponsePactDsl())

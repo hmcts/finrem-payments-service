@@ -28,6 +28,7 @@ import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 @EnableFeignClients(basePackageClasses = ServiceAuthorisationApi.class)
 public class PBAValidationService {
 
+    protected static final String USER_EMAIL = "UserEmail";
     private final IdamService idamService;
     private final PBAValidationServiceConfiguration serviceConfig;
     private final RestTemplate restTemplate;
@@ -35,11 +36,11 @@ public class PBAValidationService {
 
     public PBAValidationResponse isPBAValid(String authToken, String pbaNumber) {
         String emailId = idamService.getUserEmailId(authToken);
-        URI uri = buildUri(emailId);
+        URI uri = buildUri();
         log.info("Inside isPBAValid, PRD API uri : {}, emailId : {}", uri, emailId);
         try {
             HttpEntity request;
-            request = buildRequest(authToken);
+            request = buildRequest(authToken, emailId);
             ResponseEntity<PBAOrganisationResponse> responseEntity = restTemplate.exchange(uri, GET,
                     request, PBAOrganisationResponse.class);
             PBAOrganisationResponse pbaOrganisationResponse = Objects.requireNonNull(responseEntity.getBody());
@@ -53,7 +54,7 @@ public class PBAValidationService {
         }
     }
 
-    private HttpEntity buildRequest(String authToken) {
+    private HttpEntity buildRequest(String authToken, String emailId) {
         HttpHeaders headers = new HttpHeaders();
         if (!authToken.matches("^Bearer .+")) {
             throw new InvalidTokenException("Invalid user token");
@@ -61,12 +62,12 @@ public class PBAValidationService {
         headers.add("Authorization", authToken);
         headers.add("Content-Type", "application/json");
         headers.add("ServiceAuthorization", authTokenGenerator.generate());
+        headers.add(USER_EMAIL, emailId);
         return new HttpEntity<>(headers);
     }
 
-    private URI buildUri(String emailId) {
+    private URI buildUri() {
         return fromHttpUrl(serviceConfig.getUrl() + serviceConfig.getApi())
-                .queryParam("email", emailId)
                 .build().toUri();
     }
 }
