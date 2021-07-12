@@ -212,7 +212,7 @@ public class PaymentE2ETest {
     }
 
     private String pbaValidateUrl() {
-        return pbaApi + "?email=test@email.com";
+        return pbaApi;
     }
 
     private String feeLookupUrl(ApplicationType applicationType) {
